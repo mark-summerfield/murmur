@@ -1,6 +1,6 @@
-# urm
+# Murmur
 
-Unlimited Register Machine (URM) emulator.
+Murmur is a Unlimited Register Machine (URM) emulator.
 
 This library and executable provide a "pure" URM. All instructions and data
 are held in the registers. Register 0 holds the program counter (PC). The
