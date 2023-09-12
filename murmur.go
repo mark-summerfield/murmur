@@ -75,7 +75,7 @@ func (me *Urm) Run() error { return me.RunX(DefaultMaxSteps) }
 // Run runs the Urm program for a maximum of maxSteps steps.
 // (See Run and Step.)
 func (me *Urm) RunX(maxSteps int) error {
-	return fmt.Errorf("RunX() unimplemented")
+	return fmt.Errorf("RunX() unimplemented") // TODO
 	/*
 		for {
 			me.steps++
@@ -96,7 +96,7 @@ func (me *Urm) RunX(maxSteps int) error {
 // Steps runs the one step (i.e., executes the next statement) the Urm
 // program. (See Run and RunX.)
 func (me *Urm) Step() error {
-	return fmt.Errorf("Step() unimplemented")
+	return fmt.Errorf("Step() unimplemented") // TODO
 	/*
 		cmd, err := me.nextCommand() // returns cmd & inc PC
 		if err != nil {
@@ -108,12 +108,12 @@ func (me *Urm) Step() error {
 }
 
 // Pc returns the value of the program counter (register 0).
-func (me *Urm) Pc() int { return me.regs[PcReg] }
+func (me *Urm) Pc() int { return me.regs[PcReg].Value() }
 
 // SetPc sets the value of the program counter (register 0).
 func (me *Urm) SetPc(reg int) error {
 	if 0 <= reg && reg < len(me.regs) {
-		me.regs[PcReg] = reg
+		me.regs[PcReg] = Value(reg)
 		return nil
 	}
 	return fmt.Errorf("SetPc() %w: %d", Err104, reg)

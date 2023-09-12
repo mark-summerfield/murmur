@@ -96,7 +96,7 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (
 
 func (me *Urm) setRegValue(reg, value int) error {
 	if 0 <= reg && reg < len(me.regs) {
-		me.regs[reg] = value
+		me.regs[reg] = Value(value)
 		return nil
 	}
 	return fmt.Errorf("setRegValue() %w: %d", Err104, reg)
