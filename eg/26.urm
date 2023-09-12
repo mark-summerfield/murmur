@@ -1,0 +1,12 @@
+; Add 19 + 7; put result (26) in reg A (1) and clear regs B (2) and C (3)
+#22 ; specify 22 registers (0..21; 0 is the program counter, PC)
+A:	19 ; sets and labels next reg (1-based, starting from 1) to value; reg 1
+B:	7 ; reg 2
+C:	0 ; reg 3
+START:	J(B, C, END) ; jump takes 4 regs
+	S(A) ; succ takes 2 regs
+	S(C)
+	J(START) ; unconditional jump; psuedocode for J(1, 1, LABEL)
+END:	Z(B)
+	Z(C)
+	STOP ; psuedocode for Z(PC), i.e., stop i.e., set PC in reg 0 to 0

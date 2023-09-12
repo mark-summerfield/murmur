@@ -1,0 +1,22 @@
+; Multiply 4 * 7 ; put result (28) in reg A (1) and clear B, C, D, and E
+A:	4
+B:	7
+C:	0
+D:	0
+E:	0
+START:	J(A, B, ENDA)
+        J(B, C, ENDB)
+        C(A, C)
+ENDB:   S(E)
+        J(B, E, ENDC)
+        Z(D)
+ENDD:   S(C)
+        S(D)
+        J(A, D, ENDB)
+        J(ENDD)
+ENDC:   C(C, A)
+ENDA:   Z(B)
+        Z(C)
+        Z(D)
+        Z(E)
+        STOP

@@ -1,0 +1,12 @@
+; Subtract 8 from 35 ; put result (27) in reg A (1) and clear B and C
+A:	8
+B:	35
+C:	0
+START:	J(A, B, END)
+	S(A)
+	S(C)
+	J(START)
+END:    C(C, A)
+	Z(B)
+	Z(C)
+        STOP

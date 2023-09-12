@@ -1,0 +1,12 @@
+; Subtract 3 from 7 ; put result (4) in reg A (1) and clear B and C
+A:	3
+B:	7
+C:	0
+START:	J(A, B, END)
+	S(A)
+	S(C)
+	J(START)
+END:    C(C, A)
+	Z(B)
+	Z(C)
+        STOP
