@@ -1,3 +1,6 @@
+# TODO redo using []Item where Item is an interface which may be a
+# string (label) or int (literal value)
+
 murmur.go
 murmur_internal.go
 util.go
@@ -16,26 +19,12 @@ eg/26.urm
 eg/27.urm
 eg/28.urm
 
+../urm/MANIFEST
 ../../py/xurm/MANIFEST
 
 README.md
 
 st.sh
-
-# NOTE
-#
-#    A: 7 ; store value 7 in next reg (let's assume 1) and label the reg A
-#    S(1) ; succ reg 1 → A: 8
-#    S(A) ; succ reg A → A: 9
-#    STOP ; Z(0)
-#
-#                 0   1   2   3   4   5   6   7
-# regs (before): PC:1 A:7 2:S 3:1 4:S 5:A 6:Z 7:0
-# regs (after):  PC:1 A:9 2:S 3:1 4:S 5:A 6:Z 7:0
-#
-#   reg_with_label["A"] → 1
-#   inv_reg_with_label[1] → "A"
-#   label_for_reg[5] → "A"
 
 # see also:
 #   https://sean.mcgivern.me.uk/urm-evaluator/
