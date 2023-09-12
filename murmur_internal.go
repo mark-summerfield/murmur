@@ -16,7 +16,7 @@ func (me *Urm) clear(size int) {
 	if size < len(me.regs) {
 		me.regs = me.regs[:size]
 	} else if size > len(me.regs) {
-		me.regs = make([]Item, size)
+		me.regs = make([]RegValue, size)
 	}
 	_ = me.SetPc(1) // start at register 1 by default
 	me.reg_for_label = map[string]int{}
@@ -50,7 +50,7 @@ func (me *Urm) setRegsSize(lino int, line string, pc int, sized bool) (bool,
 	if size < len(me.regs) {
 		me.regs = me.regs[:size]
 	} else if size > len(me.regs) {
-		me.regs = make([]Item, size)
+		me.regs = make([]RegValue, size)
 	}
 	return true, nil
 }

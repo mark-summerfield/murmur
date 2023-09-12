@@ -9,7 +9,7 @@ import (
 )
 
 type Urm struct {
-	regs          []Item
+	regs          []RegValue
 	reg_for_label map[string]int
 	label_for_reg map[int]string
 	steps         int
