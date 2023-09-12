@@ -1,9 +1,7 @@
-# TODO redo using []Item where Item is an interface which may be a
-# string (label) or int (literal value)
-
 murmur.go
 murmur_internal.go
 util.go
+item.go
 consts.go
 
 cli/murmur.go

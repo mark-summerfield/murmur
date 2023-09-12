@@ -16,21 +16,12 @@ const (
 	DefaultMaxSteps = 10_000
 	PC              = "PC"
 	PcReg           = 0
-	Jump            = 253 // J(n, m, t) ; jump to t if m = n
-	Copy            = 252 // C(n, m) ; n → m
-	Succ            = 251 // S(n) ; n++
-	Zero            = 250 // Z(n) ; n = 0
-	sentinalBase    = 440_000
+	cmdJump         = 253 // J(n, m, t) ; jump to t if m = n
+	cmdCopy         = 252 // C(n, m) ; n → m
+	cmdSucc         = 251 // S(n) ; n++
+	cmdZero         = 250 // Z(n) ; n = 0
 	startLabel      = "START"
 	stopCmd         = "STOP"
-)
-
-type mode uint8
-
-const (
-	argMode mode = iota
-	baseMode
-	cmdMode
 )
 
 var (
