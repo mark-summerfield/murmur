@@ -5,6 +5,8 @@ package murmur
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 )
 
 func (me *Urm) clear(size int) {
@@ -34,5 +36,51 @@ func (me *Urm) setPc(reg int) error {
 }
 
 func (me *Urm) asString(withRegNums bool) string {
-	panic("StringWithRegNums() not implemented") // TODO
+	texts := []string{fmt.Sprintf("#%d", me.Size())}
+	for reg := 1; reg < me.Size(); reg++ {
+		reger := me.regs[reg]
+		label, hasLabel := me.label_for_reg[reg]
+		ops := make([]string, 0, 3)
+		switch reger.(type) {
+		case CopyCommand:
+			reg++
+			ops = append(ops, me.operand(reg))
+			reg++
+			ops = append(ops, me.operand(reg))
+		case JumpCommand:
+			reg++
+			ops = append(ops, me.operand(reg))
+			reg++
+			ops = append(ops, me.operand(reg))
+			reg++
+			ops = append(ops, me.operand(reg))
+		case SuccCommand:
+			reg++
+			ops = append(ops, me.operand(reg))
+		case ZeroCommand:
+			reg++
+			ops = append(ops, me.operand(reg))
+		}
+		text := reger.String()
+		if len(ops) > 0 {
+			text += strings.Join(ops, ", ") + ")"
+		}
+		if hasLabel {
+			text = fmt.Sprintf("%s:\t%s", label, text)
+		} else {
+			text = "\t" + text
+		}
+		if withRegNums {
+			text += " ; " + strconv.Itoa(reg)
+		}
+		texts = append(texts, text)
+	}
+	return strings.Join(texts, "\n")
+}
+
+func (me *Urm) operand(reg int) string {
+	if 0 <= reg && reg < len(me.regs) {
+		return me.regs[reg].String()
+	}
+	return strconv.Itoa(reg) // should never be reached
 }
