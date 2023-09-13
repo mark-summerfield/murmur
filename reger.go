@@ -16,7 +16,7 @@ type Reger interface {
 
 type Commander interface {
 	Reger
-	IsCommand()
+	Arity() int
 }
 
 type Integer interface {
@@ -60,25 +60,25 @@ type CopyCommand struct{}
 func NewCopyCommand() CopyCommand     { return CopyCommand(struct{}{}) }
 func (me CopyCommand) Value() int     { return cmdCopy }
 func (me CopyCommand) String() string { return "C(" }
-func (me CopyCommand) IsCommand()     {}
+func (me CopyCommand) Arity() int     { return 2 }
 
 type JumpCommand struct{}
 
 func NewJumpCommand() JumpCommand     { return JumpCommand(struct{}{}) }
 func (me JumpCommand) Value() int     { return cmdJump }
 func (me JumpCommand) String() string { return "J(" }
-func (me JumpCommand) IsCommand()     {}
+func (me JumpCommand) Arity() int     { return 3 }
 
 type SuccCommand struct{}
 
 func NewSuccCommand() SuccCommand     { return SuccCommand(struct{}{}) }
 func (me SuccCommand) Value() int     { return cmdSucc }
 func (me SuccCommand) String() string { return "S(" }
-func (me SuccCommand) IsCommand()     {}
+func (me SuccCommand) Arity() int     { return 1 }
 
 type ZeroCommand struct{}
 
 func NewZeroCommand() ZeroCommand     { return ZeroCommand(struct{}{}) }
 func (me ZeroCommand) Value() int     { return cmdZero }
 func (me ZeroCommand) String() string { return "Z(" }
-func (me ZeroCommand) IsCommand()     {}
+func (me ZeroCommand) Arity() int     { return 1 }

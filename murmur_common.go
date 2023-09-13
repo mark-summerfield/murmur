@@ -39,30 +39,14 @@ func (me *Urm) asString(withRegNums bool) string {
 	texts := []string{fmt.Sprintf("#%d", me.Size())}
 	for reg := 1; reg < me.Size(); reg++ {
 		reger := me.regs[reg]
-		label, hasLabel := me.label_for_reg[reg]
-		ops := make([]string, 0, 3)
-		switch reger.(type) {
-		case CopyCommand:
-			reg++
-			ops = append(ops, me.operand(reg))
-			reg++
-			ops = append(ops, me.operand(reg))
-		case JumpCommand:
-			reg++
-			ops = append(ops, me.operand(reg))
-			reg++
-			ops = append(ops, me.operand(reg))
-			reg++
-			ops = append(ops, me.operand(reg))
-		case SuccCommand:
-			reg++
-			ops = append(ops, me.operand(reg))
-		case ZeroCommand:
-			reg++
-			ops = append(ops, me.operand(reg))
-		}
 		text := reger.String()
-		if len(ops) > 0 {
+		label, hasLabel := me.label_for_reg[reg]
+		if cmd, ok := reger.(Commander); ok {
+			ops := make([]string, 0, 3)
+			for i := 0; i < cmd.Arity(); i++ {
+				reg++
+				ops = append(ops, me.operand(reg))
+			}
 			text += strings.Join(ops, ", ") + ")"
 		}
 		if hasLabel {

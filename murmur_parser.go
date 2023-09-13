@@ -128,7 +128,7 @@ func (me *Urm) readCommand(command string, lino, pc, start int) (int, int,
 	rx := regexp.MustCompile(`[\s,]+`)
 	ops := make([]string, 0, 3)
 	ops = append(ops, rx.Split(command[2:len(command)-1], -1)...)
-	// TODO
+	// TODO cmd.Arity()
 	return pc, start, fmt.Errorf(
 		"readCommand unimplemented: %q #%d %d %d %v %q", command, lino, pc,
 		start, ops, cmd) // TODO
