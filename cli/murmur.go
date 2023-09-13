@@ -20,14 +20,14 @@ func main() {
 	lines := readLines(config.infile)
 	out, closer := getOutput(config.outfile)
 	defer closer()
-	rm := load(out, lines, config.registers, &config.watch)
+	urm := load(out, lines, config.registers, &config.watch)
 	if config.step {
-		step(out, rm, config.maxSteps, &config.watch)
+		step(out, urm, config.maxSteps, &config.watch)
 	} else {
-		run(out, rm, config.maxSteps, &config.watch)
+		run(out, urm, config.maxSteps, &config.watch)
 	}
 	if config.dis {
-		_, _ = out.WriteString(rm.StringWithRegNums() + "\n")
+		_, _ = out.WriteString(urm.StringWithRegNums() + "\n")
 	}
 }
 
@@ -111,67 +111,65 @@ func getOutput(filename string) (*os.File, func()) {
 
 func load(out *os.File, lines []string, registers int,
 	watch *watches) *murmur.Urm {
-	rm := murmur.New()
-	if err := rm.Load(lines, registers); err != nil {
+	urm := murmur.New()
+	if err := urm.Load(lines, registers); err != nil {
 		onError(err)
 	}
-	if err := writeWatched(out, rm, watch); err != nil {
+	if err := writeWatched(out, urm, watch); err != nil {
 		onError(err)
 	}
-	return rm
+	return urm
 }
 
-func run(out *os.File, rm *murmur.Urm, maxSteps int, watch *watches) {
-	if err := rm.RunX(maxSteps); err != nil {
+func run(out *os.File, urm *murmur.Urm, maxSteps int, watch *watches) {
+	if err := urm.RunX(maxSteps); err != nil {
 		onError(err)
 	} else {
-		if err := writeWatched(out, rm, watch); err != nil {
+		if err := writeWatched(out, urm, watch); err != nil {
 			onError(err)
 		}
 	}
 }
 
-func step(out *os.File, rm *murmur.Urm, maxSteps int, watch *watches) {
+func step(out *os.File, urm *murmur.Urm, maxSteps int, watch *watches) {
 	for {
-		err := rm.Step()
+		err := urm.Step()
 		if err == murmur.ErrStop {
 			break // normal termination
 		} else if err != nil {
 			onError(err) // abnormal termination
-		} else if rm.Steps() >= maxSteps {
+		} else if urm.Steps() >= maxSteps {
 			fmt.Fprintf(os.Stderr, "forced to stop after %d steps\n",
 				maxSteps)
 			break
 		} else {
-			if err := writeWatched(out, rm, watch); err != nil {
+			if err := writeWatched(out, urm, watch); err != nil {
 				onError(err)
 			}
 		}
 	}
 }
 
-func writeWatched(out *os.File, rm *murmur.Urm, watch *watches) error {
+func writeWatched(out *os.File, urm *murmur.Urm, watch *watches) error {
 	regs := []string{}
 	for _, label := range watch.labels {
-		if reg, err := rm.RegForLabel(label); err == nil {
-			if s, err := rm.RegAsString(reg); err != nil {
-				return err
-			} else {
-				regs = append(regs, s)
-			}
-		}
-	}
-	for _, reg := range watch.regs {
-		if reg >= rm.Size() {
-			break
-		}
-		if s, err := rm.RegAsString(reg); err != nil {
+		if s, err := urm.RegAsStringByLabel(label); err != nil {
 			return err
 		} else {
 			regs = append(regs, s)
 		}
 	}
-	_, err := out.WriteString(fmt.Sprintf("#%d %s\n", rm.Steps(),
+	for _, reg := range watch.regs {
+		if reg >= urm.Size() {
+			break
+		}
+		if s, err := urm.RegAsString(reg); err != nil {
+			return err
+		} else {
+			regs = append(regs, s)
+		}
+	}
+	_, err := out.WriteString(fmt.Sprintf("#%d %s\n", urm.Steps(),
 		strings.Join(regs, " ")))
 	return err
 

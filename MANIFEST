@@ -1,7 +1,9 @@
 murmur.go
-murmur_internal.go
+murmur_common.go
+murmur_parser.go
+murmur_runner.go
 util.go
-regvalue.go
+reger.go
 consts.go
 
 cli/murmur.go

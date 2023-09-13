@@ -4,12 +4,14 @@
 package murmur
 
 import (
+	"errors"
 	"fmt"
+	"strconv"
 	"strings"
 )
 
 type Urm struct {
-	regs          []RegValue
+	regs          []Reger
 	reg_for_label map[string]int
 	label_for_reg map[int]string
 	steps         int
@@ -75,46 +77,65 @@ func (me *Urm) Run() error { return me.RunX(DefaultMaxSteps) }
 // Run runs the Urm program for a maximum of maxSteps steps.
 // (See Run and Step.)
 func (me *Urm) RunX(maxSteps int) error {
-	return fmt.Errorf("RunX() unimplemented") // TODO
-	/*
-		for {
-			me.steps++
-			if me.steps > maxSteps {
-				return fmt.Errorf("RunX() %w: %d", Err100, me.steps)
-			}
-			err := me.Step()
-			if errors.Is(err, ErrStop) {
-				return nil // normal termination
-			}
-			if err != nil {
-				return err // error termination
-			}
+	for {
+		me.steps++
+		if me.steps > maxSteps {
+			return fmt.Errorf("%w: %d", Err100, me.steps)
 		}
-	*/
+		err := me.Step()
+		if errors.Is(err, ErrStop) {
+			return nil // normal termination
+		}
+		if err != nil {
+			return err // error termination
+		}
+	}
 }
 
 // Steps runs the one step (i.e., executes the next statement) the Urm
 // program. (See Run and RunX.)
 func (me *Urm) Step() error {
-	return fmt.Errorf("Step() unimplemented") // TODO
-	/*
-		cmd, err := me.nextCommand() // returns cmd & inc PC
-		if err != nil {
-			return err
-		}
-		me.steps++
-		return me.executeCommand(cmd) // may acquire 1 or more operands
-	*/
-}
-
-// Pc returns the value of the program counter (register 0).
-func (me *Urm) Pc() int { return me.regs[PcReg].Value() }
-
-// SetPc sets the value of the program counter (register 0).
-func (me *Urm) SetPc(reg int) error {
-	if 0 <= reg && reg < len(me.regs) {
-		me.regs[PcReg] = Value(reg)
-		return nil
+	cmd, err := me.nextCommand() // returns cmd & inc PC
+	if err != nil {
+		return err
 	}
-	return fmt.Errorf("SetPc() %w: %d", Err104, reg)
+	me.steps++
+	return me.executeCommand(cmd) // may acquire one or more operands
 }
+
+// RegAsString returns a string representation of a register's value.
+func (me *Urm) RegAsString(reg int) (string, error) {
+	if 0 <= reg && reg < len(me.regs) {
+		reger := me.regs[reg]
+		if label, ok := reger.(Label); ok {
+			return fmt.Sprintf("%d:%s", reg, label), nil
+		}
+		register := ""
+		if label, ok := me.label_for_reg[reg]; ok {
+			register = label
+		} else {
+			register = strconv.Itoa(reg)
+		}
+		return fmt.Sprintf("%s:%s", register, reger), nil
+	}
+	return "", fmt.Errorf("%w: %d", Err115, reg)
+}
+
+// RegAsStringByLabel returns a string representation of a register's value
+// where the register is identified by a label.
+func (me *Urm) RegAsStringByLabel(label string) (string, error) {
+	if reg, ok := me.reg_for_label[label]; ok {
+		return me.RegAsString(reg)
+	} else {
+		return "", fmt.Errorf("%w: %q", Err116, label)
+	}
+}
+
+// String returns a string of all the registers.
+// Errors are ignored. Mostly for debugging and testing.
+func (me *Urm) String() string { return me.asString(true) }
+
+// StringWithRegNums returns a string of all the registers and with register
+// numbers in comments.
+// Errors are ignored. Mostly for debugging and testing.
+func (me *Urm) StringWithRegNums() string { return me.asString(false) }
