@@ -102,6 +102,7 @@ func (me *Urm) addRegLabel(reg int, label string) error {
 	if 0 <= reg && reg < len(me.regs) {
 		me.reg_for_label[label] = reg
 		me.label_for_reg[reg] = label
+		return nil
 	}
 	return fmt.Errorf("%w: %d", Err111, reg)
 }
@@ -119,7 +120,18 @@ func (me *Urm) setStopCommand(lino, pc int) (int, error) {
 
 func (me *Urm) readCommand(command string, lino, pc, start int) (int, int,
 	error) {
-	return pc, start, fmt.Errorf("readCommand unimplemented: %q #%d %d %d", command, lino, pc, start) // TODO
+	var err error
+	cmd, err := NewCommand(command[0])
+	if err != nil {
+		return pc, start, fmt.Errorf("line#%d %w", lino, err)
+	}
+	rx := regexp.MustCompile(`[\s,]+`)
+	ops := make([]string, 0, 3)
+	ops = append(ops, rx.Split(command[2:len(command)-1], -1)...)
+	// TODO
+	return pc, start, fmt.Errorf(
+		"readCommand unimplemented: %q #%d %d %d %v %q", command, lino, pc,
+		start, ops, cmd) // TODO
 }
 
 func (me *Urm) setStart(start int) error {

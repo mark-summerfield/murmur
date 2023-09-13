@@ -34,12 +34,26 @@ type Label string
 
 func NewLabel(label string) (Label, error) {
 	if rx := regexp.MustCompile(`^\pL\w*$`); !rx.MatchString(label) {
-		return Label(""), fmt.Errorf("NewLabel() %w: %s", Err102, label)
+		return Label(""), fmt.Errorf("%w: %s", Err102, label)
 	}
 	return Label(label), nil
 }
 func (me Label) Value() int     { return -222 }
 func (me Label) String() string { return string(me) }
+
+func NewCommand(name byte) (Commander, error) {
+	switch name {
+	case 'C', 'T', 'c', 't':
+		return NewCopyCommand(), nil
+	case 'J', 'j':
+		return NewJumpCommand(), nil
+	case 'S', 's':
+		return NewSuccCommand(), nil
+	case 'Z', 'z':
+		return NewZeroCommand(), nil
+	}
+	return NewZeroCommand(), fmt.Errorf("%w: %c", Err117, name)
+}
 
 type CopyCommand struct{}
 
