@@ -111,8 +111,8 @@ func getOutput(filename string) (*os.File, func()) {
 
 func load(out *os.File, lines []string, registers int,
 	watch *watches, dis bool) *murmur.Urm {
-	urm := murmur.New()
-	if err := urm.Load(lines, registers); err != nil {
+	urm, err := murmur.NewX(lines, registers)
+	if err != nil {
 		onError(err)
 	}
 	if dis {

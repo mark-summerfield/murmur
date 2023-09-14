@@ -9,6 +9,29 @@ import (
 	"strings"
 )
 
+func (me *Urm) load(lines []string, size int) error {
+	me.clear(size)
+	pc := 0
+	start := 0
+	sized := false
+	for i, line := range lines {
+		lino := i + 1
+		line = cleanLine(line)
+		if line != "" {
+			var err error
+			if strings.HasPrefix(line, "*") {
+				sized, err = me.setRegsSize(lino, line, pc, sized)
+			} else {
+				pc, start, err = me.readStatement(lino, line, pc, start)
+			}
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return me.setStart(start)
+}
+
 func (me *Urm) clear(size int) {
 	if size == 0 {
 		size = DefaultSize
@@ -52,6 +75,9 @@ func (me *Urm) asString(withRegNums bool) string {
 				ops = append(ops, me.operand(reg))
 			}
 			text += strings.Join(ops, ", ") + ")"
+		}
+		if text == "Z(0)" || text == "Z(PC)" { // fixup
+			text = stopCmd
 		}
 		if hasLabel {
 			text = fmt.Sprintf("%-*s %s", me.labelWidth, label+":", text)

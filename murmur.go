@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"strings"
 )
 
 type Urm struct {
@@ -18,23 +17,11 @@ type Urm struct {
 	labelWidth    int
 }
 
-// New returns a new Urm with DefaultSize registers. (See NewX.)
-func New() *Urm { return NewX(DefaultSize) }
+// NewX creates a new Urm and populates its registers by parsing the given
+// slice of strings. (See NewX.)
+func New(lines []string) (*Urm, error) { return NewX(lines, DefaultSize) }
 
-// NewX returns a new Urm with size registers.
-func NewX(size int) *Urm {
-	urm := Urm{}
-	urm.clear(size)
-	return &urm
-}
-
-// Size returns the number of registers.
-func (me *Urm) Size() int { return len(me.regs) }
-
-// Steps returns the number of steps so far.
-func (me *Urm) Steps() int { return me.steps }
-
-// Load clears the Urm and repopulates its registers by parsing the given
+// NewX creates a new Urm and populates its registers by parsing the given
 // slice of strings. The size is how many registers to use; pass 0 to have
 // this either read from the lines (*size) or calculated during parsing.
 //
@@ -48,28 +35,19 @@ func (me *Urm) Steps() int { return me.steps }
 //
 // Any line may end with a comment which begins with ';'. All comments and
 // blank lines are ignored.
-func (me *Urm) Load(lines []string, size int) error {
-	me.clear(size)
-	pc := 0
-	start := 0
-	sized := false
-	for i, line := range lines {
-		lino := i + 1
-		line = cleanLine(line)
-		if line != "" {
-			var err error
-			if strings.HasPrefix(line, "*") {
-				sized, err = me.setRegsSize(lino, line, pc, sized)
-			} else {
-				pc, start, err = me.readStatement(lino, line, pc, start)
-			}
-			if err != nil {
-				return err
-			}
-		}
+func NewX(lines []string, size int) (*Urm, error) {
+	urm := Urm{}
+	if err := urm.load(lines, size); err != nil {
+		return nil, err
 	}
-	return me.setStart(start)
+	return &urm, nil
 }
+
+// Size returns the number of registers.
+func (me *Urm) Size() int { return len(me.regs) }
+
+// Steps returns the number of steps so far.
+func (me *Urm) Steps() int { return me.steps }
 
 // Run runs the Urm program for up to DefaultMaxSteps steps.
 // (See RunX and Step.)
