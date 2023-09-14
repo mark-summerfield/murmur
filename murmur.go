@@ -51,7 +51,7 @@ func (me *Urm) Steps() int { return me.steps }
 func (me *Urm) Load(lines []string, size int) error {
 	me.clear(size)
 	pc := 0
-	start := 1
+	start := 0
 	sized := false
 	for i, line := range lines {
 		lino := i + 1

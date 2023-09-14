@@ -124,19 +124,65 @@ func (me *Urm) setStopCommand(lino, pc int) (int, error) {
 func (me *Urm) readCommand(command string, lino, pc, start int) (int, int,
 	error) {
 	var err error
+	if start == 0 {
+		start = pc
+	}
 	cmd, err := NewCommand(command[0])
 	if err != nil {
 		return pc, start, fmt.Errorf("line#%d %w", lino, err)
 	}
+	if err = me.setRegToCommand(pc, cmd); err != nil {
+		return pc, start, fmt.Errorf("line#%d %w", lino, err)
+	}
+	ops, err := me.getOps(cmd, command)
+	if err != nil {
+		return pc, start, fmt.Errorf("line#%d %w", lino, err)
+	}
+	for _, op := range ops {
+		pc++
+		if err = me.addOp(pc, op); err != nil {
+			return pc, start, fmt.Errorf("line#%d %w", lino, err)
+		}
+	}
+	return pc, start, nil
+}
+
+func (me *Urm) getOps(cmd Commander, command string) ([]string, error) {
 	rx := regexp.MustCompile(`[\s,]+`)
 	ops := make([]string, 0, 3)
 	ops = append(ops, rx.Split(command[2:len(command)-1], -1)...)
-	// TODO cmd.Arity()
-	return pc, start, fmt.Errorf(
-		"readCommand unimplemented: %q #%d %d %d %v %q", command, lino, pc,
-		start, ops, cmd) // TODO
+	arity := cmd.Arity()
+	if _, ok := cmd.(JumpCommand); ok && len(ops) == 1 {
+		ops = append([]string{"1", "1"}, ops...) // J(LBL) → J(1, 1, LBL)
+	}
+	if arity != len(ops) {
+		return nil, fmt.Errorf("%w: need %d; got %d", Err118, arity,
+			len(ops))
+	}
+	return ops, nil
+}
+
+func (me *Urm) addOp(pc int, op string) error {
+	if pc >= len(me.regs) {
+		return Err119
+	}
+	if value, err := strconv.Atoi(op); err == nil { // literal reg val
+		return me.setRegToValue(pc, value)
+	} else { // label
+		return me.setRegToLabel(pc, op)
+	}
 }
 
 func (me *Urm) setStart(start int) error {
-	return fmt.Errorf("setStart unimplemented: %d", start) // TODO
+	if start == 0 { // All input was numbers, e.g., 1: 203, 2: 0, etc.
+		start = 1
+	}
+	if reg, ok := me.reg_for_label[startLabel]; ok {
+		start = reg // START label takes priority over heuristic
+	} else { // no START label, so add one
+		if err := me.addRegLabel(start, startLabel); err != nil {
+			return err // shouldn't happen
+		}
+	}
+	return me.setPc(start)
 }

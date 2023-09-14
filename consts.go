@@ -48,5 +48,7 @@ var (
 	Err115 = errors.New("E115: can't get value for out-of-range register")
 	Err116 = errors.New("E116: can't get value for invalid label")
 	Err117 = errors.New("E117: unrecognized command")
+	Err118 = errors.New("E118: wrong number of arguments")
+	Err119 = errors.New("E119: ran out of registers")
 	ErrBug = errors.New("EBUG: bug")
 )

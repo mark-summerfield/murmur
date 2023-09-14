@@ -18,7 +18,6 @@ func (me *Urm) clear(size int) {
 	} else if size > len(me.regs) {
 		me.regs = make([]Reger, size)
 	}
-	_ = me.setPc(1) // start at register 1 by default
 	me.reg_for_label = map[string]int{}
 	me.label_for_reg = map[int]string{}
 	_ = me.addRegLabel(PcReg, PC)
@@ -67,5 +66,5 @@ func (me *Urm) operand(reg int) string {
 	if 0 <= reg && reg < len(me.regs) {
 		return me.regs[reg].String()
 	}
-	return strconv.Itoa(reg) // should never be reached
+	panic(fmt.Errorf("%w: operand %d", ErrBug, reg)) // shouldn't happen
 }
