@@ -8,8 +8,7 @@ START:   J(B, C, END) ; 4
          J(1, 1, START) ; 12
 END:     Z(B) ; 16
          Z(C) ; 18
-         200 ; 20
-         0 ; 21
+         STOP ; 20
 #0 PC:4 A:19 B:7 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
 #1 PC:8 A:19 B:7 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
 #2 PC:10 A:20 B:7 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
@@ -52,4 +51,4 @@ START:   J(B, C, END) ; 4
          J(1, 1, START) ; 12
 END:     Z(B) ; 16
          Z(C) ; 18
-         Z(0) ; 20
+         STOP ; 20

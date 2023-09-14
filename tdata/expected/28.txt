@@ -19,8 +19,7 @@ ENDA:    Z(B) ; 40
          Z(C) ; 42
          Z(D) ; 44
          Z(E) ; 46
-         200 ; 48
-         0 ; 49
+         STOP ; 48
 #0 PC:6 A:4 B:7 C:0 D:0 E:0 START:J( 7:A 8:B 9:ENDA
 #1 PC:10 A:4 B:7 C:0 D:0 E:0 START:J( 7:A 8:B 9:ENDA
 #2 PC:14 A:4 B:7 C:0 D:0 E:0 START:J( 7:A 8:B 9:ENDA
@@ -161,4 +160,4 @@ ENDA:    Z(B) ; 40
          Z(C) ; 42
          Z(D) ; 44
          Z(E) ; 46
-         Z(0) ; 48
+         STOP ; 48

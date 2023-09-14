@@ -1,3 +1,4 @@
+# TODO make sure: 200\n0 and Z(0) are both output as STOP
 murmur.go
 murmur_common.go
 murmur_parser.go
