@@ -7,27 +7,27 @@ import (
 	"fmt"
 )
 
-func (me *Urm) nextReger() (Reger, error) {
+func (me *Urm) nextReger() (int, Reger, error) {
 	reg := me.pc()
 	if 0 <= reg && reg < len(me.regs) {
 		if err := me.setPc(reg + 1); err != nil {
-			return nil, err
+			return 0, nil, err
 		}
 		reger := me.regs[reg]
 		if label, ok := reger.(Label); ok {
 			if reg, ok := me.reg_for_label[label.String()]; ok {
-				return NewValue(reg), nil
+				return reg, NewValue(reg), nil
 			} else {
-				return nil, fmt.Errorf("%w: %d", Err103, reg)
+				return 0, nil, fmt.Errorf("%w: %d", Err103, reg)
 			}
 		}
-		return reger, nil
+		return reg, reger, nil
 	}
-	return nil, fmt.Errorf("%w: %d", Err113, reg)
+	return 0, nil, fmt.Errorf("%w: %d", Err113, reg)
 }
 
 func (me *Urm) nextCommand() (Commander, error) {
-	reger, err := me.nextReger()
+	_, reger, err := me.nextReger()
 	if err != nil {
 		return nil, err
 	}
@@ -60,47 +60,58 @@ func (me *Urm) nextCommand() (Commander, error) {
 }
 
 func (me *Urm) executeCommand(cmd Commander) error {
-	op1, err := me.nextReger() // every command has at least one operand
+	reg1, value1, err := me.nextReger() // every command has > 0 operands
 	if err != nil {
 		return err
 	}
 	switch cmd.(type) {
 	case CopyCommand:
-		return me.doCopy(op1)
+		return me.doCopy(reg1, value1)
 	case JumpCommand:
-		return me.doJump(op1)
+		return me.doJump(reg1, value1)
 	case SuccCommand:
-		return me.doSucc(op1)
+		return me.doSucc(reg1, value1)
 	case ZeroCommand:
-		return me.doZero(op1)
+		return me.doZero(reg1, value1)
 	}
 	return fmt.Errorf("%w: %s", Err110, cmd)
 }
 
-func (me *Urm) doCopy(op1 Reger) error {
-	op2, err := me.nextReger()
+func (me *Urm) doCopy(reg1 int, value1 Reger) error {
+	reg2, _, err := me.nextReger()
 	if err != nil {
 		return err
 	}
-	return fmt.Errorf("doCopy unimplemented: %s → %s", op1, op2) // TODO
+	fmt.Printf("Copy regs[%d] = regs[%d] ; value=%d\n", reg2, reg1, value1.Value())
+	return me.setRegToValue(reg2, value1.Value())
 }
 
-func (me *Urm) doJump(op1 Reger) error {
-	op2, err := me.nextReger()
+func (me *Urm) doJump(reg1 int, value1 Reger) error {
+	_, value2, err := me.nextReger()
 	if err != nil {
 		return err
 	}
-	op3, err := me.nextReger()
+	_, value3, err := me.nextReger()
 	if err != nil {
 		return err
 	}
-	return fmt.Errorf("doJump unimplemented: %s == %s → %s", op1, op2, op3) // TODO
+	if value1.Value() == value2.Value() {
+		fmt.Printf("Jump (PC) regs[0] = %d ; jumped\n", value3.Value())
+		return me.setPc(value3.Value())
+	}
+	fmt.Printf("Jump (PC) regs[0] = %d ; skipped \n", me.pc())
+	return nil
 }
 
-func (me *Urm) doSucc(op1 Reger) error {
-	return fmt.Errorf("doSucc unimplemented: %s", op1) // TODO
+func (me *Urm) doSucc(reg1 int, value1 Reger) error {
+	fmt.Printf("Succ regs[%d] = %d\n", reg1, value1.Value()+1)
+	return me.setRegToValue(reg1, value1.Value()+1)
 }
 
-func (me *Urm) doZero(op1 Reger) error {
-	return fmt.Errorf("doZero unimplemented: %s", op1) // TODO
+func (me *Urm) doZero(reg1 int, value1 Reger) error {
+	if reg1 == PcReg {
+		return ErrStop
+	}
+	fmt.Printf("Zero regs[%d] = 0\n", reg1)
+	return me.setRegToValue(reg1, 0)
 }
