@@ -134,9 +134,9 @@ func (me *Urm) RegAsStringByLabel(label string) (string, error) {
 
 // String returns a string of all the registers.
 // Errors are ignored. Mostly for debugging and testing.
-func (me *Urm) String() string { return me.asString(true) }
+func (me *Urm) String() string { return me.asString(false) }
 
 // StringWithRegNums returns a string of all the registers and with register
 // numbers in comments.
 // Errors are ignored. Mostly for debugging and testing.
-func (me *Urm) StringWithRegNums() string { return me.asString(false) }
+func (me *Urm) StringWithRegNums() string { return me.asString(true) }

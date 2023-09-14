@@ -123,6 +123,7 @@ func load(out *os.File, lines []string, registers int,
 
 func run(out *os.File, urm *murmur.Urm, maxSteps int, watch *watches) {
 	if err := urm.RunX(maxSteps); err != nil {
+		dump(out, err, urm)
 		onError(err)
 	} else {
 		if err := writeWatched(out, urm, watch); err != nil {
@@ -137,6 +138,7 @@ func step(out *os.File, urm *murmur.Urm, maxSteps int, watch *watches) {
 		if err == murmur.ErrStop {
 			break // normal termination
 		} else if err != nil {
+			dump(out, err, urm)
 			onError(err) // abnormal termination
 		} else if urm.Steps() >= maxSteps {
 			fmt.Fprintf(os.Stderr, "forced to stop after %d steps\n",
@@ -209,6 +211,11 @@ type watches struct {
 
 func newWatches() watches {
 	return watches{labels: []string{}, regs: []int{}}
+}
+
+func dump(out *os.File, err error, urm *murmur.Urm) {
+	_, _ = out.WriteString(fmt.Sprintf("error: %s\n%s\n", err,
+		urm.StringWithRegNums()))
 }
 
 func onError(err error) {

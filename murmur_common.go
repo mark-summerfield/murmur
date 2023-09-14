@@ -39,6 +39,10 @@ func (me *Urm) asString(withRegNums bool) string {
 	texts := []string{fmt.Sprintf("#%d", me.Size())}
 	for reg := 1; reg < me.Size(); reg++ {
 		reger := me.regs[reg]
+		if reger == nil {
+			break
+		}
+		regnum := reg
 		text := reger.String()
 		label, hasLabel := me.label_for_reg[reg]
 		if cmd, ok := reger.(Commander); ok {
@@ -50,12 +54,12 @@ func (me *Urm) asString(withRegNums bool) string {
 			text += strings.Join(ops, ", ") + ")"
 		}
 		if hasLabel {
-			text = fmt.Sprintf("%*s:%s", me.labelWidth, label, text)
+			text = fmt.Sprintf("%-*s %s", me.labelWidth, label+":", text)
 		} else {
-			text = fmt.Sprintf("%*s", me.labelWidth+1, text)
+			text = fmt.Sprintf("%*s %s", me.labelWidth, "", text)
 		}
 		if withRegNums {
-			text += " ; " + strconv.Itoa(reg)
+			text += " ; " + strconv.Itoa(regnum)
 		}
 		texts = append(texts, text)
 	}
