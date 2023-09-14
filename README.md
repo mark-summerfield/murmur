@@ -37,7 +37,7 @@ value or a label. In practice literals will normally only be needed to set
 initial data values, with labels used everywhere else.
 
 The exact number of registers to be available may be specified before any
-data or instructions using the syntax `#r` where `r` is the number of
+data or instructions using the syntax `*r` where `r` is the number of
 registers. If not specified this will default to 100.
 
 ## Example: Addition (`eg/26.urm`):
@@ -52,7 +52,7 @@ all other registers are referred to by label.
 
 ```
 ; Addition
-#22 ; allocate 22 registers (0..21)
+*22 ; allocate 22 registers (0..21)
 A:      19 ; 1
 B:      7 ; 2
 C:      0 ; 3
@@ -66,7 +66,7 @@ END:    Z(B) ; 16
 ```
 
 Here, 22 registers will be available (the exact number needed) as specified
-by the meta command, `#22`.
+by the meta command, `*22`.
 
 The register number is shown in a comment at the end of each line.
 

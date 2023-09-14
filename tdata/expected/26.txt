@@ -1,4 +1,55 @@
-Program (80 registers):
-#0 PC:4 A:7 B:19 C:0 *4:74'J 5:2 6:3 7:16 L8:83'S 9:1 L10:83'S 11:3 L12:74'J 13:0 14:0 15:4 L16:90'Z 17:2 L18:90'Z 19:3 L20:90'Z 21:0
-#80 PC:22 A:26 B:0 C:0 START:74'J 5:2 6:3 7:16 L8:83'S 9:1 L10:83'S 11:3 L12:74'J 13:0 14:0 15:4 L16:90'Z 17:2 L18:90'Z 19:3 L20:90'Z 21:0
-OK
+*22
+A:       19 ; 1
+B:       7 ; 2
+C:       0 ; 3
+START:   J(B, C, END) ; 4
+         S(A) ; 8
+         S(C) ; 10
+         J(1, 1, START) ; 12
+END:     Z(B) ; 16
+         Z(C) ; 18
+         200 ; 20
+         0 ; 21
+#0 PC:4 A:19 B:7 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
+#1 PC:8 A:19 B:7 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
+#2 PC:10 A:20 B:7 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
+#3 PC:12 A:20 B:7 C:1 START:J( 5:B 6:C 7:END 8:S( 9:A
+#4 PC:4 A:20 B:7 C:1 START:J( 5:B 6:C 7:END 8:S( 9:A
+#5 PC:8 A:20 B:7 C:1 START:J( 5:B 6:C 7:END 8:S( 9:A
+#6 PC:10 A:21 B:7 C:1 START:J( 5:B 6:C 7:END 8:S( 9:A
+#7 PC:12 A:21 B:7 C:2 START:J( 5:B 6:C 7:END 8:S( 9:A
+#8 PC:4 A:21 B:7 C:2 START:J( 5:B 6:C 7:END 8:S( 9:A
+#9 PC:8 A:21 B:7 C:2 START:J( 5:B 6:C 7:END 8:S( 9:A
+#10 PC:10 A:22 B:7 C:2 START:J( 5:B 6:C 7:END 8:S( 9:A
+#11 PC:12 A:22 B:7 C:3 START:J( 5:B 6:C 7:END 8:S( 9:A
+#12 PC:4 A:22 B:7 C:3 START:J( 5:B 6:C 7:END 8:S( 9:A
+#13 PC:8 A:22 B:7 C:3 START:J( 5:B 6:C 7:END 8:S( 9:A
+#14 PC:10 A:23 B:7 C:3 START:J( 5:B 6:C 7:END 8:S( 9:A
+#15 PC:12 A:23 B:7 C:4 START:J( 5:B 6:C 7:END 8:S( 9:A
+#16 PC:4 A:23 B:7 C:4 START:J( 5:B 6:C 7:END 8:S( 9:A
+#17 PC:8 A:23 B:7 C:4 START:J( 5:B 6:C 7:END 8:S( 9:A
+#18 PC:10 A:24 B:7 C:4 START:J( 5:B 6:C 7:END 8:S( 9:A
+#19 PC:12 A:24 B:7 C:5 START:J( 5:B 6:C 7:END 8:S( 9:A
+#20 PC:4 A:24 B:7 C:5 START:J( 5:B 6:C 7:END 8:S( 9:A
+#21 PC:8 A:24 B:7 C:5 START:J( 5:B 6:C 7:END 8:S( 9:A
+#22 PC:10 A:25 B:7 C:5 START:J( 5:B 6:C 7:END 8:S( 9:A
+#23 PC:12 A:25 B:7 C:6 START:J( 5:B 6:C 7:END 8:S( 9:A
+#24 PC:4 A:25 B:7 C:6 START:J( 5:B 6:C 7:END 8:S( 9:A
+#25 PC:8 A:25 B:7 C:6 START:J( 5:B 6:C 7:END 8:S( 9:A
+#26 PC:10 A:26 B:7 C:6 START:J( 5:B 6:C 7:END 8:S( 9:A
+#27 PC:12 A:26 B:7 C:7 START:J( 5:B 6:C 7:END 8:S( 9:A
+#28 PC:4 A:26 B:7 C:7 START:J( 5:B 6:C 7:END 8:S( 9:A
+#29 PC:16 A:26 B:7 C:7 START:J( 5:B 6:C 7:END 8:S( 9:A
+#30 PC:18 A:26 B:0 C:7 START:J( 5:B 6:C 7:END 8:S( 9:A
+#31 PC:20 A:26 B:0 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
+*22
+A:       26 ; 1
+B:       0 ; 2
+C:       0 ; 3
+START:   J(B, C, END) ; 4
+         S(A) ; 8
+         S(C) ; 10
+         J(1, 1, START) ; 12
+END:     Z(B) ; 16
+         Z(C) ; 18
+         Z(0) ; 20

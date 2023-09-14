@@ -20,7 +20,7 @@ func main() {
 	lines := readLines(config.infile)
 	out, closer := getOutput(config.outfile)
 	defer closer()
-	urm := load(out, lines, config.registers, &config.watch)
+	urm := load(out, lines, config.registers, &config.watch, config.dis)
 	if config.step {
 		step(out, urm, config.maxSteps, &config.watch)
 	} else {
@@ -52,7 +52,7 @@ func getConfig() *Config {
 		"label where n and m are integers ≥ 0. Out of range registers "+
 		"and missing labels are ignored.", "PC,1-9")
 	disOpt := parser.Flag("dis",
-		"Show diassembly of all registers at the end.")
+		"Show diassembly of all registers at the start and at the end.")
 	parser.PositionalCount = clip.OnePositional
 	parser.PositionalHelp = "The .urm file to run."
 	if err := parser.Parse(); err != nil {
@@ -110,10 +110,13 @@ func getOutput(filename string) (*os.File, func()) {
 }
 
 func load(out *os.File, lines []string, registers int,
-	watch *watches) *murmur.Urm {
+	watch *watches, dis bool) *murmur.Urm {
 	urm := murmur.New()
 	if err := urm.Load(lines, registers); err != nil {
 		onError(err)
+	}
+	if dis {
+		_, _ = out.WriteString(urm.StringWithRegNums() + "\n")
 	}
 	if err := writeWatched(out, urm, watch); err != nil {
 		onError(err)

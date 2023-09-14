@@ -1,0 +1,35 @@
+*22
+A:       1 ; 1
+B:       2 ; 2
+C:       0 ; 3
+START:   J(B, C, END) ; 4
+         S(A) ; 8
+         S(C) ; 10
+         J(1, 1, START) ; 12
+END:     Z(B) ; 16
+         Z(C) ; 18
+         200 ; 20
+         0 ; 21
+#0 PC:4 A:1 B:2 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
+#1 PC:8 A:1 B:2 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
+#2 PC:10 A:2 B:2 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
+#3 PC:12 A:2 B:2 C:1 START:J( 5:B 6:C 7:END 8:S( 9:A
+#4 PC:4 A:2 B:2 C:1 START:J( 5:B 6:C 7:END 8:S( 9:A
+#5 PC:8 A:2 B:2 C:1 START:J( 5:B 6:C 7:END 8:S( 9:A
+#6 PC:10 A:3 B:2 C:1 START:J( 5:B 6:C 7:END 8:S( 9:A
+#7 PC:12 A:3 B:2 C:2 START:J( 5:B 6:C 7:END 8:S( 9:A
+#8 PC:4 A:3 B:2 C:2 START:J( 5:B 6:C 7:END 8:S( 9:A
+#9 PC:16 A:3 B:2 C:2 START:J( 5:B 6:C 7:END 8:S( 9:A
+#10 PC:18 A:3 B:0 C:2 START:J( 5:B 6:C 7:END 8:S( 9:A
+#11 PC:20 A:3 B:0 C:0 START:J( 5:B 6:C 7:END 8:S( 9:A
+*22
+A:       3 ; 1
+B:       0 ; 2
+C:       0 ; 3
+START:   J(B, C, END) ; 4
+         S(A) ; 8
+         S(C) ; 10
+         J(1, 1, START) ; 12
+END:     Z(B) ; 16
+         Z(C) ; 18
+         Z(0) ; 20

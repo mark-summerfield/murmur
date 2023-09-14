@@ -1,0 +1,46 @@
+*100
+A:       3 ; 1
+B:       7 ; 2
+C:       0 ; 3
+START:   J(A, B, END) ; 4
+         S(A) ; 8
+         S(C) ; 10
+         J(1, 1, START) ; 12
+END:     C(C, A) ; 16
+         Z(B) ; 19
+         Z(C) ; 21
+         200 ; 23
+         0 ; 24
+#0 PC:4 A:3 B:7 C:0 START:J( 5:A 6:B 7:END 8:S( 9:A
+#1 PC:8 A:3 B:7 C:0 START:J( 5:A 6:B 7:END 8:S( 9:A
+#2 PC:10 A:4 B:7 C:0 START:J( 5:A 6:B 7:END 8:S( 9:A
+#3 PC:12 A:4 B:7 C:1 START:J( 5:A 6:B 7:END 8:S( 9:A
+#4 PC:4 A:4 B:7 C:1 START:J( 5:A 6:B 7:END 8:S( 9:A
+#5 PC:8 A:4 B:7 C:1 START:J( 5:A 6:B 7:END 8:S( 9:A
+#6 PC:10 A:5 B:7 C:1 START:J( 5:A 6:B 7:END 8:S( 9:A
+#7 PC:12 A:5 B:7 C:2 START:J( 5:A 6:B 7:END 8:S( 9:A
+#8 PC:4 A:5 B:7 C:2 START:J( 5:A 6:B 7:END 8:S( 9:A
+#9 PC:8 A:5 B:7 C:2 START:J( 5:A 6:B 7:END 8:S( 9:A
+#10 PC:10 A:6 B:7 C:2 START:J( 5:A 6:B 7:END 8:S( 9:A
+#11 PC:12 A:6 B:7 C:3 START:J( 5:A 6:B 7:END 8:S( 9:A
+#12 PC:4 A:6 B:7 C:3 START:J( 5:A 6:B 7:END 8:S( 9:A
+#13 PC:8 A:6 B:7 C:3 START:J( 5:A 6:B 7:END 8:S( 9:A
+#14 PC:10 A:7 B:7 C:3 START:J( 5:A 6:B 7:END 8:S( 9:A
+#15 PC:12 A:7 B:7 C:4 START:J( 5:A 6:B 7:END 8:S( 9:A
+#16 PC:4 A:7 B:7 C:4 START:J( 5:A 6:B 7:END 8:S( 9:A
+#17 PC:16 A:7 B:7 C:4 START:J( 5:A 6:B 7:END 8:S( 9:A
+#18 PC:19 A:4 B:7 C:4 START:J( 5:A 6:B 7:END 8:S( 9:A
+#19 PC:21 A:4 B:0 C:4 START:J( 5:A 6:B 7:END 8:S( 9:A
+#20 PC:23 A:4 B:0 C:0 START:J( 5:A 6:B 7:END 8:S( 9:A
+*100
+A:       4 ; 1
+B:       0 ; 2
+C:       0 ; 3
+START:   J(A, B, END) ; 4
+         S(A) ; 8
+         S(C) ; 10
+         J(1, 1, START) ; 12
+END:     C(C, A) ; 16
+         Z(B) ; 19
+         Z(C) ; 21
+         Z(0) ; 23

@@ -36,12 +36,12 @@ func (me *Urm) Steps() int { return me.steps }
 
 // Load clears the Urm and repopulates its registers by parsing the given
 // slice of strings. The size is how many registers to use; pass 0 to have
-// this either read from the lines (#size) or calculated during parsing.
+// this either read from the lines (*size) or calculated during parsing.
 //
 // BNF:
 //
 //	PROGRAM ::= SIZE? (SETREG | COMMAND)+
-//	SIZE ::= /#\d+/
+//	SIZE ::= /*\d+/
 //	SETREG ::= /(\d+|\pL\w*)\s*:\s*\d+/ # if LHS is num it is reg else label
 //	COMMAND ::= LABEL? /[CJSTZ][(]\d+(:?,\s*\d+)*/
 //	LABEL ::= /^\pL\w*:\s*/
@@ -58,7 +58,7 @@ func (me *Urm) Load(lines []string, size int) error {
 		line = cleanLine(line)
 		if line != "" {
 			var err error
-			if strings.HasPrefix(line, "#") {
+			if strings.HasPrefix(line, "*") {
 				sized, err = me.setRegsSize(lino, line, pc, sized)
 			} else {
 				pc, start, err = me.readStatement(lino, line, pc, start)

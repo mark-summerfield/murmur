@@ -39,7 +39,7 @@ def check(name, verbose):
     expected = os.path.join(ROOT, 'tdata/expected', tdata)
     delete_file(actual)
     go = os.path.join(ROOT, 'cli/murmur.go')
-    cmd = ['go', 'run', go, '-m', '10000', '-wPC,1-1000', filename]
+    cmd = ['go', 'run', go, '-m', '10000', '-ds', filename]
     output = subprocess.check_output(cmd)
     with open(actual, 'wb') as file:
         file.write(output)

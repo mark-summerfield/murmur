@@ -36,7 +36,7 @@ func (me *Urm) setPc(reg int) error {
 }
 
 func (me *Urm) asString(withRegNums bool) string {
-	texts := []string{fmt.Sprintf("#%d", me.Size())}
+	texts := []string{fmt.Sprintf("*%d", me.Size())}
 	for reg := 1; reg < me.Size(); reg++ {
 		reger := me.regs[reg]
 		if reger == nil {

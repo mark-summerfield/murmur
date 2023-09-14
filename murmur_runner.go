@@ -7,27 +7,29 @@ import (
 	"fmt"
 )
 
-func (me *Urm) nextReger() (int, Reger, error) {
+func (me *Urm) nextReger(inc bool) (Reger, error) {
 	reg := me.pc()
 	if 0 <= reg && reg < len(me.regs) {
-		if err := me.setPc(reg + 1); err != nil {
-			return 0, nil, err
+		if inc {
+			if err := me.setPc(reg + 1); err != nil {
+				return nil, err
+			}
 		}
 		reger := me.regs[reg]
 		if label, ok := reger.(Label); ok {
 			if reg, ok := me.reg_for_label[label.String()]; ok {
-				return reg, NewValue(reg), nil
+				return NewValue(reg), nil
 			} else {
-				return 0, nil, fmt.Errorf("%w: %d", Err103, reg)
+				return nil, fmt.Errorf("%w: %d", Err103, reg)
 			}
 		}
-		return reg, reger, nil
+		return reger, nil
 	}
-	return 0, nil, fmt.Errorf("%w: %d", Err113, reg)
+	return nil, fmt.Errorf("%w: %d", Err113, reg)
 }
 
 func (me *Urm) nextCommand() (Commander, error) {
-	_, reger, err := me.nextReger()
+	reger, err := me.nextReger(true)
 	if err != nil {
 		return nil, err
 	}
@@ -60,58 +62,93 @@ func (me *Urm) nextCommand() (Commander, error) {
 }
 
 func (me *Urm) executeCommand(cmd Commander) error {
-	reg1, value1, err := me.nextReger() // every command has > 0 operands
-	if err != nil {
-		return err
-	}
 	switch cmd.(type) {
 	case CopyCommand:
-		return me.doCopy(reg1, value1)
+		return me.doCopy()
 	case JumpCommand:
-		return me.doJump(reg1, value1)
+		return me.doJump()
 	case SuccCommand:
-		return me.doSucc(reg1, value1)
+		return me.doSucc()
 	case ZeroCommand:
-		return me.doZero(reg1, value1)
+		return me.doZero()
 	}
 	return fmt.Errorf("%w: %s", Err110, cmd)
 }
 
-func (me *Urm) doCopy(reg1 int, value1 Reger) error {
-	reg2, _, err := me.nextReger()
-	if err != nil {
-		return err
+func (me *Urm) regValue(reg int) (int, error) {
+	if 0 <= reg && reg <= len(me.regs) {
+		return me.regs[reg].Value(), nil
 	}
-	fmt.Printf("Copy regs[%d] = regs[%d] ; value=%d\n", reg2, reg1, value1.Value())
-	return me.setRegToValue(reg2, value1.Value())
+	return 0, fmt.Errorf("%w: %d", Err120, reg)
 }
 
-func (me *Urm) doJump(reg1 int, value1 Reger) error {
-	_, value2, err := me.nextReger()
+func (me *Urm) doCopy() error {
+	op1, err := me.nextReger(true)
 	if err != nil {
 		return err
 	}
-	_, value3, err := me.nextReger()
+	op2, err := me.nextReger(true)
 	if err != nil {
 		return err
 	}
-	if value1.Value() == value2.Value() {
-		fmt.Printf("Jump (PC) regs[0] = %d ; jumped\n", value3.Value())
-		return me.setPc(value3.Value())
+	value, err := me.regValue(op1.Value())
+	if err != nil {
+		return err
 	}
-	fmt.Printf("Jump (PC) regs[0] = %d ; skipped \n", me.pc())
+	return me.setRegToValue(op2.Value(), value)
+}
+
+func (me *Urm) doJump() error {
+	op1, err := me.nextReger(true)
+	if err != nil {
+		return err
+	}
+	value1, err := me.regValue(op1.Value())
+	if err != nil {
+		return err
+	}
+	op2, err := me.nextReger(true)
+	if err != nil {
+		return err
+	}
+	value2, err := me.regValue(op2.Value())
+	if err != nil {
+		return err
+	}
+	op3, err := me.nextReger(true)
+	if err != nil {
+		return err
+	}
+	if value1 == value2 {
+		return me.setPc(op3.Value())
+	}
 	return nil
 }
 
-func (me *Urm) doSucc(reg1 int, value1 Reger) error {
-	fmt.Printf("Succ regs[%d] = %d\n", reg1, value1.Value()+1)
-	return me.setRegToValue(reg1, value1.Value()+1)
+func (me *Urm) doSucc() error {
+	op1, err := me.nextReger(true)
+	if err != nil {
+		return err
+	}
+	reg := op1.Value()
+	if value, err := me.regValue(reg); err != nil {
+		return err
+	} else {
+		return me.setRegToValue(reg, value+1)
+	}
 }
 
-func (me *Urm) doZero(reg1 int, value1 Reger) error {
-	if reg1 == PcReg {
+func (me *Urm) doZero() error {
+	op1, err := me.nextReger(false)
+	if err != nil {
+		return err
+	}
+	reg := op1.Value()
+	if reg == PcReg {
 		return ErrStop
 	}
-	fmt.Printf("Zero regs[%d] = 0\n", reg1)
-	return me.setRegToValue(reg1, 0)
+	if err := me.setPc(me.pc() + 1); err != nil { // manually inc PC
+		return err
+	}
+	return me.setRegToValue(reg, 0)
 }
