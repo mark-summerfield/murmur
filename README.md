@@ -1,6 +1,6 @@
 # Murmur
 
-Murmur is a Unlimited Register Machine (URM) emulator.
+Murmur is an Unlimited Register Machine (URM) emulator.
 
 This library and executable provide a "pure" URM. All instructions and data
 are held in the registers. Register 0 holds the program counter (PC). The
@@ -14,13 +14,13 @@ throughout.
 
 _PC_ is the program counter (register 0). Every instruction changes the PC.
 
-| Syntax       | Notes                                 |
-| ------------ | ------------------------------------- |
-| `C(n, m)` | Copy register n into register m; PC += 3 |
-| `J(n, m, t)` | If register n == register m, set PC to t (i.e., jump to t), else PC += 4|
-| `J(t)` | Set PC to t (i.e., unconditional jump to t; sugar for `J(n, n, t)`)|
-| `S(n)` | Successor: increment register n (n++); PC += 2 |
-| `Z(n)` | Zero: set register n to 0 (n = 0); PC += 2 |
+| Syntax       | PC       | Notes                                 |
+| ------------ | -------- | ------------------------------------- |
+| `C(n, m)`    | +3       | Copy register n into register m |
+| `J(n, m, t)` | +4 or =t | If register n == register m, set PC to t (i.e., jump to t), else PC += 4|
+| `J(t)`       | +4 or =t | Set PC to t (i.e., unconditional jump to t; sugar for `J(n, n, t)`)|
+| `S(n)`       | +2       | Successor: increment register n (n++) |
+| `Z(n)`       | +2       | Zero: set register n to 0 (n = 0) |
 
 For the copy instruction, `T` (“transfer”), may be used instead of `C`.
 
@@ -80,12 +80,14 @@ without the `START` label, execution would begin from register 4.
 
 Program execution stops when the program counter (PC) is set to 0. The
 `STOP` meta-command is syntactic sugar for `Z(PC)`, itself syntactic sugar
-for `Z(0)`.
+for `Z(0)`. (This is why we need 22 registers, register 20 for the `Z`
+command and register 21 for the `0` value.)
 
 It should be easy to follow how the program works. Or use the command line
-`urm` program wih the options `-s` (step) and `-wPC,A,B,C` to see all the
+`murmur` program wih the options `-s` (step) and `-wPC,A,B,C` to see all the
 steps and how the program counter and first three registers change at each
-step.
+step. Or use `-d` (dis-assemble) to see the registers before and after the
+run.
 
 ## License
 

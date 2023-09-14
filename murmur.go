@@ -79,8 +79,7 @@ func (me *Urm) Run() error { return me.RunX(DefaultMaxSteps) }
 // (See Run and Step.)
 func (me *Urm) RunX(maxSteps int) error {
 	for {
-		me.steps++
-		if me.steps > maxSteps {
+		if me.steps >= maxSteps {
 			return fmt.Errorf("%w: %d", Err100, me.steps)
 		}
 		err := me.Step()
@@ -96,11 +95,11 @@ func (me *Urm) RunX(maxSteps int) error {
 // Steps runs the one step (i.e., executes the next statement) the Urm
 // program. (See Run and RunX.)
 func (me *Urm) Step() error {
+	me.steps++
 	cmd, err := me.nextCommand() // returns cmd & inc PC
 	if err != nil {
 		return err
 	}
-	me.steps++
 	return me.executeCommand(cmd) // may acquire one or more operands
 }
 
