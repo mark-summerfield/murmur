@@ -70,7 +70,7 @@ func (me *Urm) RunX(maxSteps int) error {
 	}
 }
 
-// Steps runs the one step (i.e., executes the next statement) the Urm
+// Step runs the one step (i.e., executes the next statement) of the Urm
 // program. (See Run and RunX.)
 func (me *Urm) Step() error {
 	me.steps++

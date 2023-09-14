@@ -28,8 +28,8 @@ func (me *Urm) setRegsSize(lino int, line string, pc int, sized bool) (bool,
 	return true, nil
 }
 
-func (me *Urm) readStatement(lino int, line string, pc, start int) (
-	int, int, error) {
+func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
+	int, error) {
 	var err error
 	pc++
 	rx := regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
