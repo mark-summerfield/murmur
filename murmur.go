@@ -15,6 +15,7 @@ type Urm struct {
 	reg_for_label map[string]int
 	label_for_reg map[int]string
 	steps         int
+	labelWidth    int
 }
 
 // New returns a new Urm with DefaultSize registers. (See NewX.)

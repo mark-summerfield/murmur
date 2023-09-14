@@ -23,6 +23,7 @@ func (me *Urm) clear(size int) {
 	me.label_for_reg = map[int]string{}
 	_ = me.addRegLabel(PcReg, PC)
 	me.steps = 0
+	me.labelWidth = minLabelWidth
 }
 
 func (me *Urm) pc() int { return me.regs[PcReg].Value() }
@@ -50,9 +51,9 @@ func (me *Urm) asString(withRegNums bool) string {
 			text += strings.Join(ops, ", ") + ")"
 		}
 		if hasLabel {
-			text = fmt.Sprintf("%s:\t%s", label, text)
+			text = fmt.Sprintf("%*s:%s", me.labelWidth, label, text)
 		} else {
-			text = "\t" + text
+			text = fmt.Sprintf("%*s", me.labelWidth+1, text)
 		}
 		if withRegNums {
 			text += " ; " + strconv.Itoa(reg)

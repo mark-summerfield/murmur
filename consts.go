@@ -16,12 +16,14 @@ const (
 	DefaultMaxSteps = 10_000
 	PC              = "PC"
 	PcReg           = 0
-	cmdJump         = 253 // J(n, m, t) ; jump to t if m = n
-	cmdCopy         = 252 // C(n, m) ; n → m
-	cmdSucc         = 251 // S(n) ; n++
-	cmdZero         = 250 // Z(n) ; n = 0
+	cmdJump         = 203 // J(n, m, t) ; jump to t if m = n
+	cmdCopy         = 202 // C(n, m) ; n → m
+	cmdSucc         = 201 // S(n) ; n++
+	cmdZero         = 200 // Z(n) ; n = 0
 	startLabel      = "START"
 	stopCmd         = "STOP"
+	minLabelWidth   = 8
+	maxLabelWidth   = 32
 )
 
 var (

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"unicode/utf8"
 )
 
 func (me *Urm) setRegsSize(lino int, line string, pc int, sized bool) (bool,
@@ -102,6 +103,8 @@ func (me *Urm) addRegLabel(reg int, label string) error {
 	if 0 <= reg && reg < len(me.regs) {
 		me.reg_for_label[label] = reg
 		me.label_for_reg[reg] = label
+		width := utf8.RuneCountInString(label)
+		me.labelWidth = min(max(me.labelWidth, width), maxLabelWidth)
 		return nil
 	}
 	return fmt.Errorf("%w: %d", Err111, reg)
