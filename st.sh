@@ -1,5 +1,5 @@
 #!/bin/bash
-clc -s -e murmur_test.go -Lpy
+clc -s -Lpy
 cat Version.dat
 go mod tidy
 go fmt .

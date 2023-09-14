@@ -10,8 +10,6 @@ cli/murmur.go
 
 regression.py
 
-murmur_test.go
-
 eg/03.urm
 eg/04.urm
 eg/06.urm
