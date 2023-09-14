@@ -17,6 +17,7 @@ type Reger interface {
 type Commander interface {
 	Reger
 	Arity() int
+	Lino() int
 }
 
 type Integer interface {
@@ -41,44 +42,48 @@ func NewLabel(label string) (Label, error) {
 func (me Label) Value() int     { return -222 }
 func (me Label) String() string { return string(me) }
 
-func NewCommand(name byte) (Commander, error) {
+func NewCommand(lino int, name byte) (Commander, error) {
 	switch name {
 	case 'C', 'T', 'c', 't':
-		return NewCopyCommand(), nil
+		return NewCopyCommand(lino), nil
 	case 'J', 'j':
-		return NewJumpCommand(), nil
+		return NewJumpCommand(lino), nil
 	case 'S', 's':
-		return NewSuccCommand(), nil
+		return NewSuccCommand(lino), nil
 	case 'Z', 'z':
-		return NewZeroCommand(), nil
+		return NewZeroCommand(lino), nil
 	}
-	return NewZeroCommand(), fmt.Errorf("%w: %c", Err117, name)
+	return NewZeroCommand(lino), fmt.Errorf("%w: %c", Err117, name)
 }
 
-type CopyCommand struct{}
+type CopyCommand int
 
-func NewCopyCommand() CopyCommand     { return CopyCommand(struct{}{}) }
-func (me CopyCommand) Value() int     { return cmdCopy }
-func (me CopyCommand) String() string { return "C(" }
-func (me CopyCommand) Arity() int     { return 2 }
+func NewCopyCommand(lino int) CopyCommand { return CopyCommand(lino) }
+func (me CopyCommand) Value() int         { return cmdCopy }
+func (me CopyCommand) String() string     { return "C(" }
+func (me CopyCommand) Arity() int         { return 2 }
+func (me CopyCommand) Lino() int          { return int(me) }
 
-type JumpCommand struct{}
+type JumpCommand int
 
-func NewJumpCommand() JumpCommand     { return JumpCommand(struct{}{}) }
-func (me JumpCommand) Value() int     { return cmdJump }
-func (me JumpCommand) String() string { return "J(" }
-func (me JumpCommand) Arity() int     { return 3 }
+func NewJumpCommand(lino int) JumpCommand { return JumpCommand(lino) }
+func (me JumpCommand) Value() int         { return cmdJump }
+func (me JumpCommand) String() string     { return "J(" }
+func (me JumpCommand) Arity() int         { return 3 }
+func (me JumpCommand) Lino() int          { return int(me) }
 
-type SuccCommand struct{}
+type SuccCommand int
 
-func NewSuccCommand() SuccCommand     { return SuccCommand(struct{}{}) }
-func (me SuccCommand) Value() int     { return cmdSucc }
-func (me SuccCommand) String() string { return "S(" }
-func (me SuccCommand) Arity() int     { return 1 }
+func NewSuccCommand(lino int) SuccCommand { return SuccCommand(lino) }
+func (me SuccCommand) Value() int         { return cmdSucc }
+func (me SuccCommand) String() string     { return "S(" }
+func (me SuccCommand) Arity() int         { return 1 }
+func (me SuccCommand) Lino() int          { return int(me) }
 
-type ZeroCommand struct{}
+type ZeroCommand int
 
-func NewZeroCommand() ZeroCommand     { return ZeroCommand(struct{}{}) }
-func (me ZeroCommand) Value() int     { return cmdZero }
-func (me ZeroCommand) String() string { return "Z(" }
-func (me ZeroCommand) Arity() int     { return 1 }
+func NewZeroCommand(lino int) ZeroCommand { return ZeroCommand(lino) }
+func (me ZeroCommand) Value() int         { return cmdZero }
+func (me ZeroCommand) String() string     { return "Z(" }
+func (me ZeroCommand) Arity() int         { return 1 }
+func (me ZeroCommand) Lino() int          { return int(me) }

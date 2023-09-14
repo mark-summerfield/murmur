@@ -111,7 +111,7 @@ func (me *Urm) addRegLabel(reg int, label string) error {
 }
 
 func (me *Urm) setStopCommand(lino, pc int) (int, error) {
-	if err := me.setRegToCommand(pc, NewZeroCommand()); err != nil {
+	if err := me.setRegToCommand(pc, NewZeroCommand(lino)); err != nil {
 		return pc, fmt.Errorf("line#%d %w", lino, err)
 	}
 	pc++
@@ -127,7 +127,7 @@ func (me *Urm) readCommand(command string, lino, pc, start int) (int, int,
 	if start == 0 {
 		start = pc
 	}
-	cmd, err := NewCommand(command[0])
+	cmd, err := NewCommand(lino, command[0])
 	if err != nil {
 		return pc, start, fmt.Errorf("line#%d %w", lino, err)
 	}

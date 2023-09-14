@@ -4,6 +4,7 @@
 package murmur
 
 import (
+	"errors"
 	"fmt"
 )
 
@@ -39,13 +40,13 @@ func (me *Urm) nextCommand() (Commander, error) {
 		if ok {
 			switch value.Value() {
 			case cmdCopy:
-				cmd = NewCopyCommand()
+				cmd = NewCopyCommand(0)
 			case cmdJump:
-				cmd = NewJumpCommand()
+				cmd = NewJumpCommand(0)
 			case cmdSucc:
-				cmd = NewSuccCommand()
+				cmd = NewSuccCommand(0)
 			case cmdZero:
-				cmd = NewZeroCommand()
+				cmd = NewZeroCommand(0)
 			default:
 				ok = false
 			}
@@ -62,17 +63,23 @@ func (me *Urm) nextCommand() (Commander, error) {
 }
 
 func (me *Urm) executeCommand(cmd Commander) error {
+	var err error
 	switch cmd.(type) {
 	case CopyCommand:
-		return me.doCopy()
+		err = me.doCopy()
 	case JumpCommand:
-		return me.doJump()
+		err = me.doJump()
 	case SuccCommand:
-		return me.doSucc()
+		err = me.doSucc()
 	case ZeroCommand:
-		return me.doZero()
+		err = me.doZero()
+	default:
+		return fmt.Errorf("%w: %s", Err110, cmd)
 	}
-	return fmt.Errorf("%w: %s", Err110, cmd)
+	if err != nil && !errors.Is(err, ErrStop) {
+		return fmt.Errorf("line#%d %w", cmd.Lino(), err)
+	}
+	return err
 }
 
 func (me *Urm) regValue(reg int) (int, error) {
