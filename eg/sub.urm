@@ -1,0 +1,12 @@
+; Subtract A = B - C
+A:	35
+B:	8
+C:	0
+START:	J(A, B, END)
+	S(B)
+	S(C)
+	J(START)
+END:    C(C, A)
+	Z(B)
+	Z(C)
+        STOP

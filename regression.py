@@ -25,12 +25,27 @@ def main():
     count = 0
     ok = 0
     for name in sorted(os.listdir(os.path.join(ROOT, 'eg'))):
-        if name.endswith('.urm') and name[0].isdecimal():
-            count += 1
-            ok += check(name, verbose)
-        elif name == "lt.urm":
-            count += 1
-            ok += check_lt(name, verbose)
+        if name.endswith('.urm'):
+            if name[0].isdecimal():
+                count += 1
+                ok += check(name, verbose)
+            else:
+                if name == 'add.urm':
+                    allargs = (['19', '27', '46'], ['91', '17', '108'])
+                elif name == 'sub.urm':
+                    allargs = (['43', '19', '24'], ['66', '59', '7'])
+                elif name == 'mul.urm':
+                    allargs = (['7', '8', '56'], ['9', '9', '81'])
+                elif name == 'lt.urm':
+                    allargs = (['99', '5', '5', '0'],
+                        ['99', '13', '17', '1'], ['99', '14', '12', '0'])
+                elif name == 'max.urm':
+                    allargs = (['99', '52', '52', '52'],
+                        ['99', '23', '81', '81'], ['99', '75', '74', '75'])
+                else:
+                    continue
+                count += 1
+                ok += check_func(name, allargs, verbose)
     if ok == count:
         print(f'All {count} OK')
         shutil.rmtree(actual_dir)
@@ -57,12 +72,12 @@ def check(name, verbose):
     return int(ok)
 
 
-def check_lt(name, verbose):
+def check_func(name, allargs, verbose):
     rx = re.compile(r'\bA:(?P<a>\d+)')
     filename = os.path.join(ROOT, 'eg', name)
-    for args in (['5', '5', '0'], ['13', '17', '1'], ['14', '12', '0']):
+    for args in allargs:
         a = args[-1]
-        args = ['99'] + args[:-1]
+        args = args[:-1]
     cmd = ['./murmur', '-wA', filename, *args]
     output = subprocess.check_output(cmd)
     ans = ''
@@ -75,7 +90,7 @@ def check_lt(name, verbose):
         if ok:
             print(f'{name} OK')
         else:
-            print(f'{name} FAIL actual != expected')
+            print(f'{name} FAIL actual != expected', cmd)
     return ok
 
 

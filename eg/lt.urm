@@ -1,4 +1,4 @@
-; less than: A = B < C or A = 99 on error
+; Less Than: A = 1 if B < C or A = 0 if B >= C or A = 99 on error
 *42
 A:     99 ; 0 → !(B < C); 1 → B < C
 B:     5

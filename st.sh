@@ -1,5 +1,5 @@
 #!/bin/bash
-./regression.py
+./regression.py -q
 clc -s -Lpy
 cat Version.dat
 go mod tidy

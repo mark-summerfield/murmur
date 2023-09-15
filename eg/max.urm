@@ -1,0 +1,20 @@
+; Max: A = MAX(B, C)
+*42
+A:     0
+B:     7
+C:     11
+; max
+BC:    0
+CC:    0
+START: J(B, C, GE) ; B == C so both are max
+LOOP:  J(B, BC, LT)
+       S(BC)
+       J(C, CC, GE)
+       S(CC)
+       J(LOOP)
+GE:    C(B, A) ; B >= C
+       J(END)
+LT:    C(C, A) ; B < C
+END:   Z(BC)
+       Z(CC)
+       STOP

@@ -1,4 +1,4 @@
-; Multiply 4 * 7 ; put result (28) in reg A (1) and clear B, C, D, and E
+; Multiply A = A * B
 A:	4
 B:	7
 C:	0
