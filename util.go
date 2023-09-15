@@ -15,3 +15,9 @@ func cleanLine(line string) string {
 	}
 	return line
 }
+
+func fixups(text string) string {
+	replacer := strings.NewReplacer("Z(0)", stopCmd, "Z(PC)", stopCmd,
+		"J(0, 0, ", "J(", "J(1, 1, ", "J(")
+	return replacer.Replace(text)
+}

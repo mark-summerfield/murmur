@@ -43,7 +43,7 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 				if verr != nil {
 					return pc, start, fmt.Errorf("line#%d %w", lino, Err108)
 				}
-				if err = me.setRegToValue(reg, value); err != nil {
+				if err = me.SetRegToValue(reg, value); err != nil {
 					return pc, start, fmt.Errorf("line#%d %w", lino, err)
 				}
 				return pc, start, nil
@@ -53,7 +53,7 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 			} // if err == nil falls through...
 		}
 		if verr == nil { // label: val; e.g., A: 7
-			err = me.setRegToValue(pc, value) // label already handled
+			err = me.SetRegToValue(pc, value) // label already handled
 			if err != nil {
 				err = fmt.Errorf("line#%d %w", lino, err)
 			}
@@ -69,14 +69,6 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 		return pc, start, fmt.Errorf("line#%d %w: %s", lino, Err107, line)
 	}
 	return pc, start, nil
-}
-
-func (me *Urm) setRegToValue(reg, value int) error {
-	if 0 <= reg && reg < len(me.regs) {
-		me.regs[reg] = NewValue(value)
-		return nil
-	}
-	return fmt.Errorf("%w: %d", Err112, reg)
 }
 
 func (me *Urm) setRegToLabel(reg int, label string) error {
@@ -118,7 +110,7 @@ func (me *Urm) setStopCommand(lino, pc int) (int, error) {
 	if pc >= len(me.regs) {
 		return pc, fmt.Errorf("line#%d %w", lino, Err109)
 	}
-	return pc, me.setRegToValue(pc, 0)
+	return pc, me.SetRegToValue(pc, 0)
 }
 
 func (me *Urm) readCommand(command string, lino, pc, start int) (int, int,
@@ -167,7 +159,7 @@ func (me *Urm) addOp(pc int, op string) error {
 		return Err119
 	}
 	if value, err := strconv.Atoi(op); err == nil { // literal reg val
-		return me.setRegToValue(pc, value)
+		return me.SetRegToValue(pc, value)
 	} else { // label
 		return me.setRegToLabel(pc, op)
 	}

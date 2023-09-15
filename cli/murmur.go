@@ -20,7 +20,7 @@ func main() {
 	lines := readLines(config.infile)
 	out, closer := getOutput(config.outfile)
 	defer closer()
-	urm := load(out, lines, config.registers, &config.watch, config.dis)
+	urm := load(out, lines, config)
 	if config.step {
 		step(out, urm, config.maxSteps, &config.watch)
 	} else {
@@ -53,8 +53,10 @@ func getConfig() *Config {
 		"and missing labels are ignored.", "PC,1-9")
 	disOpt := parser.Flag("dis",
 		"Show diassembly of all registers at the start and at the end.")
-	parser.PositionalCount = clip.OnePositional
-	parser.PositionalHelp = "The .urm file to run."
+	parser.PositionalCount = clip.OneOrMorePositionals
+	parser.PositionalHelp = "ARG1 is the .urm file to run, optionally " +
+		"followed by values for registers 1, 2, …"
+	parser.MustSetPositionalVarName("ARG")
 	if err := parser.Parse(); err != nil {
 		parser.OnError(err) // doesn't return
 		return nil          // never reached
@@ -62,8 +64,9 @@ func getConfig() *Config {
 	registers := registersOpt.Value()
 	config := Config{maxSteps: maxStepsOpt.Value(),
 		step: stepOpt.Value(), registers: registers,
-		infile: parser.Positionals[0], outfile: outfileOpt.Value(),
-		watch: parseWatches(watchOpt.Value()), dis: disOpt.Value()}
+		infile: parser.Positionals[0], args: parser.Positionals[1:],
+		outfile: outfileOpt.Value(), watch: parseWatches(watchOpt.Value()),
+		dis: disOpt.Value()}
 	return &config
 }
 
@@ -72,6 +75,7 @@ type Config struct {
 	step      bool
 	registers int
 	infile    string
+	args      []string
 	outfile   string
 	watch     watches
 	dis       bool
@@ -109,16 +113,24 @@ func getOutput(filename string) (*os.File, func()) {
 	return out, closer
 }
 
-func load(out *os.File, lines []string, registers int,
-	watch *watches, dis bool) *murmur.Urm {
-	urm, err := murmur.NewX(lines, registers)
+func load(out *os.File, lines []string, config *Config) *murmur.Urm {
+	urm, err := murmur.NewX(lines, config.registers)
 	if err != nil {
 		onError(err)
 	}
-	if dis {
+	for i, arg := range config.args {
+		if value, err := strconv.Atoi(arg); err != nil {
+			onError(err)
+		} else {
+			if err := urm.SetRegToValue(i+1, value); err != nil {
+				onError(err)
+			}
+		}
+	}
+	if config.dis {
 		_, _ = out.WriteString(urm.StringWithRegNums() + "\n")
 	}
-	if err := writeWatched(out, urm, watch); err != nil {
+	if err := writeWatched(out, urm, &config.watch); err != nil {
 		onError(err)
 	}
 	return urm

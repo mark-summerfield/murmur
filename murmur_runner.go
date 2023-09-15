@@ -105,7 +105,7 @@ func (me *Urm) doCopy() error {
 	if err != nil {
 		return err
 	}
-	return me.setRegToValue(op2.Value(), value)
+	return me.SetRegToValue(op2.Value(), value)
 }
 
 func (me *Urm) doJump() error {
@@ -144,7 +144,7 @@ func (me *Urm) doSucc() error {
 	if value, err := me.regValue(reg); err != nil {
 		return err
 	} else {
-		return me.setRegToValue(reg, value+1)
+		return me.SetRegToValue(reg, value+1)
 	}
 }
 
@@ -160,5 +160,5 @@ func (me *Urm) doZero() error {
 	if err := me.setPc(me.pc() + 1); err != nil { // manually inc PC
 		return err
 	}
-	return me.setRegToValue(reg, 0)
+	return me.SetRegToValue(reg, 0)
 }

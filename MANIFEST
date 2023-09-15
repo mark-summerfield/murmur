@@ -10,6 +10,8 @@ cli/murmur.go
 
 regression.py
 
+eg/lt.urm
+eg/max.urm # TODO
 eg/03.urm
 eg/04.urm
 eg/06.urm

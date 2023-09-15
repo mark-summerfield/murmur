@@ -109,6 +109,15 @@ func (me *Urm) RegAsStringByLabel(label string) (string, error) {
 	}
 }
 
+// SetRegToValue sets the given register to the given value.
+func (me *Urm) SetRegToValue(reg, value int) error {
+	if 0 <= reg && reg < len(me.regs) {
+		me.regs[reg] = NewValue(value)
+		return nil
+	}
+	return fmt.Errorf("%w: %d", Err112, reg)
+}
+
 // String returns a string of all the registers.
 // Errors are ignored. Mostly for debugging and testing.
 func (me *Urm) String() string { return me.asString(false) }

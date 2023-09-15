@@ -13,7 +13,7 @@ ENDB:    S(E) ; 17
 ENDD:    S(C) ; 25
          S(D) ; 27
          J(A, D, ENDB) ; 29
-         J(1, 1, ENDD) ; 33
+         J(ENDD) ; 33
 ENDC:    C(C, A) ; 37
 ENDA:    Z(B) ; 40
          Z(C) ; 42
@@ -154,7 +154,7 @@ ENDB:    S(E) ; 17
 ENDD:    S(C) ; 25
          S(D) ; 27
          J(A, D, ENDB) ; 29
-         J(1, 1, ENDD) ; 33
+         J(ENDD) ; 33
 ENDC:    C(C, A) ; 37
 ENDA:    Z(B) ; 40
          Z(C) ; 42

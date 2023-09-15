@@ -5,6 +5,7 @@
 import contextlib
 import filecmp
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -20,14 +21,16 @@ def main():
 
     actual_dir = 'tdata/actual'
     os.makedirs(actual_dir, exist_ok=True)
-    if not os.path.isfile(EXE):
-        subprocess.run(['bash', 'build.sh'])
+    subprocess.run(['bash', 'build.sh']) # always build fresh
     count = 0
     ok = 0
     for name in sorted(os.listdir(os.path.join(ROOT, 'eg'))):
-        if name.endswith('.urm'):
+        if name.endswith('.urm') and name[0].isdecimal():
             count += 1
             ok += check(name, verbose)
+        elif name == "lt.urm":
+            count += 1
+            ok += check_lt(name, verbose)
     if ok == count:
         print(f'All {count} OK')
         shutil.rmtree(actual_dir)
@@ -52,6 +55,28 @@ def check(name, verbose):
         else:
             print(f'{name} FAIL actual != expected')
     return int(ok)
+
+
+def check_lt(name, verbose):
+    rx = re.compile(r'\bA:(?P<a>\d+)')
+    filename = os.path.join(ROOT, 'eg', name)
+    for args in (['5', '5', '0'], ['13', '17', '1'], ['14', '12', '0']):
+        a = args[-1]
+        args = ['99'] + args[:-1]
+    cmd = ['./murmur', '-wA', filename, *args]
+    output = subprocess.check_output(cmd)
+    ans = ''
+    for line in output.decode('utf-8').splitlines():
+        match = rx.search(line)
+        if match is not None:
+            ans = match.group('a')
+    ok = ans == a
+    if verbose:
+        if ok:
+            print(f'{name} OK')
+        else:
+            print(f'{name} FAIL actual != expected')
+    return ok
 
 
 def delete_file(filename):

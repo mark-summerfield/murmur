@@ -1,0 +1,22 @@
+; less than: A = B < C or A = 99 on error
+*54
+A:     99 ; 0 → !(B < C); 1 → B < C
+B:     5
+C:     7
+TRUE:  1
+FALSE: 0
+; less than
+BC:    0
+CC:    0
+START: J(B, C, GE) ; B == C → !(B < C) | C >= B
+LOOP:  J(B, BC, LT)
+       S(BC)
+       J(C, CC, GE)
+       S(CC)
+       J(LOOP)
+GE:    C(FALSE, A) ; !(B < C)
+       J(END)
+LT:    C(TRUE, A) ; B < C
+END:   Z(BC)
+       Z(CC)
+       STOP

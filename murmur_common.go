@@ -76,9 +76,7 @@ func (me *Urm) asString(withRegNums bool) string {
 			}
 			text += strings.Join(ops, ", ") + ")"
 		}
-		if text == "Z(0)" || text == "Z(PC)" { // fixup
-			text = stopCmd
-		}
+		text = fixups(text)
 		if hasLabel {
 			text = fmt.Sprintf("%-*s %s", me.labelWidth, label+":", text)
 		} else {
