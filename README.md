@@ -54,18 +54,18 @@ Note that the only literal values needed are for setting the initial data:
 all other registers are referred to by label.
 
 ```
-; Addition
+; Addition: A = A + B
 *22 ; allocate 22 registers (0..21)
-A:      19 ; 1
-B:      7 ; 2
-C:      0 ; 3
-START:  J(B, C, END) ; 4
-        S(A) ; 8
-        S(C) ; 10
-        J(START) ; 12
-END:    Z(B) ; 16
-        Z(C) ; 18
-        STOP ; 20
+A:     19 ; 1 — at the end this will be 26
+B:     7  ; 2 — at the end this will be 0
+C:     0  ; 0 — at the end this will be 0
+START: J(B, C, END) ; 4
+       S(A) ; 8
+       S(C) ; 10
+       J(START) ; 12
+END:   Z(B) ; 16
+       Z(C) ; 18
+       STOP ; 20
 ```
 
 Here, 22 registers will be available (the exact number needed) as specified
@@ -92,11 +92,36 @@ steps and how the program counter and first three registers change at each
 step. Or use `-d` (dis-assemble) to see the registers before and after the
 run.
 
-**Other Examples**
+### Other Examples
 
-Some of the other numbered examples are commented. There are also named
+Most of the other numbered examples are commented. There are also named
 examples including, `add.urm`, `sub.urm`, `mul.urm`, `lt.urm`, and
 `max.urm`.
+
+For example, to add two numbers, run, say, `./murmur -wA eg/add.urm 23 91`.
+The `-wA` option says to watch register `A`. The numbers given as arguments
+to the `.urm` program set registers 1 and 2 (`A` and `B`) and store the
+result in `A`. This will output:
+
+```
+#0 A:23
+#368 A:114
+```
+
+Or to find the maximum of two numbers, run, say,
+`./murmur -wA eg/max.urm 0 65 82`.
+The numbers set registers 1, 2, and 3 (`A`, `B`, and `C`) and store the
+maximum of `B` and `C` into `A`. This will output:
+
+```
+#0 A:0
+#331 A:82
+```
+
+The algorithm for the `lt.urm` (“less than”) example is almost the same as
+`max.urm` only instead of copying the max of the two numbers into `A`, it
+sets `A` to 99 (“invalid”) at the start, and at the end sets `A` to 1 if `B
+< C`, otherwise to 0 (i.e., if `B ≥ C`).
 
 ## License
 

@@ -44,13 +44,13 @@ func getConfig() *Config {
 		"Run step by step showing registers at every step [default: run "+
 			"nonstop showing initial and final registers only].")
 	registersOpt := parser.IntInRange("registers",
-		"How many registers the URM has; can also be overridden in "+
-			"the .urm with #n, e.g., #200.", 1, math.MaxInt,
-		int(murmur.DefaultSize))
+		"How many registers the URM has; can also be overridden in the "+
+			".urm with *n, e.g., *200 [default: 100 unless overridden].",
+		1, math.MaxInt, int(murmur.DefaultSize))
 	watchOpt := parser.Str("watch", "A comma-separated list of which "+
 		"registers to watch with each item of the form n or n-m or "+
 		"label where n and m are integers ≥ 0. Out of range registers "+
-		"and missing labels are ignored.", "PC,1-9")
+		"and missing labels are ignored [default: PC,1-9].", "PC,1-9")
 	disOpt := parser.Flag("dis",
 		"Show diassembly of all registers at the start and at the end.")
 	parser.PositionalCount = clip.OneOrMorePositionals
