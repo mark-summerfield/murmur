@@ -40,12 +40,15 @@ The exact number of registers to be available may be specified before any
 data or instructions using the syntax `*r` where `r` is the number of
 registers. If not specified this will default to 100.
 
-## Example: Addition (`eg/26.urm`):
+## Example
 
-Here is a program to add register 1 (labelled `A` and containing 19) to
-register 2 (labelled `B`, containing 7), using register 3 (labelled `C` as a
-scratch value), and storing their sum back into register 1 (`A`).
-Furthermore, at the end, registers 2 and 3 (`B` and `C`) are cleared.
+### Addition
+
+Here is a program (`eg/26.urm`) to add register 1 (labelled `A` and
+containing 19) to register 2 (labelled `B`, containing 7), using register 3
+(labelled `C` as a scratch value), and storing their sum back into register
+1 (`A`). Furthermore, at the end, registers 2 and 3 (`B` and `C`) are
+cleared.
 
 Note that the only literal values needed are for setting the initial data:
 all other registers are referred to by label.
@@ -88,6 +91,12 @@ It should be easy to follow how the program works. Or use the command line
 steps and how the program counter and first three registers change at each
 step. Or use `-d` (dis-assemble) to see the registers before and after the
 run.
+
+**Other Examples**
+
+Some of the other numbered examples are commented. There are also named
+examples including, `add.urm`, `sub.urm`, `mul.urm`, `lt.urm`, and
+`max.urm`.
 
 ## License
 
