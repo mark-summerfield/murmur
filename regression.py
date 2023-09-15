@@ -10,6 +10,7 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.realpath(__file__))
+EXE = 'murmur'
 
 
 def main():
@@ -19,6 +20,8 @@ def main():
 
     actual_dir = 'tdata/actual'
     os.makedirs(actual_dir, exist_ok=True)
+    if not os.path.isfile(EXE):
+        subprocess.run(['bash', 'build.sh'])
     count = 0
     ok = 0
     for name in sorted(os.listdir(os.path.join(ROOT, 'eg'))):
@@ -38,8 +41,7 @@ def check(name, verbose):
     actual = os.path.join(ROOT, 'tdata/actual', tdata)
     expected = os.path.join(ROOT, 'tdata/expected', tdata)
     delete_file(actual)
-    go = os.path.join(ROOT, 'cli/murmur.go')
-    cmd = ['go', 'run', go, '-m', '10000', '-ds', filename]
+    cmd = ['./murmur', '-m', '10000', '-ds', filename]
     output = subprocess.check_output(cmd)
     with open(actual, 'wb') as file:
         file.write(output)
