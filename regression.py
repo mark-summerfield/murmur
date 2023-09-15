@@ -13,6 +13,14 @@ import sys
 ROOT = os.path.dirname(os.path.realpath(__file__))
 EXE = 'murmur'
 
+ALLARGS_FOR_NAME = {
+    'add.urm': (['19', '27', '46'], ['91', '17', '108']),
+    'sub.urm': (['43', '19', '24'], ['66', '59', '7']),
+    'mul.urm': (['7', '8', '56'], ['9', '9', '81']),
+    'lt.urm': (['99', '5', '5', '0'], ['99', '13', '17', '1'],
+               ['99', '14', '12', '0']),
+    'max.urm': (['99', '52', '52', '52'], ['99', '23', '81', '81'],
+                ['99', '75', '74', '75'])}
 
 def main():
     verbose = True
@@ -30,19 +38,8 @@ def main():
                 count += 1
                 ok += check(name, verbose)
             else:
-                if name == 'add.urm':
-                    allargs = (['19', '27', '46'], ['91', '17', '108'])
-                elif name == 'sub.urm':
-                    allargs = (['43', '19', '24'], ['66', '59', '7'])
-                elif name == 'mul.urm':
-                    allargs = (['7', '8', '56'], ['9', '9', '81'])
-                elif name == 'lt.urm':
-                    allargs = (['99', '5', '5', '0'],
-                        ['99', '13', '17', '1'], ['99', '14', '12', '0'])
-                elif name == 'max.urm':
-                    allargs = (['99', '52', '52', '52'],
-                        ['99', '23', '81', '81'], ['99', '75', '74', '75'])
-                else:
+                allargs = ALLARGS_FOR_NAME.get(name)
+                if allargs is None:
                     continue
                 count += 1
                 ok += check_func(name, allargs, verbose)
