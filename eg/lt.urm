@@ -1,10 +1,9 @@
 ; less than: A = B < C or A = 99 on error
-*54
+*42
 A:     99 ; 0 → !(B < C); 1 → B < C
 B:     5
 C:     7
 TRUE:  1
-FALSE: 0
 ; less than
 BC:    0
 CC:    0
@@ -14,7 +13,7 @@ LOOP:  J(B, BC, LT)
        J(C, CC, GE)
        S(CC)
        J(LOOP)
-GE:    C(FALSE, A) ; !(B < C)
+GE:    Z(A) ; !(B < C) ; sets A to 0 (FALSE)
        J(END)
 LT:    C(TRUE, A) ; B < C
 END:   Z(BC)
