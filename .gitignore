@@ -49,3 +49,4 @@ build/
 zOld/
 murmur
 tdata/actual/
+deploy.sh
