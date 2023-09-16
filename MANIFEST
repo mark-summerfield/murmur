@@ -1,3 +1,4 @@
+# TODO public? cli→bin(&update *.sh)? gui?
 murmur.go
 murmur_common.go
 murmur_parser.go
@@ -27,9 +28,5 @@ eg/28.urm
 README.md
 
 st.sh
-
-# see also:
-#   https://sean.mcgivern.me.uk/urm-evaluator/
-#   http://sites.oxy.edu/rnaimi/home/URMsim.htm 
 
 # vim: syn=yaml
