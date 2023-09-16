@@ -76,11 +76,8 @@ func (me *Urm) executeCommand(cmd Commander) error {
 	default:
 		return fmt.Errorf("%w: %s", Err110, cmd)
 	}
-	if err != nil && !errors.Is(err, ErrStop) {
-		if cmd.Lino() == 0 { // unknown lino
-			return err
-		}
-		return fmt.Errorf("line#%d %w", cmd.Lino(), err)
+	if err != nil && !errors.Is(err, ErrStop) && cmd.Lino() != 0 {
+		err = fmt.Errorf("line#%d %w", cmd.Lino(), err)
 	}
 	return err
 }

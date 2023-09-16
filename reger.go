@@ -20,16 +20,11 @@ type Commander interface {
 	Lino() int
 }
 
-type Integer interface {
-	int8 | int16 | int32 | int64 | int |
-		uint8 | uint16 | uint32 | uint64 | uint
-}
-
 type Value int
 
-func NewValue[T Integer](v T) Value { return Value(v) }
-func (me Value) Value() int         { return int(me) }
-func (me Value) String() string     { return strconv.Itoa(int(me)) }
+func NewValue(v int) Value      { return Value(v) }
+func (me Value) Value() int     { return int(me) }
+func (me Value) String() string { return strconv.Itoa(int(me)) }
 
 type Label string
 

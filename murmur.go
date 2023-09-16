@@ -99,9 +99,9 @@ func (me *Urm) RegAsString(reg int) (string, error) {
 	return "", fmt.Errorf("%w: %d", Err115, reg)
 }
 
-// RegAsStringByLabel returns a string representation of a register's value
+// RegForLabelAsString returns a string representation of a register's value
 // where the register is identified by a label.
-func (me *Urm) RegAsStringByLabel(label string) (string, error) {
+func (me *Urm) RegForLabelAsString(label string) (string, error) {
 	if reg, ok := me.reg_for_label[label]; ok {
 		return me.RegAsString(reg)
 	} else {

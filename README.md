@@ -95,8 +95,8 @@ run.
 ### Other Examples
 
 Most of the other numbered examples are commented. There are also named
-examples including, `add.urm`, `sub.urm`, `mul.urm`, `lt.urm`, and
-`max.urm`.
+examples including, `add.urm`, `sub.urm`, `mul.urm`, `lt.urm`, `lte.urm`,
+and `max.urm`.
 
 For example, to add two numbers, run, say, `./murmur -wA eg/add.urm 23 91`.
 The `-wA` option says to watch register `A`. The numbers given as arguments

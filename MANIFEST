@@ -14,6 +14,7 @@ eg/add.urm
 eg/sub.urm
 eg/mul.urm
 eg/lt.urm
+eg/lte.urm
 eg/max.urm
 
 eg/03.urm

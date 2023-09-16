@@ -14,13 +14,16 @@ ROOT = os.path.dirname(os.path.realpath(__file__))
 EXE = 'murmur'
 
 ALLARGS_FOR_NAME = {
-    'add.urm': (['19', '27', '46'], ['91', '17', '108']),
-    'sub.urm': (['43', '19', '24'], ['66', '59', '7']),
-    'mul.urm': (['7', '8', '56'], ['9', '9', '81']),
-    'lt.urm': (['99', '5', '5', '0'], ['99', '13', '17', '1'],
-               ['99', '14', '12', '0']),
-    'max.urm': (['99', '52', '52', '52'], ['99', '23', '81', '81'],
-                ['99', '75', '74', '75'])}
+    'add.urm': (('19', '27', '46'), ('91', '17', '108')),
+    'sub.urm': (('43', '19', '24'), ('66', '59', '7')),
+    'mul.urm': (('7', '8', '56'), ('9', '9', '81')),
+    'lt.urm': (('99', '5', '5', '0'), ('99', '13', '17', '1'),
+               ('99', '14', '12', '0')),
+    'lte.urm': (('99', '5', '5', '1'), ('99', '13', '17', '1'),
+                ('99', '14', '12', '0')),
+    'max.urm': (('99', '52', '52', '52'), ('99', '23', '81', '81'),
+                ('99', '75', '74', '75'))
+    }
 
 def main():
     verbose = True
@@ -41,8 +44,9 @@ def main():
                 allargs = ALLARGS_FOR_NAME.get(name)
                 if allargs is None:
                     continue
-                count += 1
-                ok += check_func(name, allargs, verbose)
+                for args in allargs:
+                    count += 1
+                    ok += check_func(name, args, verbose)
     if ok == count:
         print(f'All {count} OK')
         shutil.rmtree(actual_dir)
@@ -69,16 +73,17 @@ def check(name, verbose):
     return int(ok)
 
 
-def check_func(name, allargs, verbose):
+def check_func(name, args, verbose):
     rx = re.compile(r'\bA:(?P<a>\d+)')
     filename = os.path.join(ROOT, 'eg', name)
-    for args in allargs:
-        a = args[-1]
-        args = args[:-1]
+    a = args[-1]
+    args = args[:-1]
     cmd = ['./murmur', '-wA', filename, *args]
     output = subprocess.check_output(cmd)
     ans = ''
     for line in output.decode('utf-8').splitlines():
+        if line.startswith('#0'):
+            continue
         match = rx.search(line)
         if match is not None:
             ans = match.group('a')

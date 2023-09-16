@@ -1,5 +1,5 @@
-; Less Than: A = 1 if B < C or A = 0 if B >= C or A = 99 on error
-; see also lte.urm
+; Less Than: A = 1 if B <= C or A = 0 if B == C or A = 99 on error
+; see also lt.urm
 *42
 A:     99 ; 0 → !(B < C); 1 → B < C
 B:     5
@@ -8,15 +8,15 @@ TRUE:  1
 ; less than
 BC:    0
 CC:    0
-START: J(B, C, GE) ; B == C → !(B < C) | C >= B
+START: J(B, C, LT) ; B == C → B <= C
 LOOP:  J(B, BC, LT)
        S(BC)
        J(C, CC, GE)
        S(CC)
        J(LOOP)
-GE:    Z(A) ; !(B < C) ; sets A to 0 (FALSE)
+GE:    Z(A) ; B > C ; sets A to 0 (FALSE)
        J(END)
-LT:    C(TRUE, A) ; B < C
+LT:    C(TRUE, A) ; B <= C
 END:   Z(BC)
        Z(CC)
        STOP

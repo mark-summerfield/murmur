@@ -81,14 +81,16 @@ type Config struct {
 	dis       bool
 }
 
+// String is for debugging.
 func (me Config) String() string {
 	outfile := me.outfile
 	if outfile == "" {
 		outfile = "stdout"
 	}
 	return fmt.Sprintf(
-		"maxsteps=%d step=%t registers=%d infile=%s outfile=%s watches=%v",
-		me.maxSteps, me.step, me.registers, me.infile, outfile, me.watch)
+		"maxsteps=%d step=%t registers=%d infile=%s args=%v outfile=%s "+
+			"watches=%v dis=%t", me.maxSteps, me.step, me.registers,
+		me.infile, me.args, outfile, me.watch, me.dis)
 }
 
 func readLines(filename string) []string {
@@ -170,7 +172,7 @@ func step(out *os.File, urm *murmur.Urm, maxSteps int, watch *watches) {
 func writeWatched(out *os.File, urm *murmur.Urm, watch *watches) error {
 	regs := []string{}
 	for _, label := range watch.labels {
-		if s, err := urm.RegAsStringByLabel(label); err != nil {
+		if s, err := urm.RegForLabelAsString(label); err != nil {
 			return err
 		} else {
 			regs = append(regs, s)
