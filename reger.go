@@ -37,6 +37,17 @@ func NewLabel(label string) (Label, error) {
 func (me Label) Value() int     { return -222 }
 func (me Label) String() string { return string(me) }
 
+type Address string
+
+func NewAddress(label string) (Address, error) {
+	if rx := regexp.MustCompile(`^@\pL\w*$`); !rx.MatchString(label) {
+		return Address(""), fmt.Errorf("%w: %s", Err102, label)
+	}
+	return Address(label), nil
+}
+func (me Address) Value() int     { return -111 }
+func (me Address) String() string { return string(me) }
+
 func NewCommand(lino int, name byte) (Commander, error) {
 	switch name {
 	case 'C', 'T', 'c', 't':

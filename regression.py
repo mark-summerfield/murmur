@@ -5,6 +5,7 @@
 import contextlib
 import filecmp
 import os
+import random
 import re
 import shutil
 import subprocess
@@ -25,6 +26,7 @@ ALLARGS_FOR_NAME = {
                 ('99', '75', '74', '75'))
     }
 
+
 def main():
     verbose = True
     if len(sys.argv) > 1 and sys.argv[1] in {'-q', '--quiet'}:
@@ -40,6 +42,9 @@ def main():
             if name[0].isdecimal():
                 count += 1
                 ok += check(name, verbose)
+            elif name == 'index.urm':
+                count += 1
+                ok += check_index(name, verbose)
             else:
                 allargs = ALLARGS_FOR_NAME.get(name)
                 if allargs is None:
@@ -93,6 +98,33 @@ def check_func(name, args, verbose):
             print(f'{name} OK')
         else:
             print(f'{name} FAIL actual != expected', cmd)
+    return ok
+
+
+def check_index(name, verbose):
+    array = list(range(1, 11))
+    random.shuffle(array)
+    expected = [x + 2 for x in array]
+    filename = os.path.join(ROOT, 'eg', name)
+    # 2 is the initial value for I, i.e., the first reg index of the array
+    cmd = ['./murmur', '-w2-11', filename, '2', *(str(x) for x in array)]
+    output = subprocess.check_output(cmd)
+    rx = re.compile(r'#\d+ DATA:(\d+) 3:(\d+) 4:(\d+) 5:(\d+) 6:(\d+) '
+                    r'7:(\d+) 8:(\d+) 9:(\d+) 10:(\d+) 11:(\d+)')
+    ans = [-1 for _ in range(10)] 
+    for line in output.decode('utf-8').splitlines():
+        if line.startswith('#0'):
+            continue
+        match = rx.search(line)
+        if match is not None:
+            for i in range(10):
+                ans[i] = int(match.group(i + 1))
+    ok = ans == expected
+    if verbose:
+        if ok:
+            print(f'{name} OK')
+        else:
+            print(f'{name} FAIL actual {ans} != expected {expected}', cmd)
     return ok
 
 

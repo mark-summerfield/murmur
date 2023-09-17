@@ -51,5 +51,8 @@ var (
 	Err118 = errors.New("E118: wrong number of arguments")
 	Err119 = errors.New("E119: ran out of registers")
 	Err120 = errors.New("E120: can't get value for out-of-range register")
+	Err121 = errors.New(
+		"E121: invalid address label (must match /^\\pL\\w*$/")
+	Err122 = errors.New("E122: undefined address")
 	ErrBug = errors.New("EBUG: bug")
 )

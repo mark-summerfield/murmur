@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
+	"strings"
 	"unicode/utf8"
 )
 
@@ -77,6 +78,18 @@ func (me *Urm) setRegToLabel(reg int, label string) error {
 			return err
 		} else {
 			me.regs[reg] = label
+			return nil
+		}
+	}
+	return fmt.Errorf("%w: %d", Err114, reg)
+}
+
+func (me *Urm) setRegToAddress(reg int, address string) error {
+	if 0 <= reg && reg < len(me.regs) {
+		if address, err := NewAddress(address); err != nil {
+			return err
+		} else {
+			me.regs[reg] = address
 			return nil
 		}
 	}
@@ -160,6 +173,8 @@ func (me *Urm) addOp(pc int, op string) error {
 	}
 	if value, err := strconv.Atoi(op); err == nil { // literal reg val
 		return me.SetRegToValue(pc, value)
+	} else if strings.HasPrefix(op, "@") { // address
+		return me.setRegToAddress(pc, op)
 	} else { // label
 		return me.setRegToLabel(pc, op)
 	}

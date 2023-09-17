@@ -17,7 +17,14 @@ func (me *Urm) nextReger(inc bool) (Reger, error) {
 			}
 		}
 		reger := me.regs[reg]
-		if label, ok := reger.(Label); ok {
+		if address, ok := reger.(Address); ok {
+			if reg, ok := me.reg_for_label[address.String()[1:]]; ok {
+				reg := me.regs[reg] // find addressed reg
+				return NewValue(reg.Value()), nil
+			} else {
+				return nil, fmt.Errorf("%w: %d", Err122, reg)
+			}
+		} else if label, ok := reger.(Label); ok {
 			if reg, ok := me.reg_for_label[label.String()]; ok {
 				return NewValue(reg), nil
 			} else {
