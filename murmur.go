@@ -85,6 +85,9 @@ func (me *Urm) Step() error {
 func (me *Urm) RegAsString(reg int) (string, error) {
 	if 0 <= reg && reg < len(me.regs) {
 		reger := me.regs[reg]
+		if reger == nil {
+			return fmt.Sprintf("%d:%s", reg, null), nil
+		}
 		if label, ok := reger.(Label); ok {
 			return fmt.Sprintf("%d:%s", reg, label), nil
 		}

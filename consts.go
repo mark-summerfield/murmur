@@ -24,6 +24,7 @@ const (
 	stopCmd         = "STOP"
 	minLabelWidth   = 8
 	maxLabelWidth   = 32
+	null            = "NULL"
 )
 
 var (
