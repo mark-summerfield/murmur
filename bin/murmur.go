@@ -45,11 +45,11 @@ func getConfig() *Config {
 			"nonstop showing initial and final registers only].")
 	registersOpt := parser.IntInRange("registers",
 		"How many registers the URM has; can also be overridden in the "+
-			".urm with *n, e.g., *200 [default: 100 unless overridden].",
+			".urm with ^n, e.g., ^200 [default: 100 unless overridden].",
 		1, math.MaxInt, int(murmur.DefaultSize))
 	watchOpt := parser.Str("watch", "A comma-separated list of which "+
-		"registers to watch with each item of the form n or n-m or "+
-		"label where n and m are integers ≥ 0. Out of range registers "+
+		"registers to watch with each item of the form r or r-s or "+
+		"label where r and s are integers ≥ 0. Out of range registers "+
 		"and missing labels are ignored [default: PC,1-9].", "PC,1-9")
 	disOpt := parser.Flag("dis",
 		"Show diassembly of all registers at the start and at the end.")
@@ -197,25 +197,25 @@ func writeWatched(out *os.File, urm *murmur.Urm, watch *watches) error {
 func parseWatches(watches string) watches {
 	watch := newWatches()
 	for _, item := range strings.Split(watches, ",") {
-		ns, ms, both := strings.Cut(item, "-")
-		n, err := strconv.Atoi(strings.TrimSpace(ns))
-		if both { // n-m
+		rs, ss, both := strings.Cut(item, "-")
+		r, err := strconv.Atoi(strings.TrimSpace(rs))
+		if both { // r-s
 			if err != nil {
-				onError(fmt.Errorf("expected int; got %s", ns))
+				onError(fmt.Errorf("expected int; got %s", rs))
 				return watch
 			}
-			m, err := strconv.Atoi(strings.TrimSpace(ms))
+			s, err := strconv.Atoi(strings.TrimSpace(ss))
 			if err != nil {
-				onError(fmt.Errorf("expected int; got %s", ms))
+				onError(fmt.Errorf("expected int; got %s", ss))
 				return watch
 			}
-			for reg := n; reg <= m; reg++ {
+			for reg := r; reg <= s; reg++ {
 				watch.regs = append(watch.regs, reg)
 			}
-		} else if err == nil { // n
-			watch.regs = append(watch.regs, n)
+		} else if err == nil { // r
+			watch.regs = append(watch.regs, r)
 		} else { // label
-			watch.labels = append(watch.labels, strings.TrimSpace(ns))
+			watch.labels = append(watch.labels, strings.TrimSpace(rs))
 		}
 	}
 	return watch

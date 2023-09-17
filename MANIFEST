@@ -1,4 +1,4 @@
-# TODO public? cli→bin(&update *.sh)? gui?
+# TODO
 murmur.go
 murmur_common.go
 murmur_parser.go
@@ -6,8 +6,7 @@ murmur_runner.go
 util.go
 reger.go
 consts.go
-
-cli/murmur.go
+bin/murmur.go
 
 regression.py
 

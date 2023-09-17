@@ -16,11 +16,11 @@ _PC_ is the program counter (register 0). Every instruction changes the PC.
 
 | Syntax       | PC       | Notes                                 |
 | ------------ | -------- | ------------------------------------- |
-| `C(n, m)`    | +3       | Copy register n into register m |
-| `J(n, m, t)` | +4 or =t | If register n == register m, set PC to t (i.e., jump to t), else PC += 4|
-| `J(t)`       | +4 or =t | Set PC to t (i.e., unconditional jump to t; sugar for `J(n, n, t)`)|
-| `S(n)`       | +2       | Successor: increment register n (n++) |
-| `Z(n)`       | +2       | Zero: set register n to 0 (n = 0) |
+| `C(r, s)`    | +3       | Copy register r into register s       |
+| `J(r, s, t)` | +4 or =t | If register r == register s, set PC to t (i.e., jump to t), else PC += 4|
+| `J(t)`       | +4 or =t | Set PC to t (i.e., unconditional jump to t; sugar for `J(r, r, t)`)|
+| `S(r)`       | +2       | Successor: increment register r (r++) |
+| `Z(r)`       | +2       | Zero: set register r to 0 (r = 0) |
 
 For the copy instruction, `T` (“transfer”), may be used instead of `C`.
 
@@ -37,7 +37,7 @@ value or a label. In practice literals will normally only be needed to set
 initial data values, with labels used everywhere else.
 
 The exact number of registers to be available may be specified before any
-data or instructions using the syntax `*r` where `r` is the number of
+data or instructions using the syntax `^n` where `n` is the number of
 registers. If not specified this will default to 100.
 
 ## Example
@@ -55,7 +55,7 @@ all other registers are referred to by label.
 
 ```
 ; Addition: A = A + B
-*22 ; allocate 22 registers (0..21)
+^22 ; allocate 22 registers (0..21)
 A:     19 ; 1 — at the end this will be 26
 B:     7  ; 2 — at the end this will be 0
 C:     0  ; 0 — at the end this will be 0
@@ -69,7 +69,7 @@ END:   Z(B) ; 16
 ```
 
 Here, 22 registers will be available (the exact number needed) as specified
-by the meta command, `*22`.
+by the meta command, `^22`.
 
 The register number is shown in a comment at the end of each line.
 

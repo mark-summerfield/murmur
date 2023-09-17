@@ -23,12 +23,12 @@ func New(lines []string) (*Urm, error) { return NewX(lines, DefaultSize) }
 
 // NewX creates a new Urm and populates its registers by parsing the given
 // slice of strings. The size is how many registers to use; pass 0 to have
-// this either read from the lines (*size) or calculated during parsing.
+// this either read from the lines (^size) or calculated during parsing.
 //
 // BNF:
 //
 //	PROGRAM ::= SIZE? (SETREG | COMMAND)+
-//	SIZE ::= /*\d+/
+//	SIZE ::= /\^\d+/
 //	SETREG ::= /(\d+|\pL\w*)\s*:\s*\d+/ # if LHS is num it is reg else label
 //	COMMAND ::= LABEL? /[CJSTZ][(]\d+(:?,\s*\d+)*/
 //	LABEL ::= /^\pL\w*:\s*/
