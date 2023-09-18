@@ -11,6 +11,10 @@
 # TODO
 # - do "x"-versions of egs where extensions are beneficial (like subx.urm)
 # - implement: sortbubble.urm, sortselection.urm (& others?)
+# - implement: subroutine eg using, say, SP: 100 \n 99: 0 \n STACK: 0 ; 100
+#   call: C(RESUME, @SP) S(SP) J(THESUB)
+#   resume: RESUME: P(SP) ...
+#   thesub: THESUB: ... J(@SP)
 
 murmur.go
 murmur_common.go
