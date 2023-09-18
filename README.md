@@ -2,11 +2,7 @@
 
 Murmur is an Unlimited Register Machine (URM) emulator.
 
-This library and executable provide a "pure" URM. All instructions and data
-are held in the registers. Register 0 holds the program counter (PC). The
-urm "assembly" language means that only literal values need be entered as
-numbers, everything else can use labels.
-
+- [Introduction](#introduction)
 - [Instructions](#instructions)
     - [Indirect Addressing Extension](#indirect-addressing-extension)
     - [Comparison Jumps Extensions](#comparison-jumps-extensions)
@@ -15,6 +11,13 @@ numbers, everything else can use labels.
     - [Addition](#addition)
     - [Other Examples](#other-examples)
 - [License](#license)
+
+## Introduction
+
+This library and executable provide a “pure” URM. All instructions and data
+are held in the registers. Register 0 holds the program counter (PC). The
+urm “assembly” language means that in most cases only literal register
+values need be entered as numbers, everything else can use labels.
 
 ## Instructions
 
@@ -25,17 +28,17 @@ _PC_ is the program counter (register 0). Every instruction changes the PC.
 
 | Syntax       | PC       | Notes                                 |
 | ------------ | -------- | ------------------------------------- |
-| `C(r, s)`    | +3       | Copy register r into register s       |
-| `J(r, s, t)` | +4 or =t | If register r == register s, set PC to t (i.e., jump to t), else PC += 4|
-| `J(t)`       | +4 or =t | Set PC to t (i.e., unconditional jump to t; sugar for `J(r, r, t)`)|
+| `C(r,s)`    | +3       | Copy register r into register s       |
+| `J(r,s,t)` | +4 or =t | If register r == register s, set PC to t (i.e., jump to t), else PC += 4|
+| `J(t)`       | +4 or =t | Set PC to t (i.e., unconditional jump to t; sugar for `J(r,r,t)`)|
 | `S(r)`       | +2       | Successor: increment register r (r++) |
 | `Z(r)`       | +2       | Zero: set register r to 0 (r = 0) |
 
-Instructions are _not_ case-sensitive. For the copy instruction, `T`
+Instructions are _case-insensitive_. For the copy instruction, `T`
 (“transfer”), may be used instead of `C`, and for the successor instruction,
 `I` (“increment”), may be used instead of `S`.
 
-Any instruction may be prefixed with a case-sensitive label.
+Any instruction may be prefixed with a _case-sensitive_ label.
 
 In addition to the standard URM instructions, initial data values may be set
 using the syntax `label: v`. This sets the “next” register's value to `v`
@@ -44,7 +47,7 @@ the syntax `reg: v` where `reg` is a register number (with the program
 counter being 0), and `v` is the value.
 
 Any register referred to by any instruction may be either a literal register
-value or a label. In practice literals will normally only be needed to set
+value or a label. In practice literals should normally only be needed to set
 initial data values, with labels used everywhere else.
 
 The exact number of registers to be available may be specified before any
@@ -83,12 +86,16 @@ apply the command to register 2 (i.e., `B`).
 | ------------ | ------------------------------------------------ |
 | `@LABEL`     | Use the register whose number is held in `LABEL` |
 
-For a real example of use see `eg/index.urm` which uses indirect indexing to
+For an example of use see `eg/index.urm` which uses indirect indexing to
 iterate over an “array” of five registers, adding 2 to each one.
 
 ### Comparison Jumps Extensions
 
+**TODO** < >
+
 ### Simple Arithmetic Extensions
+
+**TODO** P or D; + - * /
 
 ## Examples
 

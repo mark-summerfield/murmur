@@ -1,23 +1,16 @@
 # TODO
-# ***DOCUMENT***
-# S(@r) ; Z(@r) etc; where @r is the register whose number is in r
-# For example:
-#   A: 0    ; 1
-#   B: 6    ; 2
-#   I: 1    ; 3
-#   S(2)    ; B++ ∴ B = 7 ; 4
-#   S(B)    ; B++ ∴ B = 8 ; 6
-#   S(I)    ; I++ ∴ I = 2 ; 8
-#   S(@I)   ; B++ ∴ B = 9 ; 10
-#
+# D(r) or P(r) Predecessor or decrement
+
 # TODO
 # <(r, s, t) ; if r < s → t
 # >(r, s, t) ; if r > s → t
+
+# TODO
 # +(r, s, t) ; r + s → t
 # -(r, s, t) ; r - s → t
 # *(r, s, t) ; r * s → t
 # /(r, s, t) ; r / s → t
-#
+
 # TODO
 # implement: sortbubble.urm, sortselection.urm (& others?)
 
