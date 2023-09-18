@@ -1,0 +1,9 @@
+; Subtract A = A - B
+A:     35
+B:     8
+C:     0
+START: J(B, C, END) ; done when B = 0
+       P(A) ; Predecessor (decrement)
+       P(B)
+       J(START)
+END:   STOP

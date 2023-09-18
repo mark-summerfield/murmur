@@ -34,7 +34,7 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 	var err error
 	pc++
 	rx := regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
-		`|[CIJSTZcijstz][(][^)]+[)])`)
+		`|[CDIJPSTZcdijpstz][(][^)]+[)])`)
 	if matches := rx.FindStringSubmatch(line); matches != nil {
 		label := matches[1]
 		command := matches[2]

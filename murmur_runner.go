@@ -42,7 +42,7 @@ func (me *Urm) nextCommand() (Commander, error) {
 		return nil, err
 	}
 	cmd, ok := reger.(Commander)
-	if !ok { // not a command set by C J S or Z; but maybe by literal value?
+	if !ok { // not a command set by C J S etc; but maybe by literal value?
 		value, ok := reger.(Value)
 		if ok {
 			switch value.Value() {
@@ -50,6 +50,8 @@ func (me *Urm) nextCommand() (Commander, error) {
 				cmd = NewCopyCommand(0)
 			case cmdJump:
 				cmd = NewJumpCommand(0)
+			case cmdPred:
+				cmd = NewPredCommand(0)
 			case cmdSucc:
 				cmd = NewSuccCommand(0)
 			case cmdZero:
@@ -76,6 +78,8 @@ func (me *Urm) executeCommand(cmd Commander) error {
 		err = me.doCopy()
 	case JumpCommand:
 		err = me.doJump()
+	case PredCommand:
+		err = me.doPred()
 	case SuccCommand:
 		err = me.doSucc()
 	case ZeroCommand:
@@ -139,7 +143,11 @@ func (me *Urm) doJump() error {
 	return nil
 }
 
-func (me *Urm) doSucc() error {
+func (me *Urm) doPred() error { return me.doIncOrDec(-1) }
+
+func (me *Urm) doSucc() error { return me.doIncOrDec(1) }
+
+func (me *Urm) doIncOrDec(amount int) error {
 	op1, err := me.nextReger(true)
 	if err != nil {
 		return err
@@ -148,7 +156,7 @@ func (me *Urm) doSucc() error {
 	if value, err := me.regValue(reg); err != nil {
 		return err
 	} else {
-		return me.SetRegToValue(reg, value+1)
+		return me.SetRegToValue(reg, value+amount)
 	}
 }
 

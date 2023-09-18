@@ -1,7 +1,4 @@
 # TODO
-# D(r) or P(r) Predecessor or decrement
-
-# TODO
 # <(r, s, t) ; if r < s → t
 # >(r, s, t) ; if r > s → t
 
@@ -27,6 +24,7 @@ regression.py
 
 eg/add.urm
 eg/sub.urm
+eg/subx.urm
 eg/mul.urm
 eg/lt.urm
 eg/lte.urm

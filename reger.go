@@ -54,6 +54,8 @@ func NewCommand(lino int, name byte) (Commander, error) {
 		return NewCopyCommand(lino), nil
 	case 'J', 'j':
 		return NewJumpCommand(lino), nil
+	case 'P', 'p', 'D', 'd':
+		return NewPredCommand(lino), nil
 	case 'S', 's', 'I', 'i':
 		return NewSuccCommand(lino), nil
 	case 'Z', 'z':
@@ -93,3 +95,11 @@ func (me ZeroCommand) Value() int         { return cmdZero }
 func (me ZeroCommand) String() string     { return "Z(" }
 func (me ZeroCommand) Arity() int         { return 1 }
 func (me ZeroCommand) Lino() int          { return int(me) }
+
+type PredCommand int
+
+func NewPredCommand(lino int) PredCommand { return PredCommand(lino) }
+func (me PredCommand) Value() int         { return cmdPred }
+func (me PredCommand) String() string     { return "P(" }
+func (me PredCommand) Arity() int         { return 1 }
+func (me PredCommand) Lino() int          { return int(me) }
