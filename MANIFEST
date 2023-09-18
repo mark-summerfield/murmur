@@ -9,7 +9,8 @@
 # /(r, s, t) ; r / s → t
 
 # TODO
-# implement: sortbubble.urm, sortselection.urm (& others?)
+# - do "x"-versions of egs where extensions are beneficial (like subx.urm)
+# - implement: sortbubble.urm, sortselection.urm (& others?)
 
 murmur.go
 murmur_common.go
