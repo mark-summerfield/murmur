@@ -54,7 +54,7 @@ func NewCommand(lino int, name byte) (Commander, error) {
 		return NewCopyCommand(lino), nil
 	case 'J', 'j':
 		return NewJumpCommand(lino), nil
-	case 'S', 's':
+	case 'S', 's', 'I', 'i':
 		return NewSuccCommand(lino), nil
 	case 'Z', 'z':
 		return NewZeroCommand(lino), nil

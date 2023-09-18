@@ -7,6 +7,15 @@ are held in the registers. Register 0 holds the program counter (PC). The
 urm "assembly" language means that only literal values need be entered as
 numbers, everything else can use labels.
 
+- [Instructions](#instructions)
+    - [Indirect Addressing Extension](#indirect-addressing-extension)
+    - [Comparison Jumps Extensions](#comparison-jumps-extensions)
+    - [Simple Arithmetic Extensions](#simple-arithmetic-extensions)
+- [Examples](#examples)
+    - [Addition](#addition)
+    - [Other Examples](#other-examples)
+- [License](#license)
+
 ## Instructions
 
 Note: The phrase _register x's value_ is shortened to _register x_
@@ -22,9 +31,11 @@ _PC_ is the program counter (register 0). Every instruction changes the PC.
 | `S(r)`       | +2       | Successor: increment register r (r++) |
 | `Z(r)`       | +2       | Zero: set register r to 0 (r = 0) |
 
-For the copy instruction, `T` (“transfer”), may be used instead of `C`.
+Instructions are _not_ case-sensitive. For the copy instruction, `T`
+(“transfer”), may be used instead of `C`, and for the successor instruction,
+`I` (“increment”), may be used instead of `S`.
 
-Any instruction may be prefixed with a label.
+Any instruction may be prefixed with a case-sensitive label.
 
 In addition to the standard URM instructions, initial data values may be set
 using the syntax `label: v`. This sets the “next” register's value to `v`
@@ -40,7 +51,46 @@ The exact number of registers to be available may be specified before any
 data or instructions using the syntax `^n` where `n` is the number of
 registers. If not specified this will default to 100.
 
-## Example
+### Indirect Addressing Extension
+
+A significant inconvenience of the basic URM is that all addressing is
+direct. This means that it isn't really possible to loop over a range of
+registers using some kind of index counter. To address this issue, `murmur`
+supports a URM extension: indirect addressing. Using this extension makes it
+possible to access a register whose register number is stored in another
+register.
+
+For example:
+
+    A: 0      ; sets register 1 to 0 and labels it A; not used ; 1
+    B: 6      ; sets register 2 to 6 and labels it B; 2
+    INDEX: 1  ; sets register 3 to 1 and labels it INDEX; 3
+    S(2)      ; B++ ∴ B = 7; increments register 2, i.e., B ; 4
+    S(B)      ; B++ ∴ B = 8; increments B, i.e., register 2 ; 6
+    S(INDEX)  ; I++ ∴ I = 2; increments INDEX, i.e., register 3 ; 8
+    S(@INDEX) ; B++ ∴ B = 9; increments register 2, i.e., B via INDEX; 10
+
+Here we can see register 2—labelled `B`—incremented three times in three
+different ways. First by register number, then by label, and at the end,
+indirectly, where the `S` command is applied to `@INDEX`. The `@` label
+qualifier says to use the register whose number is held by the register
+whose label follows the `@`. So, in this case, `@INDEX` means look at the
+value held in the `INDEX` register (register 3). The value is 2 (it was
+originally set to 1 but the `S(INDEX)` command incremented it). So actually
+apply the command to register 2 (i.e., `B`).
+
+| Syntax       | Notes                                            |
+| ------------ | ------------------------------------------------ |
+| `@LABEL`     | Use the register whose number is held in `LABEL` |
+
+For a real example of use see `eg/index.urm` which uses indirect indexing to
+iterate over an “array” of five registers, adding 2 to each one.
+
+### Comparison Jumps Extensions
+
+### Simple Arithmetic Extensions
+
+## Examples
 
 ### Addition
 

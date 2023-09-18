@@ -1,3 +1,4 @@
+; Uses indirect addressing to loop over the DATA array adding 2 to each one
 I:       2 ; 1
 DATA:    1 ;  before 1,  after 3  ; 2
 3:       2 ;  before 2,  after 4  ; 3

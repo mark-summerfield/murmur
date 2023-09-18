@@ -55,6 +55,7 @@ def main():
     if ok == count:
         print(f'All {count} OK')
         shutil.rmtree(actual_dir)
+        subprocess.run(['bash', 'deploy.sh']) # redeploy if good
     else:
         print(f'{ok}/{count} FAIL')
 
@@ -65,7 +66,7 @@ def check(name, verbose):
     actual = os.path.join(ROOT, 'tdata/actual', tdata)
     expected = os.path.join(ROOT, 'tdata/expected', tdata)
     delete_file(actual)
-    cmd = ['./murmur', '-m', '10000', '-ds', filename]
+    cmd = [EXE, '-m', '10000', '-ds', filename]
     output = subprocess.check_output(cmd)
     with open(actual, 'wb') as file:
         file.write(output)
