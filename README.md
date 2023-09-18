@@ -54,6 +54,9 @@ The exact number of registers to be available may be specified before any
 data or instructions using the syntax `^n` where `n` is the number of
 registers. If not specified this will default to 100.
 
+Some extensions are supported as described below. Simply any of them (or all
+of them) that aren't wanted.
+
 ### Indirect Addressing Extension
 
 A significant inconvenience of the basic URM is that all addressing is
@@ -95,7 +98,14 @@ iterate over an “array” of five registers, adding 2 to each one.
 
 ### Simple Arithmetic Extensions
 
-**TODO** P or D; + - * /
+| Syntax       | PC       | Notes                                   |
+| ------------ | -------- | --------------------------------------- |
+| `P(r)`       | +2       | Prececessor: decrement register r (r-\-) |
+
+For the precedessor instruction, `D` (“decrement”), may be used instead of
+`P`.
+
+**TODO** + - * /
 
 ## Examples
 
