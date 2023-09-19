@@ -33,7 +33,7 @@ func (me *Urm) setRegsSize(lino int, line string, pc int, sized bool) (bool,
 func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 	int, error) {
 	var err error
-	/*
+	/* // TODO
 		dataRx := regexp.MustCompile(`(\pL\w*):\s*(\d+(:?\s+\d+)*)`)
 		if matches := dataRx.FindAllStringSubmatch(line, -1); matches != nil &&
 			len(matches) > 0 && len(matches[0]) > 2 {
