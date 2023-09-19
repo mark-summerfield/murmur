@@ -1,6 +1,6 @@
 # TODO
-# <(r, s, t) ; if r < s → t
-# >(r, s, t) ; if r > s → t
+# L(r, s, t) ; if r < s → t
+# G(r, s, t) ; if r > s → t
 
 # TODO
 # +(r, s, t) ; r + s → t
