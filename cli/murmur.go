@@ -55,7 +55,7 @@ func getConfig() *Config {
 		"Show diassembly of all registers at the start and at the end.")
 	parser.PositionalCount = clip.OneOrMorePositionals
 	parser.PositionalHelp = "ARG1 is the .urm file to run, optionally " +
-		"followed by values for registers 1, 2, …"
+		"followed by data values for registers 1, 2, …"
 	parser.MustSetPositionalVarName("ARG")
 	if err := parser.Parse(); err != nil {
 		parser.OnError(err) // doesn't return

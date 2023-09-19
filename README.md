@@ -15,10 +15,15 @@ Murmur is an Unlimited Register Machine (URM) emulator.
 
 ## Introduction
 
-This library and executable provide a “pure” URM. All instructions and data
-are held in the registers. Register 0 holds the program counter (PC). The
-urm “assembly” language means that in most cases only literal register
-values need be entered as numbers, everything else can use labels.
+This library and command line executable provide a “pure” URM. All
+instructions and data are held in the registers. Register 0 holds the
+program counter (PC). The urm “assembly” language means that in most cases
+only literal register values need be entered as numbers, everything else can
+use labels.
+
+The command line executable is built using `go build` as usual, although a
+couple of build scripts are included. Run `./murmur -h` to see the command
+line usage.
 
 ## Instructions
 
