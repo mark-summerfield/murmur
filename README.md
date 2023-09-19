@@ -25,6 +25,10 @@ The command line executable is built using `go build` as usual, although a
 couple of build scripts are included. Run `./murmur -h` to see the command
 line usage.
 
+A pre-built binary (`murmur.exe` 2.9Mb;
+MD5: 4a6f5c01932271f7352597366cb7e29b)
+is provided as a convenience for Windows users.
+
 ## Instructions
 
 Note: The phrase _register x's value_ is shortened to _register x_
