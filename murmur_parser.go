@@ -33,13 +33,11 @@ func (me *Urm) setRegsSize(lino int, line string, pc int, sized bool) (bool,
 func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 	int, error) {
 	var err error
-	/* // TODO
 	dataRx := regexp.MustCompile(`(\pL\w*):\s*(\d+(:?\s+\d+)*)`)
 	if matches := dataRx.FindAllStringSubmatch(line, -1); matches != nil &&
-		len(matches) > 0 && len(matches[0]) > 2 {
+		len(matches[0]) > 2 {
 		label := matches[0][1]
-		fmt.Printf("@@@ label=%q\n", label)
-		if err = me.addRegLabel(pc, label); err != nil {
+		if err = me.addRegLabel(pc+1, label); err != nil {
 			return pc, start, err
 		}
 		for _, text := range strings.Fields(matches[0][2]) {
@@ -50,12 +48,10 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 				if err := me.SetRegToValue(pc, value); err != nil {
 					return pc, start, fmt.Errorf("line#%d %w", lino, err)
 				}
-				fmt.Printf("@@@### pc=%d text=%q\n", pc, text)
 			}
 		}
 		return pc, start, nil
 	}
-	*/
 	pc++
 	rx := regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
 		`|[-+*/CDGIJLPSTZcdgijlpstz][(][^)]+[)])`)
