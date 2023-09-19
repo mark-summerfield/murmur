@@ -29,48 +29,25 @@ func (me *Urm) setRegsSize(lino int, line string, pc int, sized bool) (bool,
 	return true, nil
 }
 
-// TODO refactor
 func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 	int, error) {
 	var err error
-	dataRx := regexp.MustCompile(`(\pL\w*):\s*(\d+(:?\s+\d+)*)`)
-	if matches := dataRx.FindAllStringSubmatch(line, -1); matches != nil &&
+	rx := regexp.MustCompile(`(\pL\w*):\s*(\d+(:?\s+\d+)*)`)
+	if matches := rx.FindAllStringSubmatch(line, -1); matches != nil &&
 		len(matches[0]) > 2 {
-		label := matches[0][1]
-		if err = me.addRegLabel(pc+1, label); err != nil {
-			return pc, start, err
-		}
-		for _, text := range strings.Fields(matches[0][2]) {
-			if value, err := strconv.Atoi(text); err != nil {
-				return pc, start, fmt.Errorf("line#%d %w", lino, err)
-			} else {
-				pc++
-				if err := me.SetRegToValue(pc, value); err != nil {
-					return pc, start, fmt.Errorf("line#%d %w", lino, err)
-				}
-			}
-		}
-		return pc, start, nil
+		return me.readDataLine(lino, matches, pc, start)
 	}
 	pc++
-	rx := regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
+	rx = regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
 		`|[-+*/CDGIJLPSTZcdgijlpstz][(][^)]+[)])`)
 	if matches := rx.FindStringSubmatch(line); matches != nil {
 		label := matches[1]
 		command := matches[2]
 		value, verr := strconv.Atoi(command)
 		if label != "" {
-			if reg, err := strconv.Atoi(label); err == nil { // reg: val
-				if verr != nil {
-					return pc, start, fmt.Errorf("line#%d %w", lino, Err108)
-				}
-				if err = me.SetRegToValue(reg, value); err != nil {
-					return pc, start, fmt.Errorf("line#%d %w", lino, err)
-				}
-				return pc, start, nil
-			}
-			if err = me.addRegLabel(pc, label); err != nil { // label: cmd
-				return pc, start, fmt.Errorf("line#%d %w", lino, err)
+			if err = me.readLabel(lino, label, value, verr, pc,
+				start); err != nil {
+				return pc, start, err
 			} // if err == nil falls through...
 		}
 		if verr == nil { // label: val; e.g., A: 7
@@ -88,6 +65,44 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 		}
 	} else {
 		return pc, start, fmt.Errorf("line#%d %w: %s", lino, Err107, line)
+	}
+	return pc, start, nil
+}
+
+func (me *Urm) readLabel(lino int, label string, value int, verr error, pc,
+	start int) error {
+	var err error
+	if reg, err := strconv.Atoi(label); err == nil { // reg: val
+		if verr != nil {
+			return fmt.Errorf("line#%d %w", lino, Err108)
+		}
+		if err = me.SetRegToValue(reg, value); err != nil {
+			return fmt.Errorf("line#%d %w", lino, err)
+		}
+		return nil
+	}
+	if err = me.addRegLabel(pc, label); err != nil { // label: cmd
+		return fmt.Errorf("line#%d %w", lino, err)
+	}
+	return nil
+}
+
+func (me *Urm) readDataLine(lino int, matches [][]string, pc, start int) (
+	int, int, error) {
+	var err error
+	label := matches[0][1]
+	if err = me.addRegLabel(pc+1, label); err != nil {
+		return pc, start, err
+	}
+	for _, text := range strings.Fields(matches[0][2]) {
+		if value, err := strconv.Atoi(text); err != nil {
+			return pc, start, fmt.Errorf("line#%d %w", lino, err)
+		} else {
+			pc++
+			if err := me.SetRegToValue(pc, value); err != nil {
+				return pc, start, fmt.Errorf("line#%d %w", lino, err)
+			}
+		}
 	}
 	return pc, start, nil
 }

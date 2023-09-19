@@ -41,7 +41,7 @@ def main():
             if name[0].isdecimal():
                 count += 1
                 ok += check(name, verbose)
-            elif name == 'index.urm':
+            elif name in {'index.urm', 'index2.urm'}:
                 count += 1
                 ok += check_index(name, verbose)
             elif name in MATH:

@@ -1,5 +1,4 @@
 # TODO
-# - LABEL: v [v2 [v3 ...]]
 # - LABEL: HERE ; the parser should replace "HERE" with the reg number
 #   use case loop over the data (assumes DATA at reg 100):
 #	I:       100
