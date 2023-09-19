@@ -60,6 +60,10 @@ The exact number of registers to be available may be specified before any
 data or instructions using the syntax `^n` where `n` is the number of
 registers. If not specified this will default to 100.
 
+All values must be `0` or a positive integer.
+
+_All bets are off if a resulting value would be `< 0`._
+
 Some extensions are supported as described below. Simply any of them (or all
 of them) that aren't wanted.
 
@@ -110,13 +114,15 @@ iterate over an “array” of five registers, adding 2 to each one.
 | Syntax       | PC       | Notes                                    |
 | ------------ | -------- | ---------------------------------------- |
 | `P(r)`       | +2       | Prececessor: decrement register r (r-\-) |
-| `+(r,s)`     | +2       | Add: r = r + s                           |
-| `-(r,s)`     | +2       | Subtract: r = r - s                      |
-| `*(r,s)`     | +2       | Multiply: r = r * s                      |
-| `/(r,s)`     | +2       | Divide (truncating): r = r / s           |
+| `+(r,s)`     | +2       | Add: add register s to r (r = r + s)     |
+| `-(r,s)`     | +2       | Subtract: subtract s from r (r = r - s)  |
+| `*(r,s)`     | +2       | Multiply: multiply r by s (r = r * s)    |
+| `/(r,s)`     | +2       | Divide: divide r by s (r = r / s)        |
 
 For the precedessor instruction, `D` (“decrement”), may be used instead of
 `P`.
+
+Division is truncating.
 
 ## Examples
 
