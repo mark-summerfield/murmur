@@ -5,12 +5,13 @@
 # /(r, s, t) ; r / s → t
 
 # TODO
-# - do "x"-versions of egs where extensions are beneficial (like subx.urm)
+# - do "x"-versions of egs where extensions are beneficial (like addx.urm)
 # - implement: sortbubble.urm, sortselection.urm (& others?)
 # - implement: subroutine eg using, say, SP: 100 \n 99: 0 \n STACK: 0 ; 100
 #   call: C(RESUME, @SP) S(SP) J(THESUB)
 #   resume: RESUME: P(SP) ...
 #   thesub: THESUB: ... J(@SP)
+# - GUI?
 # - make public?
 
 murmur.go
@@ -20,7 +21,7 @@ murmur_runner.go
 util.go
 reger.go
 consts.go
-bin/murmur.go
+cli/murmur.go
 
 regression.py
 

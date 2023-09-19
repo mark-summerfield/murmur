@@ -1,4 +1,4 @@
-; Subtract A = B - C
+; Subtract A = A - B
 A:	35
 B:	8
 C:	0
