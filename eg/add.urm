@@ -1,12 +1,12 @@
 ; Add A = A + B
 ^22
-A:	19
-B:	7
-C:	0
-START:	J(B, C, END)
-	S(A)
-	S(C)
-	J(START)
-END:	Z(B)
-	Z(C)
-	STOP
+A:     19
+B:     7
+C:     0
+START: J(B, C, END)
+       S(A)
+       S(C)
+       J(START)
+END:   Z(B)
+       Z(C)
+       STOP

@@ -1,10 +1,10 @@
 ; Multiply A = A * B
-A:	4
-B:	7
-C:	0
-D:	0
-E:	0
-LOOP:	J(A, B, ENDA)
+A:      4
+B:      7
+C:      0
+D:      0
+E:      0
+LOOP:   J(A, B, ENDA)
 START:  J(B, C, ENDB)
         C(A, C)
 ENDB:   S(E)

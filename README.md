@@ -107,14 +107,16 @@ iterate over an “array” of five registers, adding 2 to each one.
 
 ### Simple Arithmetic Extensions
 
-| Syntax       | PC       | Notes                                   |
-| ------------ | -------- | --------------------------------------- |
+| Syntax       | PC       | Notes                                    |
+| ------------ | -------- | ---------------------------------------- |
 | `P(r)`       | +2       | Prececessor: decrement register r (r-\-) |
+| `+(r,s)`     | +2       | Add: r = r + s                           |
+| `-(r,s)`     | +2       | Subtract: r = r - s                      |
+| `*(r,s)`     | +2       | Multiply: r = r * s                      |
+| `/(r,s)`     | +2       | Divide (truncating): r = r / s           |
 
 For the precedessor instruction, `D` (“decrement”), may be used instead of
 `P`.
-
-**TODO** + - * /
 
 ## Examples
 
@@ -167,6 +169,16 @@ It should be easy to follow how the program works. Or use the command line
 steps and how the program counter and first three registers change at each
 step. Or use `-d` (dis-assemble) to see the registers before and after the
 run.
+
+If the extensions are used the above can be achieved like this:
+
+```
+; Add A = A + B
+A: 19
+B: 7
+   +(A, B)
+   STOP
+```
 
 ### Other Examples
 

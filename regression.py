@@ -17,7 +17,9 @@ EXE = 'murmur'
 
 TRIES = 10
 MATH = {'add.urm': operator.add, 'sub.urm': operator.sub,
-        'mul.urm': operator.mul, 'subx.urm': operator.sub}
+        'mul.urm': operator.mul, 'subx.urm': operator.sub,
+        'mulx.urm': operator.mul, 'sub2x.urm': operator.sub,
+        'addx.urm': operator.add, 'divx.urm': operator.floordiv}
 LOGIC = {'lt.urm': operator.lt, 'lte.urm': operator.le,
          'ltx.urm': operator.lt, 'ltex.urm': operator.le,
          'max.urm': lambda x, y: max(x, y),
@@ -82,7 +84,7 @@ def check_math(name, func, verbose):
     filename = os.path.join(ROOT, 'eg', name)
     while True:
         a = random.randint(0, 25)
-        b = random.randint(0, 25)
+        b = random.randint(1, 25)
         expected = func(a, b)
         if expected > 0:
             break

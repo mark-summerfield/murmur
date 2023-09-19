@@ -50,6 +50,14 @@ func (me Address) String() string { return string(me) }
 
 func NewCommand(lino int, name byte) (Commander, error) {
 	switch name {
+	case '+':
+		return NewAddCommand(lino), nil
+	case '/':
+		return NewDivCommand(lino), nil
+	case '*':
+		return NewMulCommand(lino), nil
+	case '-':
+		return NewSubCommand(lino), nil
 	case 'C', 'T', 'c', 't':
 		return NewCopyCommand(lino), nil
 	case 'G', 'g':
@@ -123,3 +131,35 @@ func (me PredCommand) Value() int         { return cmdPred }
 func (me PredCommand) String() string     { return "P(" }
 func (me PredCommand) Arity() int         { return 1 }
 func (me PredCommand) Lino() int          { return int(me) }
+
+type AddCommand int
+
+func NewAddCommand(lino int) AddCommand { return AddCommand(lino) }
+func (me AddCommand) Value() int        { return cmdAdd }
+func (me AddCommand) String() string    { return "+(" }
+func (me AddCommand) Arity() int        { return 2 }
+func (me AddCommand) Lino() int         { return int(me) }
+
+type SubCommand int
+
+func NewSubCommand(lino int) SubCommand { return SubCommand(lino) }
+func (me SubCommand) Value() int        { return cmdSub }
+func (me SubCommand) String() string    { return "-(" }
+func (me SubCommand) Arity() int        { return 2 }
+func (me SubCommand) Lino() int         { return int(me) }
+
+type MulCommand int
+
+func NewMulCommand(lino int) MulCommand { return MulCommand(lino) }
+func (me MulCommand) Value() int        { return cmdMul }
+func (me MulCommand) String() string    { return "*(" }
+func (me MulCommand) Arity() int        { return 2 }
+func (me MulCommand) Lino() int         { return int(me) }
+
+type DivCommand int
+
+func NewDivCommand(lino int) DivCommand { return DivCommand(lino) }
+func (me DivCommand) Value() int        { return cmdDiv }
+func (me DivCommand) String() string    { return "/(" }
+func (me DivCommand) Arity() int        { return 2 }
+func (me DivCommand) Lino() int         { return int(me) }

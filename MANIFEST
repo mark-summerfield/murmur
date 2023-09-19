@@ -1,18 +1,10 @@
 # TODO
-# +(r, s, t) ; r + s → t
-# -(r, s, t) ; r - s → t
-# *(r, s, t) ; r * s → t
-# /(r, s, t) ; r / s → t
-
-# TODO
-# - do "x"-versions of egs where extensions are beneficial (like addx.urm)
 # - implement: sortbubble.urm, sortselection.urm (& others?)
 # - implement: subroutine eg using, say, SP: 100 \n 99: 0 \n STACK: 0 ; 100
 #   call: C(RESUME, @SP) S(SP) J(THESUB)
 #   resume: RESUME: P(SP) ...
 #   thesub: THESUB: ... J(@SP)
 # - GUI?
-# - make public?
 
 murmur.go
 murmur_common.go
@@ -26,9 +18,13 @@ cli/murmur.go
 regression.py
 
 eg/add.urm
+eg/addx.urm
 eg/sub.urm
 eg/subx.urm
+eg/sub2x.urm
 eg/mul.urm
+eg/mulx.urm
+eg/divx.urm
 eg/lt.urm
 eg/ltx.urm
 eg/lte.urm

@@ -46,16 +46,24 @@ func (me *Urm) nextCommand() (Commander, error) {
 		value, ok := reger.(Value)
 		if ok {
 			switch value.Value() {
+			case cmdAdd:
+				cmd = NewAddCommand(0)
 			case cmdCopy:
 				cmd = NewCopyCommand(0)
+			case cmdDiv:
+				cmd = NewDivCommand(0)
 			case cmdJump:
 				cmd = NewJumpCommand(0)
 			case cmdJumpGt:
 				cmd = NewJumpGtCommand(0)
 			case cmdJumpLt:
 				cmd = NewJumpLtCommand(0)
+			case cmdMul:
+				cmd = NewMulCommand(0)
 			case cmdPred:
 				cmd = NewPredCommand(0)
+			case cmdSub:
+				cmd = NewSubCommand(0)
 			case cmdSucc:
 				cmd = NewSuccCommand(0)
 			case cmdZero:
@@ -78,6 +86,8 @@ func (me *Urm) nextCommand() (Commander, error) {
 func (me *Urm) executeCommand(cmd Commander) error {
 	var err error
 	switch cmd.(type) {
+	case AddCommand, DivCommand, MulCommand, SubCommand:
+		err = me.doMath(cmd.Value())
 	case CopyCommand:
 		err = me.doCopy()
 	case JumpCommand, JumpGtCommand, JumpLtCommand:
@@ -192,4 +202,36 @@ func (me *Urm) doZero() error {
 		return err
 	}
 	return me.SetRegToValue(reg, 0)
+}
+
+func (me *Urm) doMath(cmd int) error {
+	op1, err := me.nextReger(true)
+	if err != nil {
+		return err
+	}
+	target := op1.Value()
+	value1, err := me.regValue(target)
+	if err != nil {
+		return err
+	}
+	op2, err := me.nextReger(true)
+	if err != nil {
+		return err
+	}
+	value2, err := me.regValue(op2.Value())
+	if err != nil {
+		return err
+	}
+	value := 0
+	switch cmd {
+	case cmdAdd:
+		value = value1 + value2
+	case cmdDiv:
+		value = value1 / value2
+	case cmdMul:
+		value = value1 * value2
+	case cmdSub:
+		value = value1 - value2
+	}
+	return me.SetRegToValue(target, value)
 }

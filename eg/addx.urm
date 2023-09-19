@@ -1,0 +1,5 @@
+; Add A = A + B
+A: 19
+B: 7
+   +(A, B)
+   STOP
