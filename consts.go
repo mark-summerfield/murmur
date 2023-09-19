@@ -16,6 +16,8 @@ const (
 	DefaultMaxSteps = 10_000
 	PC              = "PC"
 	PcReg           = 0
+	cmdJumpLt       = 206 // J(r, s, t) ; jump to t if r < s
+	cmdJumpGt       = 205 // J(r, s, t) ; jump to t if r > s
 	cmdPred         = 204 // P(r) ; r--
 	cmdJump         = 203 // J(r, s, t) ; jump to t if r = s
 	cmdCopy         = 202 // C(r, s) ; r → s

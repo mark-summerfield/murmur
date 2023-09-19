@@ -1,0 +1,11 @@
+; Less Than or Equal: A = 1 if B <= C or A = 0 if B == C or A = 99 on error
+A:     99
+B:     5
+C:     7
+TRUE:  1
+START: J(B, C, LTE) ; B == C
+       L(B, C, LTE) ; B < C
+GE:    Z(A)
+       J(END)
+LTE:   C(TRUE, A) ; B < C
+END:   STOP

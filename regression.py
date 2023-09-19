@@ -18,8 +18,10 @@ EXE = 'murmur'
 TRIES = 10
 MATH = {'add.urm': operator.add, 'sub.urm': operator.sub,
         'mul.urm': operator.mul, 'subx.urm': operator.sub}
-LOGIC = {'lt.urm': lambda x, y: x < y, 'lte.urm': lambda x, y: x <= y,
-         'max.urm': lambda x, y: max(x, y)}
+LOGIC = {'lt.urm': operator.lt, 'lte.urm': operator.le,
+         'ltx.urm': operator.lt, 'ltex.urm': operator.le,
+         'max.urm': lambda x, y: max(x, y),
+         'maxx.urm': lambda x, y: max(x, y)}
 
 
 def main():

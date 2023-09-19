@@ -50,6 +50,10 @@ func (me *Urm) nextCommand() (Commander, error) {
 				cmd = NewCopyCommand(0)
 			case cmdJump:
 				cmd = NewJumpCommand(0)
+			case cmdJumpGt:
+				cmd = NewJumpGtCommand(0)
+			case cmdJumpLt:
+				cmd = NewJumpLtCommand(0)
 			case cmdPred:
 				cmd = NewPredCommand(0)
 			case cmdSucc:
@@ -76,8 +80,8 @@ func (me *Urm) executeCommand(cmd Commander) error {
 	switch cmd.(type) {
 	case CopyCommand:
 		err = me.doCopy()
-	case JumpCommand:
-		err = me.doJump()
+	case JumpCommand, JumpGtCommand, JumpLtCommand:
+		err = me.doJump(cmd.Value())
 	case PredCommand:
 		err = me.doPred()
 	case SuccCommand:
@@ -116,7 +120,7 @@ func (me *Urm) doCopy() error {
 	return me.SetRegToValue(op2.Value(), value)
 }
 
-func (me *Urm) doJump() error {
+func (me *Urm) doJump(cmd int) error {
 	op1, err := me.nextReger(true)
 	if err != nil {
 		return err
@@ -137,7 +141,22 @@ func (me *Urm) doJump() error {
 	if err != nil {
 		return err
 	}
-	if value1 == value2 {
+	met := false
+	switch cmd {
+	case cmdJump:
+		if value1 == value2 {
+			met = true
+		}
+	case cmdJumpLt:
+		if value1 < value2 {
+			met = true
+		}
+	case cmdJumpGt:
+		if value1 > value2 {
+			met = true
+		}
+	}
+	if met {
 		return me.setPc(op3.Value())
 	}
 	return nil

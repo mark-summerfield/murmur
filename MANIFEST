@@ -1,8 +1,4 @@
 # TODO
-# L(r, s, t) ; if r < s → t
-# G(r, s, t) ; if r > s → t
-
-# TODO
 # +(r, s, t) ; r + s → t
 # -(r, s, t) ; r - s → t
 # *(r, s, t) ; r * s → t
@@ -33,8 +29,12 @@ eg/sub.urm
 eg/subx.urm
 eg/mul.urm
 eg/lt.urm
+eg/ltx.urm
 eg/lte.urm
+eg/ltex.urm
+eg/gtx.urm
 eg/max.urm
+eg/maxx.urm
 eg/index.urm
 
 eg/03.urm

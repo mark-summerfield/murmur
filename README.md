@@ -10,6 +10,7 @@ Murmur is an Unlimited Register Machine (URM) emulator.
 - [Examples](#examples)
     - [Addition](#addition)
     - [Other Examples](#other-examples)
+- [Gvim](#gvim)
 - [License](#license)
 
 ## Introduction
@@ -94,7 +95,10 @@ iterate over an “array” of five registers, adding 2 to each one.
 
 ### Comparison Jumps Extensions
 
-**TODO** < >
+| Syntax       | PC       | Notes                                 |
+| ------------ | -------- | ------------------------------------- |
+| `G(r,s,t)` | +4 or =t | If register r > register s, set PC to t (i.e., jump to t), else PC += 4|
+| `L(r,s,t)` | +4 or =t | If register r < register s, set PC to t (i.e., jump to t), else PC += 4|
 
 ### Simple Arithmetic Extensions
 
@@ -189,6 +193,16 @@ The algorithm for the `lt.urm` (“less than”) example is almost the same as
 `max.urm` only instead of copying the max of the two numbers into `A`, it
 sets `A` to 99 (“invalid”) at the start, and at the end sets `A` to 1 if `B
 < C`, otherwise to 0 (i.e., if `B ≥ C`).
+
+_Note that the examples that match `*x.urm` (except for `max.urm`) use one
+or more of the extensions listed above._
+
+## Gvim
+
+Gvim users might wish to copy the file `vim.urm` to their `vim/syntax`
+folder and add a line like the following to their `.gvimrc` file:
+
+    au BufRead,BufNewFile,BufEnter *.urm set ft=urm
 
 ## License
 
