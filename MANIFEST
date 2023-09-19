@@ -15,6 +15,7 @@
 #   call: C(RESUME, @SP) S(SP) J(THESUB)
 #   resume: RESUME: P(SP) ...
 #   thesub: THESUB: ... J(@SP)
+# - make public?
 
 murmur.go
 murmur_common.go
