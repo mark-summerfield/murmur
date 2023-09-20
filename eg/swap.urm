@@ -1,0 +1,11 @@
+; swap
+DATA:   11 55
+J:      2
+J_PREV: 1
+TEMP:   0
+START:  C(@J_PREV, TEMP)
+        C(@J, @J_PREV)
+        C(TEMP, @J)
+        S(J)
+        S(J_PREV)
+END:    STOP

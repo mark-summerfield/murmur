@@ -1,0 +1,29 @@
+; bubble sort (Sedgewick) -m41000
+^161
+DATA:    6 17 64 92 89 0 76 74 16 39 69 22 56 13 99 48 62 84 91 24 65
+CONT1:   27 20 87 90 54 68 3 83 14 50 25 10 63 34 79 43 42 57 35 28 88
+CONT2:   60 66 52 5 97 67 46 8 12 82 44 81 31 18 98 85 7 23 9 73 37 32
+CONT3:   80 19 95 41 29 33 21 93 45 49 94 26 11 77 53 55 86 36 59 75 40
+CONT4:   30 51 2 1 78 71 61 70 58 38 72 15 96 47 4
+R:       HERE
+I:       1 ; set to first data register
+J:       0
+J_PREV:  0
+TEMP:    0
+START:   L(I, R, I_BODY) ; if I < R continue to loop
+         J(END) ; else finish (i.e., finish outer (I) loop)
+I_BODY:  C(R, J)
+J_START: G(J, I, J_BODY) ; if J > I continue to loop
+         J(I_END) ; else finish inner (J) loop
+J_BODY:  C(J, J_PREV)
+         P(J_PREV) ; J - 1
+         L(@J, @J_PREV, SWAP) ; if DATA[J] < DATA[J-1] swap
+         J(J_END) ; else go to end of inner (J) loop
+SWAP:    C(@J_PREV, TEMP) ; copy DATA[J-1] to TEMP
+         C(@J, @J_PREV) ; copy DATA[J] to DATA[J-1]
+         C(TEMP, @J) ; copy TEMP to DATA[J]
+J_END:   P(J)
+         J(J_START)
+I_END:   S(I)
+         J(START)
+END:     STOP

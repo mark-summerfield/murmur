@@ -1,6 +1,8 @@
 # TODO
-# - implement: sortbubble.urm, sortselection.urm (& others?)
-#   & add one & refs to other in README
+# - fix regression fails
+# - add bubble-sort20.urm to regression tests
+# - add bubble-sort20.urm to README
+# - implement:  sortselection.urm (& others?)
 # - implement: subroutine eg using, say, SP: 100 \n 99: 0 \n STACK: 0 ; 100
 #   call: C(RESUME, @SP) S(SP) J(THESUB)
 #   resume: RESUME: P(SP) ...
@@ -37,6 +39,8 @@ eg/index.urm
 eg/index2.urm
 eg/swap.urm
 eg/bubble-sort10.urm
+eg/bubble-sort20.urm
+eg/bubble-sort50.urm
 eg/bubble-sort100.urm
 
 eg/03.urm
