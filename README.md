@@ -242,7 +242,37 @@ Using the indirect addressing extension alone is sufficient to implement
 sort algorithms with a reasonable number of instructions. And using the
 other extensions can make the resulting implementations even more compact.
 
-See the `eg/*sort*.urm` examples.
+See the `eg/*sort*.urm` examples, of which `eg/bubble-sort20.urm` is
+reproduced here:
+
+```
+DATA:    18 6 13 2 11 19 15 17 0 16 7 4 8 14 5 12 1 3 10 9 ; 20 items
+R:       HERE ; extension to set R's value to DATA+20+1-th register
+I:       1 ; set outer loop counter to the first data register
+J:       0 ; inner loop counter, set later on
+J_PREV:  0 ; to store the index of the J-1-th register
+TEMP:    0 ; used for swapping two register values
+START:   L(I, R, I_BODY) ; if I < R continue to loop
+         J(END) ; else finish (i.e., finish outer (I) loop)
+I_BODY:  C(R, J) ; initialize J
+J_START: G(J, I, J_BODY) ; if J > I continue to loop
+         J(I_END) ; else finish inner (J) loop
+J_BODY:  C(J, J_PREV) ; prepare J_PREV
+         P(J_PREV) ; J - 1
+         L(@J, @J_PREV, SWAP) ; if DATA[J] < DATA[J-1] swap
+         J(J_END) ; else go to end of inner (J) loop
+SWAP:    C(@J_PREV, TEMP) ; copy DATA[J-1] to TEMP
+         C(@J, @J_PREV) ; copy DATA[J] to DATA[J-1]
+         C(TEMP, @J) ; copy TEMP to DATA[J]
+J_END:   P(J) ; increment inner loop (J) counter
+         J(J_START) ; repeat inner loop
+I_END:   S(I) ; increment outer loop (I) counter
+         J(START) ; repeat outer loop
+END:     STOP
+```
+
+Run `./murmur -d eg/bubble-sort20.urm`. The second register dump will show
+that the `DATA` registers have been sorted.
 
 ## Gvim
 
