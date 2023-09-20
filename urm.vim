@@ -20,7 +20,7 @@ syn match urmLabel /[A-Za-z][A-Za-z0-9]*/
 syn match urmSetLabel /^\S\+:/
 syn match urmStartLabel /^START:/
 syn match urmAddress /@[A-Za-z][A-Za-z0-9]*/
-syn match urmCommand1 /[CDGIJLPSTZcdgijlpstz]\((\)\@=/
+syn match urmCommand1 /[-+*/CDGIJLPSTZcdgijlpstz]\((\)\@=/
 syn match urmCommand2 /STOP/
 
 "" See https://sashamaps.net/docs/resources/20-colors/
