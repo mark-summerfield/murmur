@@ -35,7 +35,11 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 	rx := regexp.MustCompile(`(\pL\w*):\s*(\d+(:?\s+\d+)*)`)
 	if matches := rx.FindAllStringSubmatch(line, -1); matches != nil &&
 		len(matches[0]) > 2 {
-		return me.readDataLine(lino, matches, pc, start)
+		pc, err = me.readDataLine(matches, pc)
+		if err != nil {
+			err = fmt.Errorf("line#%d %w", lino, err)
+		}
+		return pc, start, err
 	}
 	pc++
 	rx = regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
@@ -87,24 +91,23 @@ func (me *Urm) readLabel(lino int, label string, value int, verr error, pc,
 	return nil
 }
 
-func (me *Urm) readDataLine(lino int, matches [][]string, pc, start int) (
-	int, int, error) {
+func (me *Urm) readDataLine(matches [][]string, pc int) (int, error) {
 	var err error
 	label := matches[0][1]
-	if err = me.addRegLabel(pc+1, label); err != nil {
-		return pc, start, err
-	}
+	first := pc + 1
+	value := 0
 	for _, text := range strings.Fields(matches[0][2]) {
-		if value, err := strconv.Atoi(text); err != nil {
-			return pc, start, fmt.Errorf("line#%d %w", lino, err)
+		if value, err = strconv.Atoi(text); err != nil {
+			return pc, err
 		} else {
 			pc++
-			if err := me.SetRegToValue(pc, value); err != nil {
-				return pc, start, fmt.Errorf("line#%d %w", lino, err)
+			if err = me.SetRegToValue(pc, value); err != nil {
+				return pc, err
 			}
 		}
 	}
-	return pc, start, nil
+	err = me.addRegLabel(first, label)
+	return pc, err
 }
 
 func (me *Urm) setRegToLabel(reg int, label string) error {

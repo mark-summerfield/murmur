@@ -4,7 +4,7 @@ B:     7
 C:     11
 START: J(B, C, GE) ; if B == C, both are max
        L(B, C, LT) ; if B < C, C is max
-GE:    C(B, A) ; if B >= C, B is max
+GE:    C(B, A)     ; if B >= C, B is max
        J(END)
 LT:    C(C, A)
 END:   STOP

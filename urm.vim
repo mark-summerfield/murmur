@@ -3,14 +3,14 @@
 " Author:          Mark Summerfield <mark@qtrac.eu>
 " URL:             https://github.com/mark-summerfield/murmur
 " Licence:         Public Domain
-" Latest Revision: 2023-09-18
+" Started:		   2023-09-18
+" Latest Revision: 2023-09-20
 
 if exists("b:current_syntax")
   finish
 endif
 
 syn clear
-syn sync fromstart linebreaks=3 minlines=50
 
 " Order matters!
 
@@ -26,7 +26,7 @@ syn match urmCommand2 /STOP/
 "" See https://sashamaps.net/docs/resources/20-colors/
 hi urmComment	    guifg=forestgreen
 hi urmAddress	    gui=italic guifg=#911EB4 "purple
-hi urmLabel	    guifg=#9A6324 "brown
+hi urmLabel			guifg=#9A6324 "brown
 hi urmSetLabel	    guifg=#9A6324 "brown
 hi urmStartLabel    guifg=#800000 "maroon
 hi urmNumber	    guifg=#4363D8 "blue

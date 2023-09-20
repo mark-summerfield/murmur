@@ -62,5 +62,6 @@ var (
 	Err121 = errors.New(
 		"E121: invalid address label (must match /^\\pL\\w*$/")
 	Err122 = errors.New("E122: undefined address")
+	Err123 = errors.New("E123: invalid data value")
 	ErrBug = errors.New("EBUG: bug")
 )
