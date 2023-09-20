@@ -29,6 +29,7 @@ func (me *Urm) load(lines []string, size int) error {
 			}
 		}
 	}
+	me.labelWidth = max(me.labelWidth+1, minLabelWidth)
 	return me.setStart(start)
 }
 

@@ -52,22 +52,22 @@ func NewCommand(lino int, name byte) (Commander, error) {
 	switch name {
 	case '+':
 		return NewAddCommand(lino), nil
-	case '/':
-		return NewDivCommand(lino), nil
-	case '*':
-		return NewMulCommand(lino), nil
-	case '-':
-		return NewSubCommand(lino), nil
 	case 'C', 'T', 'c', 't':
 		return NewCopyCommand(lino), nil
-	case 'G', 'g':
-		return NewJumpGtCommand(lino), nil
+	case '/':
+		return NewDivCommand(lino), nil
 	case 'J', 'j':
 		return NewJumpCommand(lino), nil
+	case 'G', 'g':
+		return NewJumpGtCommand(lino), nil
 	case 'L', 'l':
 		return NewJumpLtCommand(lino), nil
+	case '*':
+		return NewMulCommand(lino), nil
 	case 'P', 'p', 'D', 'd':
 		return NewPredCommand(lino), nil
+	case '-':
+		return NewSubCommand(lino), nil
 	case 'S', 's', 'I', 'i':
 		return NewSuccCommand(lino), nil
 	case 'Z', 'z':
