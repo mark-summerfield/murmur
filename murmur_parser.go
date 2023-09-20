@@ -45,26 +45,9 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 	rx = regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
 		`|[-+*/CDGIJLPSTZcdgijlpstz][(][^)]+[)])`)
 	if matches := rx.FindStringSubmatch(line); matches != nil {
-		label := matches[1]
-		command := matches[2]
-		value, verr := strconv.Atoi(command)
-		if label != "" {
-			if err = me.readLabel(lino, label, value, verr, pc,
-				start); err != nil {
-				return pc, start, err
-			} // if err == nil falls through...
-		}
-		if verr == nil { // label: val; e.g., A: 7
-			err = me.SetRegToValue(pc, value) // label already handled
-			if err != nil {
-				err = fmt.Errorf("line#%d %w", lino, err)
-			}
-		} else if command == stopCmd { // STOP or label: STOP
-			pc, err = me.setStopCommand(lino, pc)
-		} else { // command or label: command
-			pc, start, err = me.readCommand(command, lino, pc, start)
-		}
+		pc, start, err = me.handleStatement(lino, matches, pc, start)
 		if err != nil {
+			err = fmt.Errorf("line#%d %w", lino, err)
 			return pc, start, err
 		}
 	} else {
@@ -73,20 +56,19 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 	return pc, start, nil
 }
 
-func (me *Urm) readLabel(lino int, label string, value int, verr error, pc,
-	start int) error {
+func (me *Urm) readLabel(label string, value int, verr error, pc int) error {
 	var err error
 	if reg, err := strconv.Atoi(label); err == nil { // reg: val
 		if verr != nil {
-			return fmt.Errorf("line#%d %w", lino, Err108)
+			return Err108
 		}
 		if err = me.SetRegToValue(reg, value); err != nil {
-			return fmt.Errorf("line#%d %w", lino, err)
+			return err
 		}
 		return nil
 	}
 	if err = me.addRegLabel(pc, label); err != nil { // label: cmd
-		return fmt.Errorf("line#%d %w", lino, err)
+		return err
 	}
 	return nil
 }
@@ -108,6 +90,26 @@ func (me *Urm) readDataLine(matches [][]string, pc int) (int, error) {
 	}
 	err = me.addRegLabel(first, label)
 	return pc, err
+}
+
+func (me *Urm) handleStatement(lino int, matches []string, pc, start int) (int, int, error) {
+	var err error
+	label := matches[1]
+	command := matches[2]
+	value, verr := strconv.Atoi(command)
+	if label != "" {
+		if err = me.readLabel(label, value, verr, pc); err != nil {
+			return pc, start, err
+		} // if err == nil falls through...
+	}
+	if verr == nil { // label: val; e.g., A: 7
+		err = me.SetRegToValue(pc, value) // label already handled
+	} else if command == stopCmd { // STOP or label: STOP
+		pc, err = me.setStopCommand(lino, pc)
+	} else { // command or label: command
+		pc, start, err = me.readCommand(command, lino, pc, start)
+	}
+	return pc, start, err
 }
 
 func (me *Urm) setRegToLabel(reg int, label string) error {
