@@ -1,16 +1,4 @@
 # TODO
-# - LABEL: HERE ; the parser should replace "HERE" with the reg number
-#   use case loop over the data (assumes DATA at reg 100):
-#	I:       100
-#	START:   J(I, DATAEND, END)
-#	         S(@I) ; DATA[I]++
-#	         J(START)
-#	END:     STOP
-#	99:      0 ; force DATA to start at 100
-#	DATA:    1 2 3 4 5
-#	DATAEND: HERE
-
-# TODO
 # - implement: sortbubble.urm, sortselection.urm (& others?)
 # - implement: subroutine eg using, say, SP: 100 \n 99: 0 \n STACK: 0 ; 100
 #   call: C(RESUME, @SP) S(SP) J(THESUB)
@@ -20,7 +8,7 @@
 
 murmur.go
 murmur_common.go
-murmur_parser.go # TODO
+murmur_parser.go
 murmur_runner.go
 util.go
 reger.go

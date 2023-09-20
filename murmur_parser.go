@@ -42,6 +42,14 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 		return pc, start, err
 	}
 	pc++
+	rx = regexp.MustCompile(`(\pL\w*):\s*HERE`)
+	if matches := rx.FindAllStringSubmatch(line, -1); matches != nil {
+		label := matches[0][1]
+		if err = me.addRegLabel(pc, label); err == nil {
+			err = me.SetRegToValue(pc, pc)
+		}
+		return pc, start, err
+	}
 	rx = regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
 		`|[-+*/CDGIJLPSTZcdgijlpstz][(][^)]+[)])`)
 	if matches := rx.FindStringSubmatch(line); matches != nil {

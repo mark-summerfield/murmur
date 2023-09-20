@@ -26,7 +26,7 @@ couple of build scripts are included. Run `./murmur -h` to see the command
 line usage.
 
 A pre-built binary (`murmur.exe` 2.9Mb;
-MD5: 4a6f5c01932271f7352597366cb7e29b)
+MD5: 340bb23b661f5439b3725e338f7dcfe8)
 is provided as a convenience for Windows users.
 
 ## Instructions
@@ -57,7 +57,10 @@ is more versatile, with the synax `label: v`. This sets the “next”
 register's value to `v` and sets the register's label to the given label.
 This syntax can actually accept any number of values, e.g., `label: v1 v2 v3
 …`, setting the “next” register's value to `v1`, and the register after that
-to `v2`, and so on.
+to `v2`, and so on. Furthermore, it is possible to set a label's value to
+`HERE`, in which case the value stored for that label is the current
+register number. This is useful to mark the end of data items. (See for
+example, `eg/index.urm` and `eg/index2.urm`.)
 
 Any register referred to by any instruction may be either a literal register
 value or a label. In practice literals should normally only be needed to set
