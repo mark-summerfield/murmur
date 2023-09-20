@@ -13,7 +13,7 @@ var Version string
 
 const (
 	DefaultSize     = 100
-	DefaultMaxSteps = 10_000
+	DefaultMaxSteps = 100_000
 	PC              = "PC"
 	PcReg           = 0
 	cmdAdd          = 210 // +(r, s) ; r = r + s

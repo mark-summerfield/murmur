@@ -52,6 +52,9 @@ def main():
                 for _ in range(TRIES):
                     count += 1
                     ok += check_logic(name, LOGIC[name], verbose)
+            elif '-sort' in name:
+                    count += 1
+                    ok += check_sort(name, verbose)
     if ok == count:
         print(f'All {count} OK')
         shutil.rmtree(actual_dir)
@@ -158,6 +161,38 @@ def check_index(name, verbose):
             print(f'{name} OK')
         else:
             print(f'{name} FAIL actual {ans} != expected {expected}', cmd)
+    return ok
+
+
+def check_sort(name, verbose):
+    rx = re.compile(r'(?P<count>\d+)\.urm')
+    match = rx.search(name)
+    if match is None:
+        print(f'{name} FAIL can\'t find count', name)
+        return False
+    count = int(match.group('count'))
+    array = list(range(count))
+    expected = array[:]
+    random.shuffle(array)
+    filename = os.path.join(ROOT, 'eg', name)
+    cmd = ['./murmur', f'-w1-{count}', filename, *(str(x) for x in array)]
+    output = subprocess.check_output(cmd)
+    actual = []
+    for line in output.decode('utf-8').splitlines():
+        if line.startswith('#0'):
+            continue
+        for x in line.split():
+            if x.startswith('#'):
+                continue
+            _, n = x.split(':')
+            actual.append(int(n))
+    ok = actual == expected
+    if verbose:
+        if ok:
+            print(f'{name} OK')
+        else:
+            print(f'{name} FAIL actual {actual} != expected {expected}',
+                  cmd)
     return ok
 
 

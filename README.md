@@ -10,6 +10,7 @@ Murmur is an Unlimited Register Machine (URM) emulator.
 - [Examples](#examples)
     - [Addition](#addition)
     - [Other Examples](#other-examples)
+    - [Sorting](#sorting)
 - [Gvim](#gvim)
 - [License](#license)
 
@@ -26,7 +27,7 @@ couple of build scripts are included. Run `./murmur -h` to see the command
 line usage.
 
 A pre-built binary (`murmur.exe` 2.9Mb;
-MD5: c911f9ef3d3c34d4c557e94dfbffa695)
+MD5: 5a318ddb9ee9ab9d13dfa40afd7d2d08)
 is provided as a convenience for Windows users.
 
 ## Instructions
@@ -138,6 +139,9 @@ Division is truncating.
 
 ## Examples
 
+The most interesting examples are the [Sorting](#sorting) ones, but they all
+depend on using the extensions.
+
 ### Addition
 
 Here is a program (`eg/26.urm`) to add register 1 (labelled `A` and
@@ -231,6 +235,14 @@ sets `A` to 99 (“invalid”) at the start, and at the end sets `A` to 1 if `B
 
 _Note that the examples that match `*x.urm` (except for `max.urm`) use one
 or more of the extensions listed above._
+
+### Sorting
+
+Using the indirect addressing extension alone is sufficient to implement
+sort algorithms with a reasonable number of instructions. And using the
+other extensions can make the resulting implementations even more compact.
+
+See the `eg/*sort*.urm` examples.
 
 ## Gvim
 

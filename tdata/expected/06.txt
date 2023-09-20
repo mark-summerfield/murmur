@@ -1,25 +1,25 @@
 ^100
-A:       3 ; 1
-B:       2 ; 2
-C:       0 ; 3
-D:       0 ; 4
-E:       0 ; 5
-START:   J(A, B, ENDA) ; 6
-         J(B, C, ENDB) ; 10
-         C(A, C) ; 14
-ENDB:    S(E) ; 17
-         J(B, E, ENDC) ; 19
-         Z(D) ; 23
-ENDD:    S(C) ; 25
-         S(D) ; 27
-         J(A, D, ENDB) ; 29
-         J(ENDD) ; 33
-ENDC:    C(C, A) ; 37
-ENDA:    Z(B) ; 40
-         Z(C) ; 42
-         Z(D) ; 44
-         Z(E) ; 46
-         STOP ; 48
+A:        3 ; 1
+B:        2 ; 2
+C:        0 ; 3
+D:        0 ; 4
+E:        0 ; 5
+START:    J(A, B, ENDA) ; 6
+          J(B, C, ENDB) ; 10
+          C(A, C) ; 14
+ENDB:     S(E) ; 17
+          J(B, E, ENDC) ; 19
+          Z(D) ; 23
+ENDD:     S(C) ; 25
+          S(D) ; 27
+          J(A, D, ENDB) ; 29
+          J(ENDD) ; 33
+ENDC:     C(C, A) ; 37
+ENDA:     Z(B) ; 40
+          Z(C) ; 42
+          Z(D) ; 44
+          Z(E) ; 46
+          STOP ; 48
 #0 PC:6 A:3 B:2 C:0 D:0 E:0 START:J( 7:A 8:B 9:ENDA
 #1 PC:10 A:3 B:2 C:0 D:0 E:0 START:J( 7:A 8:B 9:ENDA
 #2 PC:14 A:3 B:2 C:0 D:0 E:0 START:J( 7:A 8:B 9:ENDA
@@ -46,24 +46,24 @@ ENDA:    Z(B) ; 40
 #23 PC:46 A:6 B:0 C:0 D:0 E:2 START:J( 7:A 8:B 9:ENDA
 #24 PC:48 A:6 B:0 C:0 D:0 E:0 START:J( 7:A 8:B 9:ENDA
 ^100
-A:       6 ; 1
-B:       0 ; 2
-C:       0 ; 3
-D:       0 ; 4
-E:       0 ; 5
-START:   J(A, B, ENDA) ; 6
-         J(B, C, ENDB) ; 10
-         C(A, C) ; 14
-ENDB:    S(E) ; 17
-         J(B, E, ENDC) ; 19
-         Z(D) ; 23
-ENDD:    S(C) ; 25
-         S(D) ; 27
-         J(A, D, ENDB) ; 29
-         J(ENDD) ; 33
-ENDC:    C(C, A) ; 37
-ENDA:    Z(B) ; 40
-         Z(C) ; 42
-         Z(D) ; 44
-         Z(E) ; 46
-         STOP ; 48
+A:        6 ; 1
+B:        0 ; 2
+C:        0 ; 3
+D:        0 ; 4
+E:        0 ; 5
+START:    J(A, B, ENDA) ; 6
+          J(B, C, ENDB) ; 10
+          C(A, C) ; 14
+ENDB:     S(E) ; 17
+          J(B, E, ENDC) ; 19
+          Z(D) ; 23
+ENDD:     S(C) ; 25
+          S(D) ; 27
+          J(A, D, ENDB) ; 29
+          J(ENDD) ; 33
+ENDC:     C(C, A) ; 37
+ENDA:     Z(B) ; 40
+          Z(C) ; 42
+          Z(D) ; 44
+          Z(E) ; 46
+          STOP ; 48
