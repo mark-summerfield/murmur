@@ -55,6 +55,9 @@ def main():
             elif '-sort' in name:
                     count += 1
                     ok += check_sort(name, verbose)
+            elif name == 'uppercase.urm':
+                    count += 1
+                    ok += check_uppercase(name, verbose)
     if ok == count:
         print(f'All {count} OK')
         shutil.rmtree(actual_dir)
@@ -186,6 +189,22 @@ def check_sort(name, verbose):
                 continue
             _, n = x.split(':')
             actual.append(int(n))
+    ok = actual == expected
+    if verbose:
+        if ok:
+            print(f'{name} OK')
+        else:
+            print(f'{name} FAIL actual {actual} != expected {expected}',
+                  cmd)
+    return ok
+
+
+def check_uppercase(name, verbose):
+    expected = "THE QUICK BROWN FOX JUMPED"
+    filename = os.path.join(ROOT, 'eg', name)
+    cmd = ['./murmur', f'-c1-26', filename, expected.lower()]
+    output = subprocess.check_output(cmd)
+    actual = output.decode('utf-8').strip()
     ok = actual == expected
     if verbose:
         if ok:

@@ -63,7 +63,11 @@ func getConfig() *Config {
 		"Show diassembly of all registers at the start and at the end.")
 	parser.PositionalCount = clip.OneOrMorePositionals
 	parser.PositionalHelp = "ARG1 is the .urm file to run, optionally " +
-		"followed by data values for registers 1, 2, …"
+		"followed by data values for registers 1, 2, … The data may be " +
+		"given as space-separated numbers (e.g., 1 2 4 8), or as a " +
+		"single argument of quoted text (e.g., \"some text\") in " +
+		"which case the registers will be set to the text's Unicode " +
+		"code points."
 	parser.MustSetPositionalVarName("ARG")
 	if err := parser.Parse(); err != nil {
 		parser.OnError(err) // doesn't return
@@ -129,12 +133,21 @@ func load(out *os.File, lines []string, config *Config) *murmur.Urm {
 	if err != nil {
 		onError(err)
 	}
-	for i, arg := range config.args {
-		if value, err := strconv.Atoi(arg); err != nil {
-			onError(err)
-		} else {
-			if err := urm.SetRegToValue(i+1, value); err != nil {
+	if len(config.args) == 1 && len(config.args[0]) > 0 &&
+		!unicode.IsDigit(rune(config.args[0][0])) { // text arg
+		for i, r := range config.args[0] {
+			if err := urm.SetRegToValue(i+1, int(r)); err != nil {
 				onError(err)
+			}
+		}
+	} else {
+		for i, arg := range config.args {
+			if value, err := strconv.Atoi(arg); err != nil {
+				onError(err)
+			} else {
+				if err := urm.SetRegToValue(i+1, value); err != nil {
+					onError(err)
+				}
 			}
 		}
 	}

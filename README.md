@@ -65,7 +65,8 @@ register after that to `v2`, and so on.
 
 The third syntax to set register values is to use the form, `label: "some
 text"`, where `"some text"` will be converted into Unicode code points,
-i.e., as if written, `label: 115 111 109 101 32 116 101 120 116`.
+i.e., as if written, `label: 115 111 109 101 32 116 101 120 116`. For an
+example, see `eg/uppercase.urm`.
 
 Furthermore, it is possible to set a label's value to `HERE`, in which case
 the value stored for that label is the current register number. This is
