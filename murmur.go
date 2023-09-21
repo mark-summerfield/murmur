@@ -81,6 +81,22 @@ func (me *Urm) Step() error {
 	return me.executeCommand(cmd) // may acquire one or more operands
 }
 
+// RegValue returns the raw register value if reg is in range.
+func (me *Urm) RegValue(reg int) (int, error) {
+	if 0 <= reg && reg <= len(me.regs) {
+		return me.regs[reg].Value(), nil
+	}
+	return 0, fmt.Errorf("%w: %d", Err120, reg)
+}
+
+// RegValueForLabel returns the raw register value if the label is valid.
+func (me *Urm) RegValueForLabel(label string) (int, error) {
+	if reg, ok := me.reg_for_label[label]; ok {
+		return me.RegValue(reg)
+	}
+	return 0, fmt.Errorf("%w: %q", Err124, label)
+}
+
 // RegAsString returns a string representation of a register's value.
 func (me *Urm) RegAsString(reg int) (string, error) {
 	if 0 <= reg && reg < len(me.regs) {

@@ -107,13 +107,6 @@ func (me *Urm) executeCommand(cmd Commander) error {
 	return err
 }
 
-func (me *Urm) regValue(reg int) (int, error) {
-	if 0 <= reg && reg <= len(me.regs) {
-		return me.regs[reg].Value(), nil
-	}
-	return 0, fmt.Errorf("%w: %d", Err120, reg)
-}
-
 func (me *Urm) doCopy() error {
 	op1, err := me.nextReger(true)
 	if err != nil {
@@ -123,7 +116,7 @@ func (me *Urm) doCopy() error {
 	if err != nil {
 		return err
 	}
-	value, err := me.regValue(op1.Value())
+	value, err := me.RegValue(op1.Value())
 	if err != nil {
 		return err
 	}
@@ -135,7 +128,7 @@ func (me *Urm) doJump(cmd int) error {
 	if err != nil {
 		return err
 	}
-	value1, err := me.regValue(op1.Value())
+	value1, err := me.RegValue(op1.Value())
 	if err != nil {
 		return err
 	}
@@ -143,7 +136,7 @@ func (me *Urm) doJump(cmd int) error {
 	if err != nil {
 		return err
 	}
-	value2, err := me.regValue(op2.Value())
+	value2, err := me.RegValue(op2.Value())
 	if err != nil {
 		return err
 	}
@@ -182,7 +175,7 @@ func (me *Urm) doIncOrDec(amount int) error {
 		return err
 	}
 	reg := op1.Value()
-	if value, err := me.regValue(reg); err != nil {
+	if value, err := me.RegValue(reg); err != nil {
 		return err
 	} else {
 		return me.SetRegToValue(reg, value+amount)
@@ -210,7 +203,7 @@ func (me *Urm) doMath(cmd int) error {
 		return err
 	}
 	target := op1.Value()
-	value1, err := me.regValue(target)
+	value1, err := me.RegValue(target)
 	if err != nil {
 		return err
 	}
@@ -218,7 +211,7 @@ func (me *Urm) doMath(cmd int) error {
 	if err != nil {
 		return err
 	}
-	value2, err := me.regValue(op2.Value())
+	value2, err := me.RegValue(op2.Value())
 	if err != nil {
 		return err
 	}

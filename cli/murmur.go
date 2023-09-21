@@ -9,6 +9,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"unicode"
 
 	"github.com/mark-summerfield/clip"
 	"github.com/mark-summerfield/gong"
@@ -24,10 +25,14 @@ func main() {
 	if config.step {
 		step(out, urm, config.maxSteps, &config.watch)
 	} else {
-		run(out, urm, config.maxSteps, &config.watch)
+		run(out, urm, config.maxSteps, &config.watch,
+			config.chars.IsEmpty())
 	}
 	if config.dis {
 		_, _ = out.WriteString(urm.StringWithRegNums() + "\n")
+	}
+	if !config.chars.IsEmpty() {
+		writeChars(out, urm, config.chars)
 	}
 }
 
@@ -51,6 +56,9 @@ func getConfig() *Config {
 		"registers to watch with each item of the form r or r-s or "+
 		"label where r and s are integers ≥ 0. Out of range registers "+
 		"and missing labels are ignored [default: PC,1-9].", "PC,1-9")
+	charsOpt := parser.Str("chars", "The same comma-separated list "+
+		"of registers as the watch option, only these are displayed as "+
+		"Unicode characters rather than as registers. [no default].", "")
 	disOpt := parser.Flag("dis",
 		"Show diassembly of all registers at the start and at the end.")
 	parser.PositionalCount = clip.OneOrMorePositionals
@@ -66,7 +74,7 @@ func getConfig() *Config {
 		step: stepOpt.Value(), registers: registers,
 		infile: parser.Positionals[0], args: parser.Positionals[1:],
 		outfile: outfileOpt.Value(), watch: parseWatches(watchOpt.Value()),
-		dis: disOpt.Value()}
+		chars: parseWatches(charsOpt.Value()), dis: disOpt.Value()}
 	return &config
 }
 
@@ -78,6 +86,7 @@ type Config struct {
 	args      []string
 	outfile   string
 	watch     watches
+	chars     watches
 	dis       bool
 }
 
@@ -132,17 +141,20 @@ func load(out *os.File, lines []string, config *Config) *murmur.Urm {
 	if config.dis {
 		_, _ = out.WriteString(urm.StringWithRegNums() + "\n")
 	}
-	if err := writeWatched(out, urm, &config.watch); err != nil {
-		onError(err)
+	if config.chars.IsEmpty() {
+		if err := writeWatched(out, urm, &config.watch); err != nil {
+			onError(err)
+		}
 	}
 	return urm
 }
 
-func run(out *os.File, urm *murmur.Urm, maxSteps int, watch *watches) {
+func run(out *os.File, urm *murmur.Urm, maxSteps int, watch *watches,
+	charsIsEmpty bool) {
 	if err := urm.RunX(maxSteps); err != nil {
 		dump(out, err, urm)
 		onError(err)
-	} else {
+	} else if charsIsEmpty {
 		if err := writeWatched(out, urm, watch); err != nil {
 			onError(err)
 		}
@@ -215,7 +227,9 @@ func parseWatches(watches string) watches {
 		} else if err == nil { // r
 			watch.regs = append(watch.regs, r)
 		} else { // label
-			watch.labels = append(watch.labels, strings.TrimSpace(rs))
+			if label := strings.TrimSpace(rs); label != "" {
+				watch.labels = append(watch.labels, label)
+			}
 		}
 	}
 	return watch
@@ -230,9 +244,37 @@ func newWatches() watches {
 	return watches{labels: []string{}, regs: []int{}}
 }
 
+func (me *watches) IsEmpty() bool {
+	return (len(me.labels) + len(me.regs)) == 0
+}
+
 func dump(out *os.File, err error, urm *murmur.Urm) {
 	_, _ = out.WriteString(fmt.Sprintf("error: %s\n%s\n", err,
 		urm.StringWithRegNums()))
+}
+
+func writeChars(out *os.File, urm *murmur.Urm, chars watches) {
+	runes := []rune{}
+	for _, label := range chars.labels {
+		if value, err := urm.RegValueForLabel(label); err == nil {
+			runes = append(runes, charForInt(value))
+		}
+	}
+	for _, reg := range chars.regs {
+		if value, err := urm.RegValue(reg); err == nil {
+			runes = append(runes, charForInt(value))
+		}
+	}
+	runes = append(runes, '\n')
+	_, _ = out.WriteString(string(runes))
+}
+
+func charForInt(i int) rune {
+	r := rune(i)
+	if unicode.IsPrint(r) {
+		return r
+	}
+	return '.'
 }
 
 func onError(err error) {

@@ -52,16 +52,25 @@ Instructions are _case-insensitive_. For the copy instruction, `T`
 Any instruction may be prefixed with a _case-sensitive_ label.
 
 In addition to the standard URM instructions, initial data values may be
-given. Two syntaxes are supported. First, `reg: v` where `reg` is a register
-number (with the program counter being 0), and `v` is the value. The second
-is more versatile, with the synax `label: v`. This sets the “next”
-register's value to `v` and sets the register's label to the given label.
-This syntax can actually accept any number of values, e.g., `label: v1 v2 v3
-…`, setting the “next” register's value to `v1`, and the register after that
-to `v2`, and so on. Furthermore, it is possible to set a label's value to
-`HERE`, in which case the value stored for that label is the current
-register number. This is useful to mark the end of data items. (See for
-example, `eg/index.urm` and `eg/index2.urm`.)
+given. Three syntaxes are supported.
+
+The first syntax is `reg: v` where `reg` is a register number (with the
+program counter being 0), and `v` is the value.
+
+The second syntax is more versatile, with the synax `label: v`. This sets
+the “next” register's value to `v` and sets the register's label to the
+given label. This syntax can actually accept any number of values, e.g.,
+`label: v1 v2 v3 …`, setting the “next” register's value to `v1`, and the
+register after that to `v2`, and so on.
+
+The third syntax to set register values is to use the form, `label: "some
+text"`, where `"some text"` will be converted into Unicode code points,
+i.e., as if written, `label: 115 111 109 101 32 116 101 120 116`.
+
+Furthermore, it is possible to set a label's value to `HERE`, in which case
+the value stored for that label is the current register number. This is
+useful to mark the end of data items. (See for example, `eg/index.urm` and
+`eg/index2.urm`.)
 
 Any register referred to by any instruction may be either a literal register
 value or a label. In practice literals should normally only be needed to set

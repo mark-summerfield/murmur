@@ -1,0 +1,12 @@
+; uppercase
+DATA:     "Unlimited Register Machine"
+DATAEND:  HERE
+I:        1 ; start of data
+INC:      32
+MAXLOWER: 90
+LOOP:     J(I, DATAEND, END)
+          G(@I, MAXLOWER, SKIP) ; if already uppercase skip
+          -(@I, INC) ; lowercase to uppercase
+SKIP:     S(I)
+          J(LOOP)
+END:      STOP

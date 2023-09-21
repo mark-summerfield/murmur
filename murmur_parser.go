@@ -32,7 +32,7 @@ func (me *Urm) setRegsSize(lino int, line string, pc int, sized bool) (bool,
 func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 	int, error) {
 	var err error
-	rx := regexp.MustCompile(`(\pL\w*):\s*(\d+(:?\s+\d+)*)`)
+	rx := regexp.MustCompile(`(\pL\w*):\s*(?:(\d+(:?\s+\d+)*)|"([^"]+)")`)
 	if matches := rx.FindAllStringSubmatch(line, -1); matches != nil &&
 		len(matches[0]) > 2 {
 		pc, err = me.readDataLine(matches, pc)
@@ -85,14 +85,25 @@ func (me *Urm) readDataLine(matches [][]string, pc int) (int, error) {
 	var err error
 	label := matches[0][1]
 	first := pc + 1
-	value := 0
-	for _, text := range strings.Fields(matches[0][2]) {
-		if value, err = strconv.Atoi(text); err != nil {
-			return pc, err
-		} else {
+	data := matches[0][2]
+	if data == "" {
+		data = matches[0][4]
+		for _, r := range data {
 			pc++
-			if err = me.SetRegToValue(pc, value); err != nil {
+			if err = me.SetRegToValue(pc, int(r)); err != nil {
 				return pc, err
+			}
+		}
+	} else {
+		value := 0
+		for _, text := range strings.Fields(data) {
+			if value, err = strconv.Atoi(text); err != nil {
+				return pc, err
+			} else {
+				pc++
+				if err = me.SetRegToValue(pc, value); err != nil {
+					return pc, err
+				}
 			}
 		}
 	}
