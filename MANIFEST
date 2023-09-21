@@ -15,6 +15,8 @@ cli/murmur.go
 
 regression.py
 
+README.md
+
 eg/add.urm
 eg/addx.urm
 eg/sub.urm
@@ -47,8 +49,6 @@ eg/06.urm
 eg/26.urm
 eg/27.urm
 eg/28.urm
-
-README.md
 
 st.sh
 
