@@ -27,7 +27,7 @@ couple of build scripts are included. Run `./murmur -h` to see the command
 line usage.
 
 A pre-built binary (`murmur.exe` 2.9Mb;
-MD5: d58c3207728cfb1477fefa915710a90c)
+MD5: 8a8eeaa0fcdaf528304ccbec375794b3)
 is provided as a convenience for Windows users.
 
 ## Instructions

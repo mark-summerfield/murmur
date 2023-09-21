@@ -1,4 +1,4 @@
-^100
+^200
 A:        3 ; 1
 B:        7 ; 2
 C:        0 ; 3
@@ -31,7 +31,7 @@ END:      C(C, A) ; 16
 #18 PC:19 A:4 B:7 C:4 START:J( 5:A 6:B 7:END 8:S( 9:A
 #19 PC:21 A:4 B:0 C:4 START:J( 5:A 6:B 7:END 8:S( 9:A
 #20 PC:23 A:4 B:0 C:0 START:J( 5:A 6:B 7:END 8:S( 9:A
-^100
+^200
 A:        4 ; 1
 B:        0 ; 2
 C:        0 ; 3

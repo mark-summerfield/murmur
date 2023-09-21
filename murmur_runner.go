@@ -93,9 +93,9 @@ func (me *Urm) executeCommand(cmd Commander) error {
 	case JumpCommand, JumpGtCommand, JumpLtCommand:
 		err = me.doJump(cmd.Value())
 	case PredCommand:
-		err = me.doPred()
+		err = me.doIncOrDec(-1)
 	case SuccCommand:
-		err = me.doSucc()
+		err = me.doIncOrDec(1)
 	case ZeroCommand:
 		err = me.doZero()
 	default:
@@ -164,10 +164,6 @@ func (me *Urm) doJump(cmd int) error {
 	}
 	return nil
 }
-
-func (me *Urm) doPred() error { return me.doIncOrDec(-1) }
-
-func (me *Urm) doSucc() error { return me.doIncOrDec(1) }
 
 func (me *Urm) doIncOrDec(amount int) error {
 	op1, err := me.nextReger(true)

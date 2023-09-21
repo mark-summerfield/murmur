@@ -87,17 +87,15 @@ func (me *Urm) readDataLine(matches [][]string, pc int) (int, error) {
 	first := pc + 1
 	data := matches[0][2]
 	if data == "" {
-		data = matches[0][4]
-		for _, r := range data {
+		for _, r := range matches[0][4] {
 			pc++
 			if err = me.SetRegToValue(pc, int(r)); err != nil {
 				return pc, err
 			}
 		}
 	} else {
-		value := 0
 		for _, text := range strings.Fields(data) {
-			if value, err = strconv.Atoi(text); err != nil {
+			if value, err := strconv.Atoi(text); err != nil {
 				return pc, err
 			} else {
 				pc++
@@ -111,7 +109,8 @@ func (me *Urm) readDataLine(matches [][]string, pc int) (int, error) {
 	return pc, err
 }
 
-func (me *Urm) handleStatement(lino int, matches []string, pc, start int) (int, int, error) {
+func (me *Urm) handleStatement(lino int, matches []string, pc,
+	start int) (int, int, error) {
 	var err error
 	label := matches[1]
 	command := matches[2]

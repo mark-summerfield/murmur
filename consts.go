@@ -12,7 +12,7 @@ import (
 var Version string
 
 const (
-	DefaultSize     = 100
+	DefaultSize     = 200
 	DefaultMaxSteps = 100_000
 	PC              = "PC"
 	PcReg           = 0
@@ -22,16 +22,16 @@ const (
 	cmdDiv          = 207 // /(r, s) ; r = r / s (truncating)
 	cmdJumpLt       = 206 // L(r, s, t) ; jump to t if r < s
 	cmdJumpGt       = 205 // G(r, s, t) ; jump to t if r > s
-	cmdPred         = 204 // P(r) ; r--
+	cmdPred         = 204 // P(r) or D(r) ; r--
 	cmdJump         = 203 // J(r, s, t) ; jump to t if r = s
-	cmdCopy         = 202 // C(r, s) ; r → s
-	cmdSucc         = 201 // S(r) ; r++
+	cmdCopy         = 202 // C(r, s) or T(r, s) ; r → s
+	cmdSucc         = 201 // S(r) or I(r, s) ; r++
 	cmdZero         = 200 // Z(r) ; r = 0
 	startLabel      = "START"
 	stopCmd         = "STOP"
+	null            = "NULL"
 	minLabelWidth   = 8
 	maxLabelWidth   = 32
-	null            = "NULL"
 )
 
 var (

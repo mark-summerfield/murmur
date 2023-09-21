@@ -52,7 +52,7 @@ func NewCommand(lino int, name byte) (Commander, error) {
 	switch name {
 	case '+':
 		return NewAddCommand(lino), nil
-	case 'C', 'T', 'c', 't':
+	case 'C', 'c', 'T', 't':
 		return NewCopyCommand(lino), nil
 	case '/':
 		return NewDivCommand(lino), nil
@@ -84,14 +84,6 @@ func (me CopyCommand) String() string     { return "C(" }
 func (me CopyCommand) Arity() int         { return 2 }
 func (me CopyCommand) Lino() int          { return int(me) }
 
-type JumpGtCommand int
-
-func NewJumpGtCommand(lino int) JumpGtCommand { return JumpGtCommand(lino) }
-func (me JumpGtCommand) Value() int           { return cmdJumpGt }
-func (me JumpGtCommand) String() string       { return "G(" }
-func (me JumpGtCommand) Arity() int           { return 3 }
-func (me JumpGtCommand) Lino() int            { return int(me) }
-
 type JumpCommand int
 
 func NewJumpCommand(lino int) JumpCommand { return JumpCommand(lino) }
@@ -99,6 +91,14 @@ func (me JumpCommand) Value() int         { return cmdJump }
 func (me JumpCommand) String() string     { return "J(" }
 func (me JumpCommand) Arity() int         { return 3 }
 func (me JumpCommand) Lino() int          { return int(me) }
+
+type JumpGtCommand int
+
+func NewJumpGtCommand(lino int) JumpGtCommand { return JumpGtCommand(lino) }
+func (me JumpGtCommand) Value() int           { return cmdJumpGt }
+func (me JumpGtCommand) String() string       { return "G(" }
+func (me JumpGtCommand) Arity() int           { return 3 }
+func (me JumpGtCommand) Lino() int            { return int(me) }
 
 type JumpLtCommand int
 

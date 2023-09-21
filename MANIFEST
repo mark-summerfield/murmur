@@ -1,5 +1,4 @@
 # TODO
-# - implement: selection-sort10{0}.urm
 # - implement: subroutine eg using, say, SP: 100 \n 99: 0 \n STACK: 0 ; 100
 #   call: C(RESUME, @SP) S(SP) J(THESUB)
 #   resume: RESUME: P(SP) ...
@@ -39,7 +38,7 @@ eg/bubble-sort20.urm
 eg/bubble-sort50.urm
 eg/bubble-sort100.urm
 eg/selection-sort10.urm
-# eg/selection-sort100.urm # TODO
+eg/selection-sort100.urm
 eg/uppercase.urm
 
 eg/03.urm
