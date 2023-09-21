@@ -18,7 +18,7 @@ Murmur is an Unlimited Register Machine (URM) emulator.
 
 This library and command line executable provide a “pure” URM. All
 instructions and data are held in the registers. Register 0 holds the
-program counter (PC). The urm “assembly” language means that in most cases
+program counter (PC). The URM “assembly” language means that in most cases
 only literal register values need be entered as numbers, everything else can
 use labels.
 
@@ -79,14 +79,14 @@ initial data values, with labels used everywhere else.
 
 The exact number of registers to be available may be specified before any
 data or instructions using the syntax `^n` where `n` is the number of
-registers. If not specified this will default to 100.
+registers. If not specified this will default to 200.
 
-All values must be `0` or a positive integer.
+All values must be `≥ 0`.
 
 _All bets are off if a resulting value would be `< 0`._
 
-Some extensions are supported as described below. Simply any of them (or all
-of them) that aren't wanted.
+Some extensions are supported as described below. Simply ignore any of them
+(or all of them) that aren't wanted.
 
 ### Indirect Addressing Extension
 
@@ -123,7 +123,10 @@ apply the command to register 2 (i.e., `B`).
 For an example of use see `eg/index.urm` which uses indirect indexing to
 iterate over an “array” of five registers, adding 2 to each one. (The
 example, `eg/index2.urm` is the same except it uses multiple data values on
-a single labelled line.)
+a single labelled line.) Also see the `eg/*sort*.urm` examples.
+
+This extension alone is what makes the `murmur` URM “practical” insofar as
+any URM is likeley to be.
 
 ### Comparison Jumps Extensions
 
@@ -131,6 +134,9 @@ a single labelled line.)
 | ------------ | -------- | ------------------------------------- |
 | `G(r,s,t)` | +4 or =t | If register r > register s, set PC to t (i.e., jump to t), else PC += 4|
 | `L(r,s,t)` | +4 or =t | If register r < register s, set PC to t (i.e., jump to t), else PC += 4|
+
+These are conveniences. See `eg/lt.urm` for a “less than” implementation
+implemented without any extensions.
 
 ### Simple Arithmetic Extensions
 
@@ -147,6 +153,9 @@ For the precedessor instruction, `D` (“decrement”), may be used instead of
 
 Division is truncating.
 
+Again, these are conveniences. See `eg/add.urm`, etc., to see
+implementations without any extensions.
+
 ## Examples
 
 The most interesting examples are the [Sorting](#sorting) ones, but they all
@@ -154,7 +163,7 @@ depend on using the extensions.
 
 ### Addition
 
-Here is a program (`eg/26.urm`) to add register 1 (labelled `A` and
+Here is a program (see `eg/26.urm`) to add register 1 (labelled `A` and
 containing 19) to register 2 (labelled `B`, containing 7), using register 3
 (labelled `C` as a scratch value), and storing their sum back into register
 1 (`A`). Furthermore, at the end, registers 2 and 3 (`B` and `C`) are
@@ -165,7 +174,6 @@ all other registers are referred to by label.
 
 ```
 ; Addition: A = A + B
-^22 ; allocate 22 registers (0..21)
 A:     19 ; 1 — at the end this will be 26
 B:     7  ; 2 — at the end this will be 0
 C:     0  ; 0 — at the end this will be 0
@@ -178,22 +186,20 @@ END:   Z(B) ; 16
        STOP ; 20
 ```
 
-Here, 22 registers will be available (the exact number needed) as specified
-by the meta command, `^22`.
-
 The register number is shown in a comment at the end of each line.
 
 The first three lines label registers 1, 2, and 3 as `A`, `B`, and `C` and
 set their values to 19, 7, and 0.
 
-The line labelled `START` is the first line with a command. The urm will
+The line labelled `START` is the first line with a command. The URM will
 begin execution from the register labelled `START` or if there isn't one,
 from the first register containing a command. So in this case, with or
 without the `START` label, execution would begin from register 4.
 
 Program execution stops when the program counter (PC) is set to 0. The
 `STOP` meta-command is syntactic sugar for `Z(PC)`, itself syntactic sugar
-for `Z(0)`. (This is why we need 22 registers, register 20 for the `Z`
+for `Z(0)`. (So although we've used the default size of 200 registers, this
+particular program needs only 22 registers, with register 20 for the `Z`
 command and register 21 for the `0` value.)
 
 It should be easy to follow how the program works. Or use the command line
@@ -216,7 +222,7 @@ B: 7
 
 Most of the other numbered examples are commented. There are also named
 examples including, `add.urm`, `sub.urm`, `mul.urm`, `lt.urm`, `lte.urm`,
-and `max.urm`.
+and `max.urm`, etc.
 
 For example, to add two numbers, run, say, `./murmur -wA eg/add.urm 23 91`.
 The `-wA` option says to watch register `A`. The numbers given as arguments
@@ -227,6 +233,8 @@ result in `A`. This will output:
 #0 A:23
 #368 A:114
 ```
+
+The 368 is the number of steps it took to complete the addition.
 
 Or to find the maximum of two numbers, run, say,
 `./murmur -wA eg/max.urm 0 65 82`.
@@ -257,7 +265,7 @@ reproduced here:
 
 ```
 DATA:    18 6 13 2 11 19 15 17 0 16 7 4 8 14 5 12 1 3 10 9 ; 20 items
-R:       HERE ; extension to set R's value to DATA+20+1-th register
+R:       HERE ; extension to set R's value to the next (20+1-th) register
 I:       1 ; set outer loop counter to the first data register
 J:       0 ; inner loop counter, set later on
 J_PREV:  0 ; to store the index of the J-1-th register
@@ -268,7 +276,7 @@ I_BODY:  C(R, J) ; initialize J
 J_START: G(J, I, J_BODY) ; if J > I continue to loop
          J(I_END) ; else finish inner (J) loop
 J_BODY:  C(J, J_PREV) ; prepare J_PREV
-         P(J_PREV) ; J - 1
+         P(J_PREV) ; J_PREV - 1
          L(@J, @J_PREV, SWAP) ; if DATA[J] < DATA[J-1] swap
          J(J_END) ; else go to end of inner (J) loop
 SWAP:    C(@J_PREV, TEMP) ; copy DATA[J-1] to TEMP
@@ -282,7 +290,8 @@ END:     STOP
 ```
 
 Run `./murmur -d eg/bubble-sort20.urm`. The second register dump will show
-that the `DATA` registers have been sorted.
+that the `DATA` registers have been sorted. To use your own numbers, try,
+say, `./murmur -d eg/bubble-sort10.urm 10 8 6 4 2 9 7 5 3 1`.
 
 ## Gvim
 

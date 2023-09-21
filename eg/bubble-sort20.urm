@@ -11,7 +11,7 @@ I_BODY:  C(R, J)
 J_START: G(J, I, J_BODY) ; if J > I continue to loop
          J(I_END) ; else finish inner (J) loop
 J_BODY:  C(J, J_PREV)
-         P(J_PREV) ; J - 1
+         P(J_PREV) ; J_PREV - 1
          L(@J, @J_PREV, SWAP) ; if DATA[J] < DATA[J-1] swap
          J(J_END) ; else go to end of inner (J) loop
 SWAP:    C(@J_PREV, TEMP) ; copy DATA[J-1] to TEMP
