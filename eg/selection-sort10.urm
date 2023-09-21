@@ -1,0 +1,32 @@
+; selection sort (Wikipedia)
+DATA:    9 5 6 2 7 10 3 4 1 8
+R:       HERE
+I:       1 ; set to first data register
+I_NEXT   0
+J:       0
+J_MIN:   0
+TEMP:    0
+START:   C(@I, J_MIN)
+         
+
+
+J:       0
+J_PREV:  0
+TEMP:    0
+START:   L(I, R, I_BODY) ; if I < R continue to loop
+         J(END) ; else finish (i.e., finish outer (I) loop)
+I_BODY:  C(R, J)
+J_START: G(J, I, J_BODY) ; if J > I continue to loop
+         J(I_END) ; else finish inner (J) loop
+J_BODY:  C(J, J_PREV)
+         P(J_PREV) ; J - 1
+         L(@J, @J_PREV, SWAP) ; if DATA[J] < DATA[J-1] swap
+         J(J_END) ; else go to end of inner (J) loop
+SWAP:    C(@J_PREV, TEMP) ; copy DATA[J-1] to TEMP
+         C(@J, @J_PREV) ; copy DATA[J] to DATA[J-1]
+         C(TEMP, @J) ; copy TEMP to DATA[J]
+J_END:   P(J)
+         J(J_START)
+I_END:   S(I)
+         J(START)
+END:     STOP

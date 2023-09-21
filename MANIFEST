@@ -38,6 +38,8 @@ eg/bubble-sort10.urm
 eg/bubble-sort20.urm
 eg/bubble-sort50.urm
 eg/bubble-sort100.urm
+eg/selection-sort10.urm
+# eg/selection-sort100.urm # TODO
 eg/uppercase.urm
 
 eg/03.urm
