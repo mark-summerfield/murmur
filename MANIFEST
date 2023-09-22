@@ -1,9 +1,3 @@
-# TODO
-# - implement: subroutine eg using, say, SP: 100 \n 99: 0 \n STACK: 0 ; 100
-#   call: C(RESUME, @SP) S(SP) J(THESUB)
-#   resume: RESUME: P(SP) ...
-#   thesub: THESUB: ... J(@SP)
-
 murmur.go
 murmur_common.go
 murmur_parser.go
@@ -42,6 +36,7 @@ eg/bubble-sort100.urm
 eg/selection-sort10.urm
 eg/selection-sort100.urm
 eg/uppercase.urm
+eg/lowercase.urm
 
 eg/03.urm
 eg/04.urm

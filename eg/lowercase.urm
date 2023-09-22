@@ -1,0 +1,24 @@
+; lowercase (ASCII letters only)
+DATA:         "An UNLIMITED REGISTER MACHINE"
+DATAEND:      HERE
+LOWER_CHANGE: 32
+A_PREV:       64 ; a is 65
+Z_NEXT:       92 ; z is 91
+LOWER_RET:    48 ; where the LOWER function should return to (NEXT_I)
+LOWER_X:      0 ; register to exchange a char with the LOWER function
+I:            1 ; start of data
+LOOP_I:       J(I, DATAEND, END)
+              C(@I, LOWER_X) ; pass arg
+              J(LOWER) ; "call" function
+NEXT_I:       C(LOWER_X, @I) ; on return, copy result
+              S(I)
+              J(LOOP_I)
+END:          STOP
+
+; LOWER function: arg LOWER_X; return to LOWER_RET
+LOWER:        G(LOWER_X, A_PREV, LOWER1) ; X >= A
+              J(@LOWER_RET) ; X < A ∴ return to NEXT_I
+LOWER1:       L(LOWER_X, Z_NEXT, LOWER2) ; X <= Z
+              J(@LOWER_RET) ; X > Z ∴ return to NEXT_I
+LOWER2:       +(LOWER_X, LOWER_CHANGE) ; change to lowercase
+              J(@LOWER_RET) ; return to NEXT_I

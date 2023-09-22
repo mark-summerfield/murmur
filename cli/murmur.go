@@ -50,7 +50,7 @@ func getConfig() *Config {
 			"nonstop showing initial and final registers only].")
 	registersOpt := parser.IntInRange("registers",
 		"How many registers the URM has; can also be overridden in the "+
-			".urm with ^n, e.g., ^300 [default: 200 unless overridden].",
+			".urm with ^n, e.g., ^3000 [default: 1000 unless overridden].",
 		1, math.MaxInt, int(murmur.DefaultSize))
 	watchOpt := parser.Str("watch", "A comma-separated list of which "+
 		"registers to watch with each item of the form r or r-s or "+

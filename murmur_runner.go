@@ -77,7 +77,11 @@ func (me *Urm) nextCommand() (Commander, error) {
 
 		}
 		if !ok { // Not a Commander and not a value in {cmdCopy ...}
-			return nil, fmt.Errorf("%w: %s", Err101, reger)
+			reg := null
+			if reger != nil {
+				reg = reger.String()
+			}
+			return nil, fmt.Errorf("%w: %s", Err101, reg)
 		}
 	}
 	return cmd, nil

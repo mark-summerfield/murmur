@@ -27,7 +27,7 @@ couple of build scripts are included. Run `./murmur -h` to see the command
 line usage.
 
 A pre-built binary (`murmur.exe` 2.9Mb;
-MD5: 8a8eeaa0fcdaf528304ccbec375794b3)
+MD5: 7480bdf307adb0d8a63f3d95447705d9)
 is provided as a convenience for Windows users.
 
 ## Instructions
@@ -250,6 +250,9 @@ The algorithm for the `lt.urm` (“less than”) example is almost the same as
 `max.urm` only instead of copying the max of the two numbers into `A`, it
 sets `A` to 99 (“invalid”) at the start, and at the end sets `A` to 1 if `B
 < C`, otherwise to 0 (i.e., if `B ≥ C`).
+
+Another interesting example is `eg/lowercase.urm`. This illustrates how to
+use a “subroutine”, although you need to use a hard-coded return address.
 
 _Note that the examples that match `*x.urm` (except for `max.urm`) use one
 or more of the extensions listed above._

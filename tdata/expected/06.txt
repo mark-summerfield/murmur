@@ -1,4 +1,4 @@
-^200
+^1000
 A:        3 ; 1
 B:        2 ; 2
 C:        0 ; 3
@@ -45,7 +45,7 @@ ENDA:     Z(B) ; 40
 #22 PC:44 A:6 B:0 C:0 D:3 E:2 START:J( 7:A 8:B 9:ENDA
 #23 PC:46 A:6 B:0 C:0 D:0 E:2 START:J( 7:A 8:B 9:ENDA
 #24 PC:48 A:6 B:0 C:0 D:0 E:0 START:J( 7:A 8:B 9:ENDA
-^200
+^1000
 A:        6 ; 1
 B:        0 ; 2
 C:        0 ; 3

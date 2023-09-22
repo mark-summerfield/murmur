@@ -12,7 +12,7 @@ import (
 var Version string
 
 const (
-	DefaultSize     = 200
+	DefaultSize     = 1_000
 	DefaultMaxSteps = 100_000
 	PC              = "PC"
 	PcReg           = 0
