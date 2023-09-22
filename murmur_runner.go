@@ -148,22 +148,22 @@ func (me *Urm) doJump(cmd int) error {
 	if err != nil {
 		return err
 	}
-	met := false
+	jump := false
 	switch cmd {
 	case cmdJump:
 		if value1 == value2 {
-			met = true
+			jump = true
 		}
 	case cmdJumpLt:
 		if value1 < value2 {
-			met = true
+			jump = true
 		}
 	case cmdJumpGt:
 		if value1 > value2 {
-			met = true
+			jump = true
 		}
 	}
-	if met {
+	if jump {
 		return me.setPc(op3.Value())
 	}
 	return nil
