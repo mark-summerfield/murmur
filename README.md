@@ -1,6 +1,6 @@
 # Murmur
 
-Murmur is an Unlimited Register Machine (URM) emulator.
+Murmur is an Unlimited Register Machine (URM) emulator with optional extensions (indirect addressing and some extra convenience commands).
 
 - [Introduction](#introduction)
 - [Instructions](#instructions)
@@ -27,7 +27,7 @@ couple of build scripts are included. Run `./murmur -h` to see the command
 line usage.
 
 A pre-built binary (`murmur.exe` 2.9Mb;
-MD5: 7480bdf307adb0d8a63f3d95447705d9)
+MD5: dd47b39b6f83d553495bff828a984bab)
 is provided as a convenience for Windows users.
 
 ## Instructions

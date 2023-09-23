@@ -38,7 +38,9 @@ func main() {
 
 func getConfig() *Config {
 	parser := clip.NewParserVersion(murmur.Version)
-	parser.LongDesc = "Unlimited Register Machine emulator."
+	parser.LongDesc = "An Unlimited Register Machine (URM) emulator " +
+		"with optional extensions (indirect addressing and some extra " +
+		"convenience commands)."
 	outfileOpt := parser.Str("outfile",
 		"The file to write to [default: stdout].", "")
 	maxStepsOpt := parser.IntInRange("maxsteps",
