@@ -2,8 +2,8 @@
 DATA:         "An UNLIMITED REGISTER MACHINE"
 DATAEND:      HERE
 LOWER_CHANGE: 32
-A_PREV:       64 ; a is 65
-Z_NEXT:       92 ; z is 91
+A_PREV:       64 ; A is 65
+Z_NEXT:       92 ; Z is 91
 LOWER_RET:    48 ; where the LOWER function should return to (NEXT_I)
 LOWER_X:      0 ; register to exchange a char with the LOWER function
 I:            1 ; start of data
