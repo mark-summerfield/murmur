@@ -1,4 +1,4 @@
-cd cli
+cd cmd
 go build -o murmur .
 strip murmur
 mv murmur ..

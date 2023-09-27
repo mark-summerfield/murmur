@@ -5,7 +5,7 @@ murmur_runner.go
 util.go
 reger.go
 consts.go
-cli/murmur.go
+cmd/murmur.go
 
 regression.py
 
