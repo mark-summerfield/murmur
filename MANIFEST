@@ -1,3 +1,22 @@
+# TODO
+# - NOP ; C(1, 1)
+# - in doCopy if reg1 == reg2 do nothing
+# - in fixup C(0, 0) | C(1, 1) → NOP
+# TODO ?
+# uppercase2.urm
+#   RETADDR:	0
+#   CHAR:	0
+#	...
+#		C(@I, CHAR)
+#		C(RESUME1, RETADDR)
+#		J(UPPERCASE)
+#   RESUME1:	NOP ; i.e., C(1, 1)
+#		...
+#		J(LOOP)
+#		...
+#   UPPERCASE:	...
+#		J(@RETADDR)
+
 murmur.go
 murmur_common.go
 murmur_parser.go
