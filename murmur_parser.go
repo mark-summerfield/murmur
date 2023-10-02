@@ -50,8 +50,8 @@ func (me *Urm) readStatement(lino int, line string, pc, start int) (int,
 		}
 		return pc, start, err
 	}
-	rx = regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd +
-		`|[-+*/CDGIJLPSTZcdgijlpstz][(][^)]+[)])`)
+	rx = regexp.MustCompile(`(?:(\w+):)?\s*(\d+|` + stopCmd + `|` +
+		noopCmd + `|[-+*/CDGIJLPSTZcdgijlpstz][(][^)]+[)])`)
 	if matches := rx.FindStringSubmatch(line); matches != nil {
 		pc, start, err = me.handleStatement(lino, matches, pc, start)
 		if err != nil {
@@ -124,6 +124,8 @@ func (me *Urm) handleStatement(lino int, matches []string, pc,
 		err = me.SetRegToValue(pc, value) // label already handled
 	} else if command == stopCmd { // STOP or label: STOP
 		pc, err = me.setStopCommand(lino, pc)
+	} else if command == noopCmd { // NOP or label: NOP
+		pc, start, err = me.readCommand("C(1, 1)", lino, pc, start)
 	} else { // command or label: command
 		pc, start, err = me.readCommand(command, lino, pc, start)
 	}

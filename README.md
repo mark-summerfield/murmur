@@ -4,6 +4,7 @@ Murmur is an Unlimited Register Machine (URM) emulator with optional extensions 
 
 - [Introduction](#introduction)
 - [Instructions](#instructions)
+    - [Syntactic Sugar](#syntactic-sugar)
     - [Indirect Addressing Extension](#indirect-addressing-extension)
     - [Comparison Jumps Extensions](#comparison-jumps-extensions)
     - [Simple Arithmetic Extensions](#simple-arithmetic-extensions)
@@ -87,6 +88,13 @@ _All bets are off if a resulting value would be `< 0`._
 
 Some extensions are supported as described below. Simply ignore any of them
 (or all of them) that aren't wanted.
+
+### Syntactic Sugar
+
+| Syntax | Notes                                            |
+| ------ | ------------------------------------------------ |
+| `STOP` | Syntactic sugar for `Z(PC)`, itself syntactic sugar for `Z(0)`. This sets the program counter (PC) to 0 which then stops program execution.|
+| `NOP`  | Syntactic sugar for `C(1, 1)` (or `C(0, 0)`) which in effect does nothing since copying a register's value to itself is the same as doing nothing. This could be useful as a labeled statement that's a jump target.|
 
 ### Indirect Addressing Extension
 

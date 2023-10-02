@@ -29,6 +29,7 @@ const (
 	cmdZero         = 200 // Z(r) ; r = 0
 	startLabel      = "START"
 	stopCmd         = "STOP"
+	noopCmd         = "NOP"
 	null            = "NULL"
 	minLabelWidth   = 8
 	maxLabelWidth   = 32
