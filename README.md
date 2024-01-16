@@ -134,7 +134,7 @@ example, `eg/index2.urm` is the same except it uses multiple data values on
 a single labelled line.) Also see the `eg/*sort*.urm` examples.
 
 This extension alone is what makes the `murmur` URM “practical” insofar as
-any URM is likeley to be.
+any URM is likely to be.
 
 ### Comparison Jumps Extensions
 
