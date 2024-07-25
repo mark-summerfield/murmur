@@ -12,8 +12,8 @@ import (
 	"unicode"
 
 	"github.com/mark-summerfield/clip"
-	"github.com/mark-summerfield/gong"
 	"github.com/mark-summerfield/murmur"
+	"github.com/mark-summerfield/ufile"
 )
 
 func main() {
@@ -121,7 +121,7 @@ func getOutput(filename string) (*os.File, func()) {
 	closer := func() {}
 	if filename != "" {
 		out, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE,
-			gong.ModeUserRW)
+			ufile.ModeUserRW)
 		if err != nil {
 			onError(err)
 		}
