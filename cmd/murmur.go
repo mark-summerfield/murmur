@@ -121,7 +121,7 @@ func getOutput(filename string) (*os.File, func()) {
 	closer := func() {}
 	if filename != "" {
 		out, err := os.OpenFile(filename, os.O_RDWR|os.O_CREATE,
-			ufile.ModeUserRW)
+			ufile.ModeURW)
 		if err != nil {
 			onError(err)
 		}
