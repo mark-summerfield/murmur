@@ -1,6 +1,6 @@
 module github.com/mark-summerfield/murmur
 
-go 1.22.5
+go 1.23
 
 replace github.com/mark-summerfield/clip => /home/mark/app/golib/clip
 
