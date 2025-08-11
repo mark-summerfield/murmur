@@ -1,5 +1,13 @@
 github.com/kopoli/go-terminal-size v0.0.0-20170219200355-5c97524c8b54 h1:0SMHxjkLKNawqUjjnMlCtEdj6uWZjv0+qDZ3F6GOADI=
 github.com/kopoli/go-terminal-size v0.0.0-20170219200355-5c97524c8b54/go.mod h1:bm7MVZZvHQBfqHG5X59jrRE/3ak6HvK+/Zb6aZhLR2s=
+github.com/mark-summerfield/clip v1.5.0 h1:2wiZTUk4ALC3wno3kcq8kdE4Z/d6XQn+4zAKmm+4jHg=
+github.com/mark-summerfield/clip v1.5.0/go.mod h1:7VyHsQOKE0uPDdQCUDlgcGrTIu+0ziv9cbtzgrsDEjI=
+github.com/mark-summerfield/ufile v1.0.0 h1:rCxyWUP5sO+78ee5Ol4pIW7q3H8pdnIlYOnGWtLZZtQ=
+github.com/mark-summerfield/ufile v1.0.0/go.mod h1:+NOoiDYCu6USazPzZmq2S6BTS5/G03e0dP40zwaW5WI=
+github.com/mark-summerfield/uterm v1.0.0 h1:Zyjk2Utia1gfDuvgfr296JmbjeOqQYJurR/1L366JZ8=
+github.com/mark-summerfield/uterm v1.0.0/go.mod h1:Xwu7mveVw0NqprGERrb4BofNi7ekADfmDNhU1p41LvM=
+github.com/mark-summerfield/utext v0.0.0-20250527072059-af9de8cedc6e h1:F+tEiriK+W+bXjOH3Ckf1Xo8oUfVYVw08O3dBJWsCDA=
+github.com/mark-summerfield/utext v0.0.0-20250527072059-af9de8cedc6e/go.mod h1:d6Tsnr8hj2Mxf1UPXZB9xqCpv0IzKC3PBXwHhjUaMzs=
 github.com/mattn/go-isatty v0.0.20 h1:xfD0iDuEKnDkl03q4limB+vH+GxLEtL/jb4xVJSWWEY=
 github.com/mattn/go-isatty v0.0.20/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
 golang.org/x/sys v0.6.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
