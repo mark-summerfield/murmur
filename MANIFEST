@@ -13,6 +13,40 @@ regression.py
 
 README.md
 
+# IDEA
+#
+#  J001 10 20 30 ; if 10 = 20 goto R30
+#  J '10 '20 30  ; if 10 = 20 goto R30
+#  J101 10 20 30 ; if R10 = 20 goto R30
+#  J 10 '20 30   ; if R10 = 20 goto R30
+#  J111 10 20 30 ; if R10 = R20 goto R30
+#  J 10 20 30    ; if R10 = R20 goto R30
+#  J211 10 20 30 ; if @R10 = R20 goto R30
+#  J @10 20 30 ; if @R10 = R20 goto R30
+#  J221 10 20 30 ; if @R10 = @R20 goto R30
+#  J @10 @20 30 ; if @R10 = @R20 goto R30
+#  J222 10 20 30 ; if @R10 = @R20 goto @R30
+#  J @10 @20 @30 ; if @R10 = @R20 goto @R30
+#  J322 10 20 30  ; if @@R10 = @R20 goto @R30
+#  J @@10 @20 @30 ; if @@R10 = @R20 goto @R30
+#  J332 10 20 30   ; if @@R10 = @@R20 goto @R30
+#  J @@10 @@20 @30 ; if @@R10 = @@R20 goto @R30
+#  J333 10 20 30    ; if @@R10 = @@R20 goto @@R30
+#  J @@10 @@20 @@30 ; if @@R10 = @@R20 goto @@R30
+#    - where 0 or ' means literal;
+#    - where 1 means direct contents of register;
+#    - where 2 or @ means register contains number of register to use for
+#      contents (single indirection; @N);
+#    - where 3 or @@ means register contains number of register to use for
+#      the register to use for contents (double indirection; @@N)
+#    - where @N means contents of RN and @@M means if contents of @M is Q
+#    then @Q i.e., contents of @Q
+#  Use same approach for:
+#    - Z[1-3] # Can't use 0 since can't zero a literal
+#    - S[1-3] # Can't use 0 since can't succ a literal
+#    - C[0-3][1-3] # copy literal|RN|@RN|@@RN to RM|@RM|@@RM
+#  Literals and indirections (@ and @@) are extentions.
+
 eg/add.urm
 eg/addx.urm
 eg/sub.urm
